@@ -17,8 +17,9 @@ public class PollService {
         CandidateRepository candidates, PollNormalizationService normalization) {
         this.polls = polls; this.results = results; this.pollsters = pollsters; this.candidates = candidates; this.normalization = normalization;
     }
-    public List<PollResponse> list() { return polls.findAllByOrderByPublishedAtDescFieldEndDescCreatedAtDescIdDesc().stream().map(this::response).toList(); }
-    public List<PollResponse> latest() { return polls.findLatestByPollster().stream().map(this::response).toList(); }
+    public List<PollResponse> list() { return responses(polls.findAllByOrderByPublishedAtDescFieldEndDescCreatedAtDescIdDesc()); }
+    public List<PollResponse> latest() { return responses(polls.findLatestByPollster()); }
+    public List<PollResponse> latestBefore(java.time.Instant publishedBefore) { return responses(polls.findLatestByPollsterBefore(publishedBefore)); }
     public PollResponse get(UUID id) { return response(find(id)); }
     @Transactional public PollResponse create(PollRequest request) { return save(new Poll(), request); }
     @Transactional public PollResponse update(UUID id, PollRequest request) {
@@ -27,6 +28,15 @@ public class PollService {
     @Transactional public void delete(UUID id) { Poll poll = find(id); results.deleteResults(id); polls.delete(poll); }
     private Poll find(UUID id) { return polls.findById(id).orElseThrow(() -> new NotFoundException("Pesquisa não encontrada.")); }
     private PollResponse response(Poll p) { return PollResponse.from(p, results.findResults(p.getId())); }
+    private List<PollResponse> responses(List<Poll> selected) {
+        if (selected.isEmpty()) return List.of();
+        List<UUID> ids = selected.stream().map(Poll::getId).toList();
+        // Initialize pollsters in one fetch, including polls selected by the native latest query.
+        Map<UUID, Poll> fetched = polls.findByIdIn(ids).stream().collect(java.util.stream.Collectors.toMap(Poll::getId, p -> p));
+        Map<UUID, List<PollResult>> grouped = results.findResultsForPolls(ids).stream()
+            .collect(java.util.stream.Collectors.groupingBy(PollResult::getPollId));
+        return ids.stream().map(id -> PollResponse.from(fetched.get(id), grouped.getOrDefault(id, List.of()))).toList();
+    }
     private PollResponse save(Poll poll, PollRequest r) {
         if (r.fieldEnd().isBefore(r.fieldStart())) throw new IllegalArgumentException("O fim do campo não pode ser anterior ao início.");
         Set<UUID> ids = new HashSet<>();

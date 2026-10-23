@@ -41,6 +41,84 @@ export type PollRequest = Omit<Poll, "id" | "pollster" | "results"> & {
   results: { candidateId: string; originalPercentage: number }[];
 };
 
+export type AggregateMethod = "SIMPLE" | "RECENCY" | "WEIGHTED" | "CALIBRATED";
+export type AggregateResult = {
+  candidateId: string;
+  candidateName: string;
+  percentage: number;
+};
+export type AggregateSpread = {
+  leaderCandidateId: string | null;
+  leaderCandidateName: string | null;
+  points: number;
+};
+export type AggregateContribution = {
+  pollId: string;
+  pollsterId: string;
+  pollsterName: string;
+  fieldStart: string;
+  fieldEnd: string;
+  fieldMidpoint: string;
+  publishedAt: string;
+  sampleSize: number | null;
+  marginOfError: number | null;
+  rawWeight: number;
+  normalizedWeight: number;
+  recencyWeight: number | null;
+  precisionWeight: number | null;
+  precisionSource: string | null;
+  historicalWeightFactor: number | null;
+  capped: boolean;
+  candidateResults: PollResult[];
+};
+export type Aggregate = {
+  method: AggregateMethod;
+  calculatedAt: string;
+  referenceDate: string;
+  pollCount: number;
+  pollsterCount: number;
+  totalSampleSize: number;
+  pollsWithoutSampleSize: number;
+  results: AggregateResult[];
+  spread: AggregateSpread | null;
+  contributions: AggregateContribution[];
+  cap: { requested: number; effective: number; feasible: boolean } | null;
+  configuration: {
+    halfLifeDays: number;
+    maxInstituteWeight: number;
+    historicalMinFactor: number;
+    historicalMaxFactor: number;
+    historicalNeutralSpreadError: number;
+    historicalElectionKey: string;
+    historicalRound: number;
+  };
+  warnings: string[];
+  excludedPolls: { pollId: string; pollsterName: string; reason: string }[];
+};
+export type AggregateSnapshot = Pick<
+  Aggregate,
+  | "method"
+  | "calculatedAt"
+  | "referenceDate"
+  | "pollCount"
+  | "pollsterCount"
+  | "totalSampleSize"
+  | "results"
+  | "spread"
+> & { id: string };
+export type PollsterPerformance = {
+  id: string;
+  pollster: Pollster;
+  electionKey: string;
+  round: number;
+  candidateError: number | null;
+  spreadError: number | null;
+  historicalScore: number;
+  sourceUrl: string | null;
+  sourceDescription: string | null;
+  updatedAt: string;
+};
+
 export const api = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL || "http://localhost:8081",
   timeout: 15000,

@@ -23,3 +23,13 @@ management:
     web:
       exposure:
         include: health,info
+
+polling:
+  aggregation:
+    half-life-days: 3
+    max-institute-weight: 0.15
+    historical-min-factor: 0.85
+    historical-max-factor: 1.15
+    historical-neutral-spread-error: 3
+    historical-election-key: BR-PRESIDENT-2026
+    historical-round: 1

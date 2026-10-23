@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { ArrowRight, ChartNoAxesCombined, Vote } from "lucide-react";
+import { ArrowRight, Vote } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PollList } from "@/components/poll-list";
+import { AggregateDashboard } from "@/components/aggregate-dashboard";
 
 export default function Home() {
   return (
@@ -28,29 +29,11 @@ export default function Home() {
           Uma visão clara dos dados que ajudam a entender a eleição.
         </p>
       </section>
+      <AggregateDashboard />
       <section className="section">
         <div className="section-heading">
           <div>
-            <span className="section-kicker">01 / PANORAMA</span>
-            <h2>Agregado das pesquisas</h2>
-          </div>
-          <Badge variant="secondary">Em desenvolvimento</Badge>
-        </div>
-        <div className="aggregate-empty">
-          <div className="empty-icon">
-            <ChartNoAxesCombined size={27} />
-          </div>
-          <h3>Os dados vêm primeiro.</h3>
-          <p>O agregado será calculado a partir das pesquisas cadastradas.</p>
-          <Link href="/metodologia" className="text-link">
-            Entenda a metodologia <ArrowRight size={15} />
-          </Link>
-        </div>
-      </section>
-      <section className="section">
-        <div className="section-heading">
-          <div>
-            <span className="section-kicker">02 / DADOS PUBLICADOS</span>
+            <span className="section-kicker">03 / DADOS PUBLICADOS</span>
             <h2>Últimas pesquisas</h2>
             <p>
               A pesquisa mais recente de cada instituto. Resultados em votos

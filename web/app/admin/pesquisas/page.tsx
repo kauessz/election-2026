@@ -1,5 +1,6 @@
 "use client";
 import { FormEvent, useRef, useState } from "react";
+import Link from "next/link";
 import { Save, Info } from "lucide-react";
 import {
   api,
@@ -310,6 +311,11 @@ export default function AdminPollsPage() {
           </div>
           <Badge variant="outline">Ambiente sem autenticação</Badge>
         </div>
+      </div>
+      <div className="admin-toolbar">
+        <Link href="/admin/institutos" className="text-link">
+          Desempenho dos institutos e snapshots →
+        </Link>
       </div>
       {feedback && (
         <div role="status" className="success-message">

@@ -18,6 +18,10 @@ public class PollsterPerformance extends TimestampedEntity {
     private BigDecimal spreadError;
     @Column(precision = 12, scale = 4)
     private BigDecimal historicalScore;
+    @Column(length = 2000)
+    private String sourceUrl;
+    @Column(length = 2000)
+    private String sourceDescription;
     public PollsterPerformance() {}
     public Pollster getPollster() { return pollster; }
     public void setPollster(Pollster value) { this.pollster = value; }
@@ -31,4 +35,8 @@ public class PollsterPerformance extends TimestampedEntity {
     public void setSpreadError(BigDecimal value) { this.spreadError = value; }
     public BigDecimal getHistoricalScore() { return historicalScore; }
     public void setHistoricalScore(BigDecimal value) { this.historicalScore = value; }
+    public String getSourceUrl() { return sourceUrl; }
+    public void setSourceUrl(String value) { sourceUrl = value; }
+    public String getSourceDescription() { return sourceDescription; }
+    public void setSourceDescription(String value) { sourceDescription = value; }
 }

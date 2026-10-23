@@ -1,11 +1,11 @@
 # Eleições 2026
 
-Plataforma brasileira para acompanhar pesquisas do segundo turno presidencial. Monorepo simples com API, web e infraestrutura local. Esta fase entrega cadastro, histórico e normalização de pesquisas; não há agregado estatístico nem dados de apuração.
+Plataforma brasileira para acompanhar pesquisas do segundo turno presidencial. Monorepo simples com API, web e infraestrutura local. As Fases 1 e 2 entregam cadastro, normalização, quatro agregados transparentes e snapshots históricos. Não há apuração nem previsão probabilística de vencedor.
 
 ## Stack
 
 - **API:** Java 21, Spring Boot 4.1.1, Maven, PostgreSQL, Flyway, Spring Data JPA, Validation, Actuator e Testcontainers.
-- **Web:** Next.js 16, TypeScript, App Router, Tailwind CSS, shadcn/ui, Recharts (disponível para fases futuras) e Axios.
+- **Web:** Next.js 16, TypeScript, App Router, Tailwind CSS, shadcn/ui, Recharts e Axios.
 - **Infra:** PostgreSQL 17 em Docker Compose. Os testes usam PostgreSQL 17 real via Testcontainers, sem H2.
 
 ## Rodar localmente
@@ -49,13 +49,14 @@ npm run dev
 
 Variáveis opcionais da API: `DATABASE_URL` (JDBC), `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `PORT`. Para o frontend, copie `web/.env.example` para `web/.env.local`; `NEXT_PUBLIC_API_URL` usa `http://localhost:8081` como fallback. Reinicie o Next.js após alterar as variáveis.
 
-Flyway aplica V1–V7 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
+Flyway aplica V1–V9 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
 
 ## Uso
 
-- `/`: panorama e última pesquisa de cada instituto.
+- `/`: quatro modelos agregados, comparação, composição por instituto, evolução por snapshots e últimas pesquisas.
 - `/pesquisas`: histórico com valores originais e normalizados, fonte e metadados.
 - `/admin/pesquisas`: cadastro, edição e exclusão de pesquisas. Os candidatos e institutos são carregados da API.
+- `/admin/institutos`: cadastro/edição de desempenho histórico e botão para salvar snapshots dos quatro modelos.
 - `/metodologia`: regras efetivamente implementadas.
 - `/apuracao`: placeholder sem dados fictícios.
 
@@ -77,6 +78,16 @@ O seed configura Flávio Bolsonaro (PL, 22) e Lula (PT, 13) conforme o escopo so
 | POST | `/api/admin/polls` | Pesquisa criada (201 e Location) |
 | PUT | `/api/admin/polls/{id}` | Pesquisa atualizada, normalização recalculada |
 | DELETE | `/api/admin/polls/{id}` | Exclusão dos resultados e da pesquisa (204) |
+| GET | `/api/aggregates` | Quatro modelos calculados com insumos carregados uma única vez |
+| GET | `/api/aggregates/simple` | Média simples |
+| GET | `/api/aggregates/recency` | Recência pela meia-vida |
+| GET | `/api/aggregates/weighted` | Recência × precisão, com cap |
+| GET | `/api/aggregates/calibrated` | Recência × precisão × histórico, com cap |
+| GET | `/api/aggregates/history?method=CALIBRATED` | Snapshots em ordem cronológica; filtro opcional |
+| POST | `/api/admin/aggregates/snapshot` | Calcula/persiste os quatro modelos; idempotente por método/data/minuto |
+| GET | `/api/admin/pollster-performances` | Histórico dos institutos |
+| POST | `/api/admin/pollster-performances` | Cadastra desempenho com score derivado |
+| PUT | `/api/admin/pollster-performances/{id}` | Edita desempenho e recalcula score |
 
 Exemplo de corpo para criar/editar uma pesquisa (substitua `pollsterId` por um UUID retornado por `GET /api/pollsters`):
 
@@ -107,7 +118,7 @@ Erros usam `application/problem+json`: 400 para validação/request inválido, 4
 
 ## Banco e arquitetura
 
-Os pacotes em `br.com.election` são organizados por domínio: `candidate`, `pollster`, `poll`, `common`. Não há serviço de agregado nesta fase. `PollsterPerformance` pertence ao domínio `pollster` e apenas prepara a persistência para calibração futura.
+Os pacotes em `br.com.election` são organizados por domínio: `candidate`, `pollster`, `poll`, `aggregate`, `common`. O agregador usa quatro calculadores separados e um alocador de pesos comum. `PollsterPerformance` pertence ao domínio `pollster`; seu `spreadError` determina apenas o fator de peso histórico.
 
 Migrations em `api/src/main/resources/db/migration`:
 
@@ -118,6 +129,8 @@ Migrations em `api/src/main/resources/db/migration`:
 5. `V5__create_pollster_performance.sql`
 6. `V6__seed_candidates.sql`
 7. `V7__seed_pollsters.sql`
+8. `V8__create_aggregate_snapshots.sql`
+9. `V9__prepare_pollster_performance_sources.sql` — campos de procedência e índice; sem INSERT de números inventados.
 
 UUIDs nativos, timestamps com fuso, percentuais `NUMERIC(7,4)`, FKs e constraints explícitas. Há unicidade de instituto por slug, resultado por pesquisa/candidato e desempenho por instituto/eleição/turno. Índices cobrem publicação, seleção por instituto e referências de candidatos. A seleção de latest usa `DISTINCT ON` no PostgreSQL, sem carregar o histórico em memória.
 
@@ -129,7 +142,7 @@ Com Docker em execução, na pasta `api`:
 .\mvnw.cmd test
 ```
 
-Linux/macOS: `./mvnw test`. O Testcontainers cria bancos isolados; não usa o banco local de desenvolvimento. A suíte cobre contexto, migrations/seeds, persistência, API, normalização, atualização/rollback, latest/desempates, unicidade, validação, delete e CORS. Os repositories não são mockados.
+Linux/macOS: `./mvnw test`. O Testcontainers cria bancos isolados; não usa o banco local de desenvolvimento. A suíte cobre contexto, migrations/seeds, persistência, API, normalização, atualização/rollback, latest/desempates, unicidade, validação, delete, CORS, quatro algoritmos, cap/redistribuição, propriedades, histórico, snapshots/idempotência e ausência de N+1 com 14 institutos. Os repositories não são mockados.
 
 Na pasta `web`:
 
@@ -138,6 +151,39 @@ npm run lint
 npm run build
 ```
 
+## Agregador — Fase 2
+
+Todos os métodos usam exclusivamente `normalizedPercentage` da última pesquisa de cada instituto ativo. Campos futuros e resultados incompletos para os candidatos ativos são excluídos com motivo no response. A amostra total é descritiva, com contagem de pesquisas sem amostra.
+
+- SIMPLE: pesos iguais `1/n`.
+- RECENCY: peso bruto `2^(-idadeDoMidpoint / meiaVida)`.
+- WEIGHTED: recência × `1/margem²`; sem margem declarada, estima `margem = 98/sqrt(amostra)` em pontos percentuais e aplica `1/margemEstimada²`. Sem margem e amostra válidas, fator 1.
+- CALIBRATED: recência × precisão × fator histórico; no padrão, `clamp(1,15 − spreadError/20, 0,85, 1,15)`.
+
+WEIGHTED e CALIBRATED redistribuem excessos até respeitar o cap de 15%. Com menos de sete institutos, usam pesos iguais e informam a inviabilidade. A normalização final dos candidatos soma exatamente 100%, sem alterar os percentuais individuais das pesquisas. Pesos usam 16 casas; percentuais, quatro; cálculos determinísticos usam BigDecimal. A fronteira limitada de `double` na exponencial está documentada.
+
+Configuração em `api/src/main/resources/application.yaml`, validada por `@ConfigurationProperties`:
+
+```yaml
+polling:
+  aggregation:
+    half-life-days: 3
+    max-institute-weight: 0.15
+    historical-min-factor: 0.85
+    historical-max-factor: 1.15
+    historical-neutral-spread-error: 3
+    historical-election-key: BR-PRESIDENT-2026
+    historical-round: 1
+```
+
+Somente o histórico da eleição/turno configurados é usado. Sem dados, fator 1. Não há edição manual de `historicalScore`; o backend o deriva do erro. A tabela começa vazia porque não existem erros reais com fontes no repositório. O admin permite registrar `sourceUrl` e `sourceDescription`.
+
+Os endpoints de cálculo e snapshot aceitam `?referenceDate=YYYY-MM-DD`; o padrão é a data atual em Brasília. Pesquisas publicadas após o fim da data de referência não entram. Isso usa os cadastros/configurações atuais, não reconstrói todo o estado conhecido no passado. O midpoint é calculado em dias nominais de 24 horas e a idade usa 00:00 da referência.
+
+GETs nunca salvam snapshots. Use o botão do admin ou `POST /api/admin/aggregates/snapshot`. Uma chave única por método/data/minuto de cálculo evita duplicação; uma repetição retorna o snapshot original mesmo após mudanças de dados no mesmo minuto. O payload JSONB preserva composição completa, configuração e notas para auditoria. Sem pesquisas elegíveis, POST retorna 400. O histórico é lido sem recalcular, mesmo após exclusão da pesquisa de origem.
+
+Veja o **exemplo completo com oito institutos**, fórmulas, critérios, tolerâncias e limitações em [docs/polling-model.md](docs/polling-model.md). O fallback de margem tem escala compatível com a margem declarada, mas é apenas uma aproximação por amostragem aleatória simples, 95% de confiança e máxima variância; não reconstrói a metodologia do instituto. A margem declarada válida sempre tem prioridade. Os fatores históricos padrão de 0,85 a 1,15 refletem a evidência histórica limitada e alteram somente os pesos.
+
 ## Escopo futuro
 
-Consulte [docs/polling-model.md](docs/polling-model.md). Integração TSE, SSE, apuração, autenticação, mapas, projeção probabilística e ponderação estatística não foram implementados nesta fase.
+Integração TSE, SSE, apuração, autenticação, mapas, scraping e projeção probabilística não foram implementados. Os próximos passos do modelo incluem revisão empírica dos fatores, sensibilidade e cadastro de desempenho real com fontes.

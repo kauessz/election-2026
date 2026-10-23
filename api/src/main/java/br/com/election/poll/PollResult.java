@@ -15,6 +15,7 @@ public class PollResult {
         this.poll = poll; this.candidate = candidate; originalPercentage = original; normalizedPercentage = normalized;
     }
     public Candidate getCandidate() { return candidate; }
+    public UUID getPollId() { return poll.getId(); }
     public BigDecimal getOriginalPercentage() { return originalPercentage; }
     public BigDecimal getNormalizedPercentage() { return normalizedPercentage; }
 }
