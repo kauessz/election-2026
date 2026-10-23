@@ -9,7 +9,7 @@ const links = [
   ["/metodologia", "Metodologia"],
   ["/apuracao", "Apuração"],
 ];
-export function Header() {
+export function Header({ adminEnabled = false }: { adminEnabled?: boolean }) {
   const pathname = usePathname();
   return (
     <header className="site-header">
@@ -32,9 +32,9 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <Link href="/admin/importacao" className="admin-link">
+        {adminEnabled && <Link href="/admin/importacao" className="admin-link">
           Administrar dados <ArrowUpRight size={15} />
-        </Link>
+        </Link>}
       </div>
     </header>
   );

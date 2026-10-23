@@ -14,5 +14,6 @@ public class ProjectionService {
   Instant at=clock.instant();var status=official.getPresidentNationalResult().status();
   return engine.calculate(input.latestAt(at),baseline.at(at),at).publicationView(status==OfficialDataStatus.FRESH||status==OfficialDataStatus.FINAL||status==OfficialDataStatus.NOT_STARTED);
  }
- public void recordLatest(){var result=current();if(snapshots.save(result))log.info("projection changed modelVersion={} coverage={} spread={}",result.model(),result.nationalElectorateProgress(),result.spread()==null?null:result.spread().points());}
+ public void recordLatest(){var result=current();if(snapshots.save(result))log.info("projection changed modelVersion={} status={} coverage={} spread={}",result.model(),result.status(),result.nationalElectorateProgress(),result.spread()==null?null:result.spread().points());
+  else log.debug("projection snapshot_skipped status={}",result.status());}
 }

@@ -39,7 +39,7 @@ public class TseResultsClient {
      if(status==429) {blockedUntil=clock.instant().plus(retryAfter(res.getHeaders().getFirst("Retry-After")));log.warn("tse rate_limited blockedUntil={}",blockedUntil);}
      return new Fetch(status,status==200?new String(res.getBody().readAllBytes(),StandardCharsets.UTF_8):null,res.getHeaders().getETag(),res.getHeaders().getFirst("Last-Modified"),true,lastRequestAt);
     });
-   if(response.status()==200) {ok++;r.failures=0;lastSuccess=clock.instant();}
+   if(response.status()==200) {ok++;r.failures=0;lastSuccess=clock.instant();log.debug("tse status=200 path={}",path);}
    else if(response.status()==304) {notModified++;r.failures=0;lastSuccess=clock.instant();log.debug("tse status=304 path={}",path);}
    else failure(path,r,response.status());
    return response;

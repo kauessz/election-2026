@@ -3,6 +3,8 @@ import org.springframework.stereotype.Service;
 import org.slf4j.*;
 import br.com.election.candidate.CandidateRepository;
 import jakarta.annotation.PreDestroy;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.*;
@@ -22,8 +24,16 @@ public class OfficialResultsService {
  public OfficialResultsService(TseResultsClient client,TseResultParser parser,TseUrlBuilder urls,OfficialSnapshotStore store,CandidateRepository candidates,MunicipalityCatalogue catalogue,TseResultsProperties p,Clock clock){
   this.client=client;this.parser=parser;this.urls=urls;this.store=store;this.candidates=candidates;this.catalogue=catalogue;this.p=p;this.clock=clock;
  }
+ @EventListener(ApplicationReadyEvent.class)
+ public void recoverAtStartup(){
+  // Recover persisted official data only. Remote availability never gates startup.
+  entry(Scope.national());
+  for(var uf:BrazilState.values())entry(Scope.state(uf));
+  entry(Scope.overseas());
+  log.info("startup official_recovery_complete scopes={} migrations=validated",current.size());
+ }
  private Current entry(Scope scope){return current.computeIfAbsent(scope.type()+":"+scope.code(),key->{
-  Current c=new Current();var saved=store.latest(scope);if(saved!=null){c.result=saved.result();c.success=saved.capturedAt();}return c;
+  Current c=new Current();var saved=store.latest(scope);if(saved!=null){c.result=saved.result();c.success=saved.capturedAt();log.info("tse recovered scope={} capturedAt={}",scope.code(),saved.capturedAt());}return c;
  });}
  public OfficialResultResponse getPresidentNationalResult(){return response(Scope.national());}
  public List<OfficialResultResponse> getStates(){return Arrays.stream(BrazilState.values()).map(uf->response(Scope.state(uf))).toList();}
@@ -66,7 +76,8 @@ public class OfficialResultsService {
     var mapped=mapCandidates(parsed);
     boolean changed=c.result==null||!store.hash(c.result).equals(store.hash(mapped));
     if(changed){
-     store.save(mapped,clock.instant(),fetched.etag());
+     boolean persisted=store.save(mapped,clock.instant(),fetched.etag());
+     log.info("tse snapshot scope={} persisted={}",scope.code(),persisted);
      log.info("tse result_changed scope={} generatedAt={} sectionsPercentage={} totalVotes={}",scope.code(),mapped.generatedAt(),mapped.sections().percentageTotalized(),mapped.votes().totalVotes());
     }
     c.result=mapped;c.success=clock.instant();c.failures=0;client.accept(path,fetched);

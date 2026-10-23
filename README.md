@@ -217,3 +217,7 @@ Configuração validada `election.projection` em `application.yaml`, com overrid
 ## Fase 5 — dados e freeze
 
 Importação administrativa em lote com dry run, qualidade, auditoria e congelamento imutável dos quatro modelos. Use `/admin/importacao` e `/admin/freeze`. Nenhuma pesquisa real ou freeze é criado automaticamente. Formatos e operação: [docs/data-import.md](docs/data-import.md) e [docs/pre-election-freeze.md](docs/pre-election-freeze.md). Exemplos fictícios em `data/`; fontes reais privadas podem ficar em `data/private/`. Fórmulas estatísticas preservadas.
+
+## Produção — Fase 6
+
+Configuração Railway/Vercel, segurança, smoke tests e carga explícita em [docs/deployment.md](docs/deployment.md). Backup, restore, recuperação TSE e operação com uma réplica em [docs/production-runbook.md](docs/production-runbook.md). Nenhum dado local é migrado automaticamente.

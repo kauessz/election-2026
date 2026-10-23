@@ -32,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">
-        <Header />
+        <Header adminEnabled={process.env.ADMIN_UI_ENABLED === "true"} />
         <main className="site-main">{children}</main>
         <footer className="site-footer">
           <span>
