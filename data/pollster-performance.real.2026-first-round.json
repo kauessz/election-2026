@@ -1,0 +1,175 @@
+{
+  "_description": "HISTÓRICO REAL — 17 institutos. Somente dry run; Ipespe sem histórico confirmado e ausente do lote. Pares parciais em votos válidos preservados, sem renormalização.",
+  "performances": [
+    {
+      "pollsterSlug": "verita",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 0.03,
+      "spreadError": 0.13,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/verita",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "gerp",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 1.63,
+      "spreadError": 0.23,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/gerp",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "futura",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 2.23,
+      "spreadError": 0.33,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/futura",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "vox-brasil",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 1.13,
+      "spreadError": 0.97,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/vox-brasil",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "palver",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 0.47,
+      "spreadError": 2.23,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/palver",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "meio-ideia",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 7.93,
+      "spreadError": 2.87,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/ideia",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE. Histórico associado ao Instituto Ideia, parceiro responsável pela pesquisa Meio/Ideia."
+    },
+    {
+      "pollsterSlug": "poderdata",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 2.93,
+      "spreadError": 2.97,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/poderdata",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "datafolha",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 3.53,
+      "spreadError": 4.07,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/datafolha",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "quaest",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 3.33,
+      "spreadError": 4.17,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/quaest",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "atlasintel",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 2.93,
+      "spreadError": 4.77,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/atlasintel",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "instituto-franca",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 6.53,
+      "spreadError": 5.27,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/instituto-franca",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "real-time-big-data",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 7.03,
+      "spreadError": 5.97,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/real-time-big-data",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "datatrends",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 7.23,
+      "spreadError": 6.37,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/datatrends",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "nexus",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 8.03,
+      "spreadError": 7.07,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/nexus",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "cnt-mda",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 4.53,
+      "spreadError": 7.57,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/mda",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE. Histórico associado ao instituto MDA."
+    },
+    {
+      "pollsterSlug": "indexa",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 7.03,
+      "spreadError": 7.77,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/indexa",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    },
+    {
+      "pollsterSlug": "alfa-inteligencia",
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "candidateError": 10.93,
+      "spreadError": 9.47,
+      "sourceUrl": "https://hubpolitico.com.br/inteligencia/relatorios/eleicao-2026/precisao-dos-institutos/alfa-inteligencia",
+      "sourceDescription": "HubPolítico: comparação presidencial do 1º turno. Valores previstos fornecidos pelo usuário; referência oficial Flávio 47,03% / Lula 45,16%. Erros calculados pelo endpoint existente em modo direto.",
+      "notes": "Última pesquisa presidencial do instituto antes do 1º turno, convertida para votos válidos para comparação com o resultado oficial do TSE."
+    }
+  ]
+}

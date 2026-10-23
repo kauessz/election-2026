@@ -19,7 +19,13 @@ public class AggregateSnapshotService {
 
     @Transactional
     public List<SnapshotResponse> create(LocalDate referenceDate) {
-        List<AggregateResponse> calculated = aggregates.all(referenceDate);
+        return create(referenceDate, null);
+    }
+
+    @Transactional
+    public List<SnapshotResponse> create(LocalDate referenceDate, AggregateMethod method) {
+        List<AggregateResponse> calculated = method == null
+            ? aggregates.all(referenceDate) : List.of(aggregates.one(method, referenceDate));
         if (calculated.getFirst().pollCount() == 0) throw new IllegalArgumentException("Não há pesquisas elegíveis para criar snapshots.");
         List<SnapshotResponse> saved = new ArrayList<>();
         for (AggregateResponse aggregate : calculated) {

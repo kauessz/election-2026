@@ -1,0 +1,2663 @@
+{
+  "kind": "HISTORICAL_CALIBRATION_IN_MEMORY_ONLY",
+  "persisted": false,
+  "allRecordsImportable": true,
+  "pending": [],
+  "eligiblePollSelection": "18 explicitly supplied inputs; importer publication-metadata validation is not bypassed for real ingestion",
+  "referenceDate": "2026-10-23",
+  "matchingHistoricalFactors": 17,
+  "aggregates": [
+    {
+      "method": "SIMPLE",
+      "calculatedAt": "2026-10-23T15:08:06.048550300Z",
+      "referenceDate": "2026-10-23",
+      "pollCount": 18,
+      "pollsterCount": 18,
+      "totalSampleSize": 59442,
+      "pollsWithoutSampleSize": 0,
+      "results": [
+        {
+          "candidateId": "00000000-0000-0000-0000-000000000001",
+          "candidateName": "Flávio Bolsonaro",
+          "percentage": 50.9551
+        },
+        {
+          "candidateId": "00000000-0000-0000-0000-000000000002",
+          "candidateName": "Lula",
+          "percentage": 49.0449
+        }
+      ],
+      "spread": {
+        "leaderCandidateId": "00000000-0000-0000-0000-000000000001",
+        "leaderCandidateName": "Flávio Bolsonaro",
+        "points": 1.9102
+      },
+      "contributions": [
+        {
+          "pollId": "5c92c29a-712d-33a7-9e24-6881944b063c",
+          "pollsterId": "7b140640-a349-43e9-935e-89fed4c8e513",
+          "pollsterName": "PoderData",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-22T10:15:27Z",
+          "sampleSize": 4000,
+          "marginOfError": 1.6,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555565,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.0,
+              "normalizedPercentage": 51.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.0,
+              "normalizedPercentage": 49.0
+            }
+          ]
+        },
+        {
+          "pollId": "5470274e-4658-399e-bc7a-d9a73ed8c6c4",
+          "pollsterId": "db1181ee-ba4a-46a9-bc1d-3b38f2dc1d63",
+          "pollsterName": "Datafolha",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-22T22:07:02Z",
+          "sampleSize": 2520,
+          "marginOfError": 2.0,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 50.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 50.0
+            }
+          ]
+        },
+        {
+          "pollId": "fa57b354-02d3-37ee-b4f8-8f8cd17961b0",
+          "pollsterId": "cbc2a235-bfde-4991-9cc4-15548e43da46",
+          "pollsterName": "Indexa",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T12:00:00",
+          "publishedAt": "2026-10-22T16:36:12Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.2,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.6,
+              "normalizedPercentage": 50.6
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.4,
+              "normalizedPercentage": 49.4
+            }
+          ]
+        },
+        {
+          "pollId": "33f8b4ee-d8e4-3a4f-8f0b-d99a0db0629f",
+          "pollsterId": "5b15d68d-6f9e-48d2-9fa2-ee076309f10d",
+          "pollsterName": "CNT/MDA",
+          "fieldStart": "2026-10-13",
+          "fieldEnd": "2026-10-15",
+          "fieldMidpoint": "2026-10-14T00:00:00",
+          "publishedAt": "2026-10-16T15:44:16Z",
+          "sampleSize": 2014,
+          "marginOfError": 2.2,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.5,
+              "normalizedPercentage": 50.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.5,
+              "normalizedPercentage": 49.5
+            }
+          ]
+        },
+        {
+          "pollId": "a64d6a88-2c25-321c-8781-7464ae2ecde6",
+          "pollsterId": "d998ad3a-1f9d-4d28-8d98-d3f0c5a13a81",
+          "pollsterName": "Quaest",
+          "fieldStart": "2026-10-17",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-18T12:00:00",
+          "publishedAt": "2026-10-21T13:56:45Z",
+          "sampleSize": 2154,
+          "marginOfError": 2.0,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 45.0,
+              "normalizedPercentage": 50.5618
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 44.0,
+              "normalizedPercentage": 49.4382
+            }
+          ]
+        },
+        {
+          "pollId": "41971211-08d4-3686-86dc-f485cfa64aa5",
+          "pollsterId": "0c59cf9d-ba28-4891-a85d-81cf6b92a1f6",
+          "pollsterName": "Palver",
+          "fieldStart": "2026-10-18",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-19T00:00:00",
+          "publishedAt": "2026-10-21T12:41:14Z",
+          "sampleSize": 5000,
+          "marginOfError": 2.4,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 51.0204
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.9796
+            }
+          ]
+        },
+        {
+          "pollId": "a383c782-8046-3909-833f-4963fe0142fd",
+          "pollsterId": "aed187e8-07e7-484b-a9f4-3248abe277c4",
+          "pollsterName": "Nexus",
+          "fieldStart": "2026-10-16",
+          "fieldEnd": "2026-10-18",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-19T11:45:25Z",
+          "sampleSize": 2002,
+          "marginOfError": 2.0,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.3,
+              "normalizedPercentage": 50.3
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.7,
+              "normalizedPercentage": 49.7
+            }
+          ]
+        },
+        {
+          "pollId": "fbe8caed-33f8-375e-828e-7e82db5fad64",
+          "pollsterId": "ee8dea57-0a3c-4c7d-9c71-8b62e3b2b841",
+          "pollsterName": "Gerp",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-21T21:00:56Z",
+          "sampleSize": 2400,
+          "marginOfError": 2.0,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 53.0,
+              "normalizedPercentage": 53.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 47.0,
+              "normalizedPercentage": 47.0
+            }
+          ]
+        },
+        {
+          "pollId": "0dfa2bb5-681f-3531-bd0e-406b7212cd15",
+          "pollsterId": "8833f3a7-4c69-4dc9-8417-8bcc6cfcc599",
+          "pollsterName": "Futura",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-19T12:00:00",
+          "publishedAt": "2026-10-21T13:45:11Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.2,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "5e74c3d0-d8a7-31b2-b777-b78dc9d8cee0",
+          "pollsterId": "2972d3cf-ecb1-415e-abfa-250662badcd8",
+          "pollsterName": "DataTrends",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-17",
+          "fieldMidpoint": "2026-10-16T00:00:00",
+          "publishedAt": "2026-10-19T16:07:00Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.19,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.5,
+              "normalizedPercentage": 51.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.5,
+              "normalizedPercentage": 48.5
+            }
+          ]
+        },
+        {
+          "pollId": "4b84cc55-688e-3ba5-a57b-dc9b3b039aa7",
+          "pollsterId": "438fb9da-a7c7-473d-9245-ee777f2ed510",
+          "pollsterName": "Ipespe",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-23T13:00:54Z",
+          "sampleSize": 1500,
+          "marginOfError": 2.6,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.5,
+              "normalizedPercentage": 50.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.5,
+              "normalizedPercentage": 49.5
+            }
+          ]
+        },
+        {
+          "pollId": "96cad95b-d6c2-3fcf-ba0b-9aa22d7d821d",
+          "pollsterId": "5952cab4-3c47-42ed-ab37-8bf8ec31938f",
+          "pollsterName": "AtlasIntel",
+          "fieldStart": "2026-10-13",
+          "fieldEnd": "2026-10-18",
+          "fieldMidpoint": "2026-10-15T12:00:00",
+          "publishedAt": "2026-10-19T10:30:21Z",
+          "sampleSize": 4998,
+          "marginOfError": 1.0,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "61a4ca94-4397-32bd-8e7e-79f62a6a4a17",
+          "pollsterId": "6f42b3b2-2e72-4fe0-ae43-b2b8a347848b",
+          "pollsterName": "Vox Brasil",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-23T03:00:35Z",
+          "sampleSize": 2100,
+          "marginOfError": 2.15,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 49.4,
+              "normalizedPercentage": 49.4
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 50.6,
+              "normalizedPercentage": 50.6
+            }
+          ]
+        },
+        {
+          "pollId": "723c1714-f221-3b5a-9cba-3f3af5a7251c",
+          "pollsterId": "430afcc7-adb5-4e71-8a1d-73ed9b5025e5",
+          "pollsterName": "Real Time Big Data",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-20T12:00:00",
+          "publishedAt": "2026-10-23T10:00:21Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.0,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 52.0,
+              "normalizedPercentage": 52.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.0
+            }
+          ]
+        },
+        {
+          "pollId": "ae358a2c-aa6c-3358-93f2-2d1f74f887f6",
+          "pollsterId": "2bbba3cf-3be8-40b0-8e78-b0806c45eeaf",
+          "pollsterName": "Instituto França",
+          "fieldStart": "2026-10-16",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-18T00:00:00",
+          "publishedAt": "2026-10-20T10:09:00Z",
+          "sampleSize": 3000,
+          "marginOfError": 1.8,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.81,
+              "normalizedPercentage": 50.81
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.19,
+              "normalizedPercentage": 49.19
+            }
+          ]
+        },
+        {
+          "pollId": "c51626a8-ecce-3091-b4b4-11402290e7fb",
+          "pollsterId": "a4e87d53-71e6-4e27-b2cc-4ea7456dd624",
+          "pollsterName": "Meio/Ideia",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-19",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-21T10:00:15Z",
+          "sampleSize": 1500,
+          "marginOfError": 2.5,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "4299711e-198b-3e23-bf64-685554f5abaf",
+          "pollsterId": "86080655-4b86-46a4-9eac-b99a7031e1c2",
+          "pollsterName": "Veritá",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-19",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-21T15:00:12Z",
+          "sampleSize": 15554,
+          "marginOfError": 1.0,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.7,
+              "normalizedPercentage": 50.7
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.3,
+              "normalizedPercentage": 49.3
+            }
+          ]
+        },
+        {
+          "pollId": "d6d2c6ac-bc9b-3fae-8461-57696207051c",
+          "pollsterId": "7d9c0427-64c2-4f84-a2bb-624b893caac0",
+          "pollsterName": "Alfa Inteligência",
+          "fieldStart": "2026-10-18",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-23T11:01:43Z",
+          "sampleSize": 2700,
+          "marginOfError": 1.9,
+          "rawWeight": 1,
+          "normalizedWeight": 0.0555555555555555,
+          "recencyWeight": null,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 52.0,
+              "normalizedPercentage": 52.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.0
+            }
+          ]
+        }
+      ],
+      "cap": null,
+      "configuration": {
+        "halfLifeDays": 3,
+        "maxInstituteWeight": 0.15,
+        "historicalMinFactor": 0.85,
+        "historicalMaxFactor": 1.15,
+        "historicalNeutralSpreadError": 3,
+        "historicalElectionKey": "BR-PRESIDENT-2026",
+        "historicalRound": 1
+      },
+      "warnings": [],
+      "excludedPolls": []
+    },
+    {
+      "method": "RECENCY",
+      "calculatedAt": "2026-10-23T15:08:06.048550300Z",
+      "referenceDate": "2026-10-23",
+      "pollCount": 18,
+      "pollsterCount": 18,
+      "totalSampleSize": 59442,
+      "pollsWithoutSampleSize": 0,
+      "results": [
+        {
+          "candidateId": "00000000-0000-0000-0000-000000000001",
+          "candidateName": "Flávio Bolsonaro",
+          "percentage": 50.9383
+        },
+        {
+          "candidateId": "00000000-0000-0000-0000-000000000002",
+          "candidateName": "Lula",
+          "percentage": 49.0617
+        }
+      ],
+      "spread": {
+        "leaderCandidateId": "00000000-0000-0000-0000-000000000001",
+        "leaderCandidateName": "Flávio Bolsonaro",
+        "points": 1.8766
+      },
+      "contributions": [
+        {
+          "pollId": "5c92c29a-712d-33a7-9e24-6881944b063c",
+          "pollsterId": "7b140640-a349-43e9-935e-89fed4c8e513",
+          "pollsterName": "PoderData",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-22T10:15:27Z",
+          "sampleSize": 4000,
+          "marginOfError": 1.6,
+          "rawWeight": 0.5,
+          "normalizedWeight": 0.0687438422911139,
+          "recencyWeight": 0.5,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.0,
+              "normalizedPercentage": 51.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.0,
+              "normalizedPercentage": 49.0
+            }
+          ]
+        },
+        {
+          "pollId": "5470274e-4658-399e-bc7a-d9a73ed8c6c4",
+          "pollsterId": "db1181ee-ba4a-46a9-bc1d-3b38f2dc1d63",
+          "pollsterName": "Datafolha",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-22T22:07:02Z",
+          "sampleSize": 2520,
+          "marginOfError": 2.0,
+          "rawWeight": 0.6299605249474366,
+          "normalizedWeight": 0.0866118139532289,
+          "recencyWeight": 0.6299605249474366,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 50.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 50.0
+            }
+          ]
+        },
+        {
+          "pollId": "fa57b354-02d3-37ee-b4f8-8f8cd17961b0",
+          "pollsterId": "cbc2a235-bfde-4991-9cc4-15548e43da46",
+          "pollsterName": "Indexa",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T12:00:00",
+          "publishedAt": "2026-10-22T16:36:12Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.2,
+          "rawWeight": 0.5612310241546865,
+          "normalizedWeight": 0.0771623540267402,
+          "recencyWeight": 0.5612310241546865,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.6,
+              "normalizedPercentage": 50.6
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.4,
+              "normalizedPercentage": 49.4
+            }
+          ]
+        },
+        {
+          "pollId": "33f8b4ee-d8e4-3a4f-8f0b-d99a0db0629f",
+          "pollsterId": "5b15d68d-6f9e-48d2-9fa2-ee076309f10d",
+          "pollsterName": "CNT/MDA",
+          "fieldStart": "2026-10-13",
+          "fieldEnd": "2026-10-15",
+          "fieldMidpoint": "2026-10-14T00:00:00",
+          "publishedAt": "2026-10-16T15:44:16Z",
+          "sampleSize": 2014,
+          "marginOfError": 2.2,
+          "rawWeight": 0.125,
+          "normalizedWeight": 0.0171859605727784,
+          "recencyWeight": 0.125,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.5,
+              "normalizedPercentage": 50.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.5,
+              "normalizedPercentage": 49.5
+            }
+          ]
+        },
+        {
+          "pollId": "a64d6a88-2c25-321c-8781-7464ae2ecde6",
+          "pollsterId": "d998ad3a-1f9d-4d28-8d98-d3f0c5a13a81",
+          "pollsterName": "Quaest",
+          "fieldStart": "2026-10-17",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-18T12:00:00",
+          "publishedAt": "2026-10-21T13:56:45Z",
+          "sampleSize": 2154,
+          "marginOfError": 2.0,
+          "rawWeight": 0.35355339059327373,
+          "normalizedWeight": 0.0486092370488652,
+          "recencyWeight": 0.35355339059327373,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 45.0,
+              "normalizedPercentage": 50.5618
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 44.0,
+              "normalizedPercentage": 49.4382
+            }
+          ]
+        },
+        {
+          "pollId": "41971211-08d4-3686-86dc-f485cfa64aa5",
+          "pollsterId": "0c59cf9d-ba28-4891-a85d-81cf6b92a1f6",
+          "pollsterName": "Palver",
+          "fieldStart": "2026-10-18",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-19T00:00:00",
+          "publishedAt": "2026-10-21T12:41:14Z",
+          "sampleSize": 5000,
+          "marginOfError": 2.4,
+          "rawWeight": 0.3968502629920499,
+          "normalizedWeight": 0.0545620237846251,
+          "recencyWeight": 0.3968502629920499,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 51.0204
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.9796
+            }
+          ]
+        },
+        {
+          "pollId": "a383c782-8046-3909-833f-4963fe0142fd",
+          "pollsterId": "aed187e8-07e7-484b-a9f4-3248abe277c4",
+          "pollsterName": "Nexus",
+          "fieldStart": "2026-10-16",
+          "fieldEnd": "2026-10-18",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-19T11:45:25Z",
+          "sampleSize": 2002,
+          "marginOfError": 2.0,
+          "rawWeight": 0.25,
+          "normalizedWeight": 0.0343719211455569,
+          "recencyWeight": 0.25,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.3,
+              "normalizedPercentage": 50.3
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.7,
+              "normalizedPercentage": 49.7
+            }
+          ]
+        },
+        {
+          "pollId": "fbe8caed-33f8-375e-828e-7e82db5fad64",
+          "pollsterId": "ee8dea57-0a3c-4c7d-9c71-8b62e3b2b841",
+          "pollsterName": "Gerp",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-21T21:00:56Z",
+          "sampleSize": 2400,
+          "marginOfError": 2.0,
+          "rawWeight": 0.5,
+          "normalizedWeight": 0.0687438422911139,
+          "recencyWeight": 0.5,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 53.0,
+              "normalizedPercentage": 53.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 47.0,
+              "normalizedPercentage": 47.0
+            }
+          ]
+        },
+        {
+          "pollId": "0dfa2bb5-681f-3531-bd0e-406b7212cd15",
+          "pollsterId": "8833f3a7-4c69-4dc9-8417-8bcc6cfcc599",
+          "pollsterName": "Futura",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-19T12:00:00",
+          "publishedAt": "2026-10-21T13:45:11Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.2,
+          "rawWeight": 0.44544935907016964,
+          "normalizedWeight": 0.061243800977195,
+          "recencyWeight": 0.44544935907016964,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "5e74c3d0-d8a7-31b2-b777-b78dc9d8cee0",
+          "pollsterId": "2972d3cf-ecb1-415e-abfa-250662badcd8",
+          "pollsterName": "DataTrends",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-17",
+          "fieldMidpoint": "2026-10-16T00:00:00",
+          "publishedAt": "2026-10-19T16:07:00Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.19,
+          "rawWeight": 0.19842513149602495,
+          "normalizedWeight": 0.0272810118923125,
+          "recencyWeight": 0.19842513149602495,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.5,
+              "normalizedPercentage": 51.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.5,
+              "normalizedPercentage": 48.5
+            }
+          ]
+        },
+        {
+          "pollId": "4b84cc55-688e-3ba5-a57b-dc9b3b039aa7",
+          "pollsterId": "438fb9da-a7c7-473d-9245-ee777f2ed510",
+          "pollsterName": "Ipespe",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-23T13:00:54Z",
+          "sampleSize": 1500,
+          "marginOfError": 2.6,
+          "rawWeight": 0.6299605249474366,
+          "normalizedWeight": 0.0866118139532278,
+          "recencyWeight": 0.6299605249474366,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.5,
+              "normalizedPercentage": 50.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.5,
+              "normalizedPercentage": 49.5
+            }
+          ]
+        },
+        {
+          "pollId": "96cad95b-d6c2-3fcf-ba0b-9aa22d7d821d",
+          "pollsterId": "5952cab4-3c47-42ed-ab37-8bf8ec31938f",
+          "pollsterName": "AtlasIntel",
+          "fieldStart": "2026-10-13",
+          "fieldEnd": "2026-10-18",
+          "fieldMidpoint": "2026-10-15T12:00:00",
+          "publishedAt": "2026-10-19T10:30:21Z",
+          "sampleSize": 4998,
+          "marginOfError": 1.0,
+          "rawWeight": 0.17677669529663687,
+          "normalizedWeight": 0.0243046185244326,
+          "recencyWeight": 0.17677669529663687,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "61a4ca94-4397-32bd-8e7e-79f62a6a4a17",
+          "pollsterId": "6f42b3b2-2e72-4fe0-ae43-b2b8a347848b",
+          "pollsterName": "Vox Brasil",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-23T03:00:35Z",
+          "sampleSize": 2100,
+          "marginOfError": 2.15,
+          "rawWeight": 0.6299605249474366,
+          "normalizedWeight": 0.0866118139532278,
+          "recencyWeight": 0.6299605249474366,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 49.4,
+              "normalizedPercentage": 49.4
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 50.6,
+              "normalizedPercentage": 50.6
+            }
+          ]
+        },
+        {
+          "pollId": "723c1714-f221-3b5a-9cba-3f3af5a7251c",
+          "pollsterId": "430afcc7-adb5-4e71-8a1d-73ed9b5025e5",
+          "pollsterName": "Real Time Big Data",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-20T12:00:00",
+          "publishedAt": "2026-10-23T10:00:21Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.0,
+          "rawWeight": 0.5612310241546865,
+          "normalizedWeight": 0.0771623540267402,
+          "recencyWeight": 0.5612310241546865,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 52.0,
+              "normalizedPercentage": 52.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.0
+            }
+          ]
+        },
+        {
+          "pollId": "ae358a2c-aa6c-3358-93f2-2d1f74f887f6",
+          "pollsterId": "2bbba3cf-3be8-40b0-8e78-b0806c45eeaf",
+          "pollsterName": "Instituto França",
+          "fieldStart": "2026-10-16",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-18T00:00:00",
+          "publishedAt": "2026-10-20T10:09:00Z",
+          "sampleSize": 3000,
+          "marginOfError": 1.8,
+          "rawWeight": 0.3149802624737183,
+          "normalizedWeight": 0.0433059069766139,
+          "recencyWeight": 0.3149802624737183,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.81,
+              "normalizedPercentage": 50.81
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.19,
+              "normalizedPercentage": 49.19
+            }
+          ]
+        },
+        {
+          "pollId": "c51626a8-ecce-3091-b4b4-11402290e7fb",
+          "pollsterId": "a4e87d53-71e6-4e27-b2cc-4ea7456dd624",
+          "pollsterName": "Meio/Ideia",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-19",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-21T10:00:15Z",
+          "sampleSize": 1500,
+          "marginOfError": 2.5,
+          "rawWeight": 0.25,
+          "normalizedWeight": 0.0343719211455569,
+          "recencyWeight": 0.25,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "4299711e-198b-3e23-bf64-685554f5abaf",
+          "pollsterId": "86080655-4b86-46a4-9eac-b99a7031e1c2",
+          "pollsterName": "Veritá",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-19",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-21T15:00:12Z",
+          "sampleSize": 15554,
+          "marginOfError": 1.0,
+          "rawWeight": 0.25,
+          "normalizedWeight": 0.0343719211455569,
+          "recencyWeight": 0.25,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.7,
+              "normalizedPercentage": 50.7
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.3,
+              "normalizedPercentage": 49.3
+            }
+          ]
+        },
+        {
+          "pollId": "d6d2c6ac-bc9b-3fae-8461-57696207051c",
+          "pollsterId": "7d9c0427-64c2-4f84-a2bb-624b893caac0",
+          "pollsterName": "Alfa Inteligência",
+          "fieldStart": "2026-10-18",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-23T11:01:43Z",
+          "sampleSize": 2700,
+          "marginOfError": 1.9,
+          "rawWeight": 0.5,
+          "normalizedWeight": 0.0687438422911139,
+          "recencyWeight": 0.5,
+          "precisionWeight": null,
+          "precisionSource": null,
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 52.0,
+              "normalizedPercentage": 52.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.0
+            }
+          ]
+        }
+      ],
+      "cap": null,
+      "configuration": {
+        "halfLifeDays": 3,
+        "maxInstituteWeight": 0.15,
+        "historicalMinFactor": 0.85,
+        "historicalMaxFactor": 1.15,
+        "historicalNeutralSpreadError": 3,
+        "historicalElectionKey": "BR-PRESIDENT-2026",
+        "historicalRound": 1
+      },
+      "warnings": [],
+      "excludedPolls": []
+    },
+    {
+      "method": "WEIGHTED",
+      "calculatedAt": "2026-10-23T15:08:06.048550300Z",
+      "referenceDate": "2026-10-23",
+      "pollCount": 18,
+      "pollsterCount": 18,
+      "totalSampleSize": 59442,
+      "pollsWithoutSampleSize": 0,
+      "results": [
+        {
+          "candidateId": "00000000-0000-0000-0000-000000000001",
+          "candidateName": "Flávio Bolsonaro",
+          "percentage": 50.963
+        },
+        {
+          "candidateId": "00000000-0000-0000-0000-000000000002",
+          "candidateName": "Lula",
+          "percentage": 49.037
+        }
+      ],
+      "spread": {
+        "leaderCandidateId": "00000000-0000-0000-0000-000000000001",
+        "leaderCandidateName": "Flávio Bolsonaro",
+        "points": 1.926
+      },
+      "contributions": [
+        {
+          "pollId": "5c92c29a-712d-33a7-9e24-6881944b063c",
+          "pollsterId": "7b140640-a349-43e9-935e-89fed4c8e513",
+          "pollsterName": "PoderData",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-22T10:15:27Z",
+          "sampleSize": 4000,
+          "marginOfError": 1.6,
+          "rawWeight": 0.1953125,
+          "normalizedWeight": 0.0955047874266434,
+          "recencyWeight": 0.5,
+          "precisionWeight": 0.390625,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.0,
+              "normalizedPercentage": 51.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.0,
+              "normalizedPercentage": 49.0
+            }
+          ]
+        },
+        {
+          "pollId": "5470274e-4658-399e-bc7a-d9a73ed8c6c4",
+          "pollsterId": "db1181ee-ba4a-46a9-bc1d-3b38f2dc1d63",
+          "pollsterName": "Datafolha",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-22T22:07:02Z",
+          "sampleSize": 2520,
+          "marginOfError": 2.0,
+          "rawWeight": 0.15749013123685915,
+          "normalizedWeight": 0.0770102349085205,
+          "recencyWeight": 0.6299605249474366,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 50.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 50.0
+            }
+          ]
+        },
+        {
+          "pollId": "fa57b354-02d3-37ee-b4f8-8f8cd17961b0",
+          "pollsterId": "cbc2a235-bfde-4991-9cc4-15548e43da46",
+          "pollsterName": "Indexa",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T12:00:00",
+          "publishedAt": "2026-10-22T16:36:12Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.2,
+          "rawWeight": 0.11595682317245588,
+          "normalizedWeight": 0.0567010905485019,
+          "recencyWeight": 0.5612310241546865,
+          "precisionWeight": 0.2066115702479339,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.6,
+              "normalizedPercentage": 50.6
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.4,
+              "normalizedPercentage": 49.4
+            }
+          ]
+        },
+        {
+          "pollId": "33f8b4ee-d8e4-3a4f-8f0b-d99a0db0629f",
+          "pollsterId": "5b15d68d-6f9e-48d2-9fa2-ee076309f10d",
+          "pollsterName": "CNT/MDA",
+          "fieldStart": "2026-10-13",
+          "fieldEnd": "2026-10-15",
+          "fieldMidpoint": "2026-10-14T00:00:00",
+          "publishedAt": "2026-10-16T15:44:16Z",
+          "sampleSize": 2014,
+          "marginOfError": 2.2,
+          "rawWeight": 0.025826446280991736,
+          "normalizedWeight": 0.0126287322217049,
+          "recencyWeight": 0.125,
+          "precisionWeight": 0.2066115702479339,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.5,
+              "normalizedPercentage": 50.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.5,
+              "normalizedPercentage": 49.5
+            }
+          ]
+        },
+        {
+          "pollId": "a64d6a88-2c25-321c-8781-7464ae2ecde6",
+          "pollsterId": "d998ad3a-1f9d-4d28-8d98-d3f0c5a13a81",
+          "pollsterName": "Quaest",
+          "fieldStart": "2026-10-17",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-18T12:00:00",
+          "publishedAt": "2026-10-21T13:56:45Z",
+          "sampleSize": 2154,
+          "marginOfError": 2.0,
+          "rawWeight": 0.08838834764831843,
+          "normalizedWeight": 0.0432205330081019,
+          "recencyWeight": 0.35355339059327373,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 45.0,
+              "normalizedPercentage": 50.5618
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 44.0,
+              "normalizedPercentage": 49.4382
+            }
+          ]
+        },
+        {
+          "pollId": "41971211-08d4-3686-86dc-f485cfa64aa5",
+          "pollsterId": "0c59cf9d-ba28-4891-a85d-81cf6b92a1f6",
+          "pollsterName": "Palver",
+          "fieldStart": "2026-10-18",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-19T00:00:00",
+          "publishedAt": "2026-10-21T12:41:14Z",
+          "sampleSize": 5000,
+          "marginOfError": 2.4,
+          "rawWeight": 0.06889761510278644,
+          "normalizedWeight": 0.0336898666731229,
+          "recencyWeight": 0.3968502629920499,
+          "precisionWeight": 0.1736111111111111,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 51.0204
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.9796
+            }
+          ]
+        },
+        {
+          "pollId": "a383c782-8046-3909-833f-4963fe0142fd",
+          "pollsterId": "aed187e8-07e7-484b-a9f4-3248abe277c4",
+          "pollsterName": "Nexus",
+          "fieldStart": "2026-10-16",
+          "fieldEnd": "2026-10-18",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-19T11:45:25Z",
+          "sampleSize": 2002,
+          "marginOfError": 2.0,
+          "rawWeight": 0.0625,
+          "normalizedWeight": 0.0305615319765259,
+          "recencyWeight": 0.25,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.3,
+              "normalizedPercentage": 50.3
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.7,
+              "normalizedPercentage": 49.7
+            }
+          ]
+        },
+        {
+          "pollId": "fbe8caed-33f8-375e-828e-7e82db5fad64",
+          "pollsterId": "ee8dea57-0a3c-4c7d-9c71-8b62e3b2b841",
+          "pollsterName": "Gerp",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-21T21:00:56Z",
+          "sampleSize": 2400,
+          "marginOfError": 2.0,
+          "rawWeight": 0.125,
+          "normalizedWeight": 0.0611230639530518,
+          "recencyWeight": 0.5,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 53.0,
+              "normalizedPercentage": 53.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 47.0,
+              "normalizedPercentage": 47.0
+            }
+          ]
+        },
+        {
+          "pollId": "0dfa2bb5-681f-3531-bd0e-406b7212cd15",
+          "pollsterId": "8833f3a7-4c69-4dc9-8417-8bcc6cfcc599",
+          "pollsterName": "Futura",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-19T12:00:00",
+          "publishedAt": "2026-10-21T13:45:11Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.2,
+          "rawWeight": 0.09203499154342348,
+          "normalizedWeight": 0.045003685392218,
+          "recencyWeight": 0.44544935907016964,
+          "precisionWeight": 0.2066115702479339,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "5e74c3d0-d8a7-31b2-b777-b78dc9d8cee0",
+          "pollsterId": "2972d3cf-ecb1-415e-abfa-250662badcd8",
+          "pollsterName": "DataTrends",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-17",
+          "fieldMidpoint": "2026-10-16T00:00:00",
+          "publishedAt": "2026-10-19T16:07:00Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.19,
+          "rawWeight": 0.04137218396114029,
+          "normalizedWeight": 0.0202303571690736,
+          "recencyWeight": 0.19842513149602495,
+          "precisionWeight": 0.20850274181105483,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.5,
+              "normalizedPercentage": 51.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.5,
+              "normalizedPercentage": 48.5
+            }
+          ]
+        },
+        {
+          "pollId": "4b84cc55-688e-3ba5-a57b-dc9b3b039aa7",
+          "pollsterId": "438fb9da-a7c7-473d-9245-ee777f2ed510",
+          "pollsterName": "Ipespe",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-23T13:00:54Z",
+          "sampleSize": 1500,
+          "marginOfError": 2.6,
+          "rawWeight": 0.09318942676737228,
+          "normalizedWeight": 0.0455681863364026,
+          "recencyWeight": 0.6299605249474366,
+          "precisionWeight": 0.14792899408284024,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.5,
+              "normalizedPercentage": 50.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.5,
+              "normalizedPercentage": 49.5
+            }
+          ]
+        },
+        {
+          "pollId": "96cad95b-d6c2-3fcf-ba0b-9aa22d7d821d",
+          "pollsterId": "5952cab4-3c47-42ed-ab37-8bf8ec31938f",
+          "pollsterName": "AtlasIntel",
+          "fieldStart": "2026-10-13",
+          "fieldEnd": "2026-10-18",
+          "fieldMidpoint": "2026-10-15T12:00:00",
+          "publishedAt": "2026-10-19T10:30:21Z",
+          "sampleSize": 4998,
+          "marginOfError": 1.0,
+          "rawWeight": 0.17677669529663687,
+          "normalizedWeight": 0.0864410660162039,
+          "recencyWeight": 0.17677669529663687,
+          "precisionWeight": 1,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "61a4ca94-4397-32bd-8e7e-79f62a6a4a17",
+          "pollsterId": "6f42b3b2-2e72-4fe0-ae43-b2b8a347848b",
+          "pollsterName": "Vox Brasil",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-23T03:00:35Z",
+          "sampleSize": 2100,
+          "marginOfError": 2.15,
+          "rawWeight": 0.13628134666250658,
+          "normalizedWeight": 0.0666394677412832,
+          "recencyWeight": 0.6299605249474366,
+          "precisionWeight": 0.21633315305570577,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 49.4,
+              "normalizedPercentage": 49.4
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 50.6,
+              "normalizedPercentage": 50.6
+            }
+          ]
+        },
+        {
+          "pollId": "723c1714-f221-3b5a-9cba-3f3af5a7251c",
+          "pollsterId": "430afcc7-adb5-4e71-8a1d-73ed9b5025e5",
+          "pollsterName": "Real Time Big Data",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-20T12:00:00",
+          "publishedAt": "2026-10-23T10:00:21Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.0,
+          "rawWeight": 0.14030775603867163,
+          "normalizedWeight": 0.0686083195636873,
+          "recencyWeight": 0.5612310241546865,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 52.0,
+              "normalizedPercentage": 52.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.0
+            }
+          ]
+        },
+        {
+          "pollId": "ae358a2c-aa6c-3358-93f2-2d1f74f887f6",
+          "pollsterId": "2bbba3cf-3be8-40b0-8e78-b0806c45eeaf",
+          "pollsterName": "Instituto França",
+          "fieldStart": "2026-10-16",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-18T00:00:00",
+          "publishedAt": "2026-10-20T10:09:00Z",
+          "sampleSize": 3000,
+          "marginOfError": 1.8,
+          "rawWeight": 0.09721613039312293,
+          "normalizedWeight": 0.0475371820422966,
+          "recencyWeight": 0.3149802624737183,
+          "precisionWeight": 0.30864197530864196,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.81,
+              "normalizedPercentage": 50.81
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.19,
+              "normalizedPercentage": 49.19
+            }
+          ]
+        },
+        {
+          "pollId": "c51626a8-ecce-3091-b4b4-11402290e7fb",
+          "pollsterId": "a4e87d53-71e6-4e27-b2cc-4ea7456dd624",
+          "pollsterName": "Meio/Ideia",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-19",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-21T10:00:15Z",
+          "sampleSize": 1500,
+          "marginOfError": 2.5,
+          "rawWeight": 0.04,
+          "normalizedWeight": 0.0195593804649765,
+          "recencyWeight": 0.25,
+          "precisionWeight": 0.16,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "4299711e-198b-3e23-bf64-685554f5abaf",
+          "pollsterId": "86080655-4b86-46a4-9eac-b99a7031e1c2",
+          "pollsterName": "Veritá",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-19",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-21T15:00:12Z",
+          "sampleSize": 15554,
+          "marginOfError": 1.0,
+          "rawWeight": 0.25,
+          "normalizedWeight": 0.1222461279061042,
+          "recencyWeight": 0.25,
+          "precisionWeight": 1,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.7,
+              "normalizedPercentage": 50.7
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.3,
+              "normalizedPercentage": 49.3
+            }
+          ]
+        },
+        {
+          "pollId": "d6d2c6ac-bc9b-3fae-8461-57696207051c",
+          "pollsterId": "7d9c0427-64c2-4f84-a2bb-624b893caac0",
+          "pollsterName": "Alfa Inteligência",
+          "fieldStart": "2026-10-18",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-23T11:01:43Z",
+          "sampleSize": 2700,
+          "marginOfError": 1.9,
+          "rawWeight": 0.13850415512465375,
+          "normalizedWeight": 0.0677263866515809,
+          "recencyWeight": 0.5,
+          "precisionWeight": 0.2770083102493075,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": null,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 52.0,
+              "normalizedPercentage": 52.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.0
+            }
+          ]
+        }
+      ],
+      "cap": {
+        "requested": 0.15,
+        "effective": 0.15,
+        "feasible": true
+      },
+      "configuration": {
+        "halfLifeDays": 3,
+        "maxInstituteWeight": 0.15,
+        "historicalMinFactor": 0.85,
+        "historicalMaxFactor": 1.15,
+        "historicalNeutralSpreadError": 3,
+        "historicalElectionKey": "BR-PRESIDENT-2026",
+        "historicalRound": 1
+      },
+      "warnings": [],
+      "excludedPolls": []
+    },
+    {
+      "method": "CALIBRATED",
+      "calculatedAt": "2026-10-23T15:08:06.048550300Z",
+      "referenceDate": "2026-10-23",
+      "pollCount": 18,
+      "pollsterCount": 18,
+      "totalSampleSize": 59442,
+      "pollsWithoutSampleSize": 0,
+      "results": [
+        {
+          "candidateId": "00000000-0000-0000-0000-000000000001",
+          "candidateName": "Flávio Bolsonaro",
+          "percentage": 50.9549
+        },
+        {
+          "candidateId": "00000000-0000-0000-0000-000000000002",
+          "candidateName": "Lula",
+          "percentage": 49.0451
+        }
+      ],
+      "spread": {
+        "leaderCandidateId": "00000000-0000-0000-0000-000000000001",
+        "leaderCandidateName": "Flávio Bolsonaro",
+        "points": 1.9098
+      },
+      "contributions": [
+        {
+          "pollId": "5c92c29a-712d-33a7-9e24-6881944b063c",
+          "pollsterId": "7b140640-a349-43e9-935e-89fed4c8e513",
+          "pollsterName": "PoderData",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-22T10:15:27Z",
+          "sampleSize": 4000,
+          "marginOfError": 1.6,
+          "rawWeight": 0.19560546875,
+          "normalizedWeight": 0.0973727386749242,
+          "recencyWeight": 0.5,
+          "precisionWeight": 0.390625,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 1.0015,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.0,
+              "normalizedPercentage": 51.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.0,
+              "normalizedPercentage": 49.0
+            }
+          ]
+        },
+        {
+          "pollId": "5470274e-4658-399e-bc7a-d9a73ed8c6c4",
+          "pollsterId": "db1181ee-ba4a-46a9-bc1d-3b38f2dc1d63",
+          "pollsterName": "Datafolha",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-22T22:07:02Z",
+          "sampleSize": 2520,
+          "marginOfError": 2.0,
+          "rawWeight": 0.1490644092156872,
+          "normalizedWeight": 0.0742045192143488,
+          "recencyWeight": 0.6299605249474366,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.9465,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 50.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 50.0
+            }
+          ]
+        },
+        {
+          "pollId": "fa57b354-02d3-37ee-b4f8-8f8cd17961b0",
+          "pollsterId": "cbc2a235-bfde-4991-9cc4-15548e43da46",
+          "pollsterName": "Indexa",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T12:00:00",
+          "publishedAt": "2026-10-22T16:36:12Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.2,
+          "rawWeight": 0.0985632996965875,
+          "normalizedWeight": 0.0490649800622921,
+          "recencyWeight": 0.5612310241546865,
+          "precisionWeight": 0.2066115702479339,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.85,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.6,
+              "normalizedPercentage": 50.6
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.4,
+              "normalizedPercentage": 49.4
+            }
+          ]
+        },
+        {
+          "pollId": "33f8b4ee-d8e4-3a4f-8f0b-d99a0db0629f",
+          "pollsterId": "5b15d68d-6f9e-48d2-9fa2-ee076309f10d",
+          "pollsterName": "CNT/MDA",
+          "fieldStart": "2026-10-13",
+          "fieldEnd": "2026-10-15",
+          "fieldMidpoint": "2026-10-14T00:00:00",
+          "publishedAt": "2026-10-16T15:44:16Z",
+          "sampleSize": 2014,
+          "marginOfError": 2.2,
+          "rawWeight": 0.021952479338842975,
+          "normalizedWeight": 0.0109279819607693,
+          "recencyWeight": 0.125,
+          "precisionWeight": 0.2066115702479339,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.85,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.5,
+              "normalizedPercentage": 50.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.5,
+              "normalizedPercentage": 49.5
+            }
+          ]
+        },
+        {
+          "pollId": "a64d6a88-2c25-321c-8781-7464ae2ecde6",
+          "pollsterId": "d998ad3a-1f9d-4d28-8d98-d3f0c5a13a81",
+          "pollsterName": "Quaest",
+          "fieldStart": "2026-10-17",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-18T12:00:00",
+          "publishedAt": "2026-10-21T13:56:45Z",
+          "sampleSize": 2154,
+          "marginOfError": 2.0,
+          "rawWeight": 0.08321762931089181,
+          "normalizedWeight": 0.0414258789583877,
+          "recencyWeight": 0.35355339059327373,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.9415,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 45.0,
+              "normalizedPercentage": 50.5618
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 44.0,
+              "normalizedPercentage": 49.4382
+            }
+          ]
+        },
+        {
+          "pollId": "41971211-08d4-3686-86dc-f485cfa64aa5",
+          "pollsterId": "0c59cf9d-ba28-4891-a85d-81cf6b92a1f6",
+          "pollsterName": "Palver",
+          "fieldStart": "2026-10-18",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-19T00:00:00",
+          "publishedAt": "2026-10-21T12:41:14Z",
+          "sampleSize": 5000,
+          "marginOfError": 2.4,
+          "rawWeight": 0.07155017328424372,
+          "normalizedWeight": 0.035617799286873,
+          "recencyWeight": 0.3968502629920499,
+          "precisionWeight": 0.1736111111111111,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 1.0385,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.0,
+              "normalizedPercentage": 51.0204
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.9796
+            }
+          ]
+        },
+        {
+          "pollId": "a383c782-8046-3909-833f-4963fe0142fd",
+          "pollsterId": "aed187e8-07e7-484b-a9f4-3248abe277c4",
+          "pollsterName": "Nexus",
+          "fieldStart": "2026-10-16",
+          "fieldEnd": "2026-10-18",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-19T11:45:25Z",
+          "sampleSize": 2002,
+          "marginOfError": 2.0,
+          "rawWeight": 0.053125,
+          "normalizedWeight": 0.0264457163450618,
+          "recencyWeight": 0.25,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.85,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.3,
+              "normalizedPercentage": 50.3
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.7,
+              "normalizedPercentage": 49.7
+            }
+          ]
+        },
+        {
+          "pollId": "fbe8caed-33f8-375e-828e-7e82db5fad64",
+          "pollsterId": "ee8dea57-0a3c-4c7d-9c71-8b62e3b2b841",
+          "pollsterName": "Gerp",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-21",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-21T21:00:56Z",
+          "sampleSize": 2400,
+          "marginOfError": 2.0,
+          "rawWeight": 0.1423125,
+          "normalizedWeight": 0.0708434071973008,
+          "recencyWeight": 0.5,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 1.1385,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 53.0,
+              "normalizedPercentage": 53.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 47.0,
+              "normalizedPercentage": 47.0
+            }
+          ]
+        },
+        {
+          "pollId": "0dfa2bb5-681f-3531-bd0e-406b7212cd15",
+          "pollsterId": "8833f3a7-4c69-4dc9-8417-8bcc6cfcc599",
+          "pollsterName": "Futura",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-19T12:00:00",
+          "publishedAt": "2026-10-21T13:45:11Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.2,
+          "rawWeight": 0.10432166291447052,
+          "normalizedWeight": 0.0519315031732939,
+          "recencyWeight": 0.44544935907016964,
+          "precisionWeight": 0.2066115702479339,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 1.1335,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "5e74c3d0-d8a7-31b2-b777-b78dc9d8cee0",
+          "pollsterId": "2972d3cf-ecb1-415e-abfa-250662badcd8",
+          "pollsterName": "DataTrends",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-17",
+          "fieldMidpoint": "2026-10-16T00:00:00",
+          "publishedAt": "2026-10-19T16:07:00Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.19,
+          "rawWeight": 0.03516635636696925,
+          "normalizedWeight": 0.0175058726657925,
+          "recencyWeight": 0.19842513149602495,
+          "precisionWeight": 0.20850274181105483,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.85,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.5,
+              "normalizedPercentage": 51.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.5,
+              "normalizedPercentage": 48.5
+            }
+          ]
+        },
+        {
+          "pollId": "4b84cc55-688e-3ba5-a57b-dc9b3b039aa7",
+          "pollsterId": "438fb9da-a7c7-473d-9245-ee777f2ed510",
+          "pollsterName": "Ipespe",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-23T13:00:54Z",
+          "sampleSize": 1500,
+          "marginOfError": 2.6,
+          "rawWeight": 0.09318942676737228,
+          "normalizedWeight": 0.0463898568780957,
+          "recencyWeight": 0.6299605249474366,
+          "precisionWeight": 0.14792899408284024,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 1,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.5,
+              "normalizedPercentage": 50.5
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.5,
+              "normalizedPercentage": 49.5
+            }
+          ]
+        },
+        {
+          "pollId": "96cad95b-d6c2-3fcf-ba0b-9aa22d7d821d",
+          "pollsterId": "5952cab4-3c47-42ed-ab37-8bf8ec31938f",
+          "pollsterName": "AtlasIntel",
+          "fieldStart": "2026-10-13",
+          "fieldEnd": "2026-10-18",
+          "fieldMidpoint": "2026-10-15T12:00:00",
+          "publishedAt": "2026-10-19T10:30:21Z",
+          "sampleSize": 4998,
+          "marginOfError": 1.0,
+          "rawWeight": 0.1611319577628845,
+          "normalizedWeight": 0.0802117656305265,
+          "recencyWeight": 0.17677669529663687,
+          "precisionWeight": 1,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.9115,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "61a4ca94-4397-32bd-8e7e-79f62a6a4a17",
+          "pollsterId": "6f42b3b2-2e72-4fe0-ae43-b2b8a347848b",
+          "pollsterName": "Vox Brasil",
+          "fieldStart": "2026-10-20",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-21T00:00:00",
+          "publishedAt": "2026-10-23T03:00:35Z",
+          "sampleSize": 2100,
+          "marginOfError": 2.15,
+          "rawWeight": 0.150113903348751,
+          "normalizedWeight": 0.0747269591983264,
+          "recencyWeight": 0.6299605249474366,
+          "precisionWeight": 0.21633315305570577,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 1.1015,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 49.4,
+              "normalizedPercentage": 49.4
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 50.6,
+              "normalizedPercentage": 50.6
+            }
+          ]
+        },
+        {
+          "pollId": "723c1714-f221-3b5a-9cba-3f3af5a7251c",
+          "pollsterId": "430afcc7-adb5-4e71-8a1d-73ed9b5025e5",
+          "pollsterName": "Real Time Big Data",
+          "fieldStart": "2026-10-19",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-20T12:00:00",
+          "publishedAt": "2026-10-23T10:00:21Z",
+          "sampleSize": 2000,
+          "marginOfError": 2.0,
+          "rawWeight": 0.11947205426692889,
+          "normalizedWeight": 0.0594733940386829,
+          "recencyWeight": 0.5612310241546865,
+          "precisionWeight": 0.25,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.8515,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 52.0,
+              "normalizedPercentage": 52.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.0
+            }
+          ]
+        },
+        {
+          "pollId": "ae358a2c-aa6c-3358-93f2-2d1f74f887f6",
+          "pollsterId": "2bbba3cf-3be8-40b0-8e78-b0806c45eeaf",
+          "pollsterName": "Instituto França",
+          "fieldStart": "2026-10-16",
+          "fieldEnd": "2026-10-20",
+          "fieldMidpoint": "2026-10-18T00:00:00",
+          "publishedAt": "2026-10-20T10:09:00Z",
+          "sampleSize": 3000,
+          "marginOfError": 1.8,
+          "rawWeight": 0.08618209959350348,
+          "normalizedWeight": 0.04290159736229,
+          "recencyWeight": 0.3149802624737183,
+          "precisionWeight": 0.30864197530864196,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.8865,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.81,
+              "normalizedPercentage": 50.81
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.19,
+              "normalizedPercentage": 49.19
+            }
+          ]
+        },
+        {
+          "pollId": "c51626a8-ecce-3091-b4b4-11402290e7fb",
+          "pollsterId": "a4e87d53-71e6-4e27-b2cc-4ea7456dd624",
+          "pollsterName": "Meio/Ideia",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-19",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-21T10:00:15Z",
+          "sampleSize": 1500,
+          "marginOfError": 2.5,
+          "rawWeight": 0.04026,
+          "normalizedWeight": 0.0200414972245117,
+          "recencyWeight": 0.25,
+          "precisionWeight": 0.16,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 1.0065,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 51.1,
+              "normalizedPercentage": 51.1
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.9,
+              "normalizedPercentage": 48.9
+            }
+          ]
+        },
+        {
+          "pollId": "4299711e-198b-3e23-bf64-685554f5abaf",
+          "pollsterId": "86080655-4b86-46a4-9eac-b99a7031e1c2",
+          "pollsterName": "Veritá",
+          "fieldStart": "2026-10-15",
+          "fieldEnd": "2026-10-19",
+          "fieldMidpoint": "2026-10-17T00:00:00",
+          "publishedAt": "2026-10-21T15:00:12Z",
+          "sampleSize": 15554,
+          "marginOfError": 1.0,
+          "rawWeight": 0.285875,
+          "normalizedWeight": 0.1423090665438982,
+          "recencyWeight": 0.25,
+          "precisionWeight": 1,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 1.1435,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 50.7,
+              "normalizedPercentage": 50.7
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 49.3,
+              "normalizedPercentage": 49.3
+            }
+          ]
+        },
+        {
+          "pollId": "d6d2c6ac-bc9b-3fae-8461-57696207051c",
+          "pollsterId": "7d9c0427-64c2-4f84-a2bb-624b893caac0",
+          "pollsterName": "Alfa Inteligência",
+          "fieldStart": "2026-10-18",
+          "fieldEnd": "2026-10-22",
+          "fieldMidpoint": "2026-10-20T00:00:00",
+          "publishedAt": "2026-10-23T11:01:43Z",
+          "sampleSize": 2700,
+          "marginOfError": 1.9,
+          "rawWeight": 0.11772853185595568,
+          "normalizedWeight": 0.0586054655846245,
+          "recencyWeight": 0.5,
+          "precisionWeight": 0.2770083102493075,
+          "precisionSource": "MARGIN_OF_ERROR",
+          "historicalWeightFactor": 0.85,
+          "capped": false,
+          "candidateResults": [
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000001",
+              "candidateName": "Flávio Bolsonaro",
+              "originalPercentage": 52.0,
+              "normalizedPercentage": 52.0
+            },
+            {
+              "candidateId": "00000000-0000-0000-0000-000000000002",
+              "candidateName": "Lula",
+              "originalPercentage": 48.0,
+              "normalizedPercentage": 48.0
+            }
+          ]
+        }
+      ],
+      "cap": {
+        "requested": 0.15,
+        "effective": 0.15,
+        "feasible": true
+      },
+      "configuration": {
+        "halfLifeDays": 3,
+        "maxInstituteWeight": 0.15,
+        "historicalMinFactor": 0.85,
+        "historicalMaxFactor": 1.15,
+        "historicalNeutralSpreadError": 3,
+        "historicalElectionKey": "BR-PRESIDENT-2026",
+        "historicalRound": 1
+      },
+      "warnings": [
+        "Ipespe: sem histórico para a eleição/turno configurados; fator histórico neutro (1)."
+      ],
+      "excludedPolls": []
+    }
+  ],
+  "requestedHistoricalElectionKey": "BR-PRESIDENT-2026",
+  "activeHistoricalElectionKey": "BR-PRESIDENT-2026",
+  "configurationOverrideOnlyInMemory": false,
+  "weightComparison": [
+    {
+      "instituto": "Veritá",
+      "pollsterSlug": "verita",
+      "weightedWeight": 0.1222461279061042,
+      "spreadError": 0.13,
+      "historicalWeightFactor": 1.1435,
+      "calibratedWeight": 0.1423090665438982,
+      "variationPercentagePoints": 2.0062938637794
+    },
+    {
+      "instituto": "PoderData",
+      "pollsterSlug": "poderdata",
+      "weightedWeight": 0.0955047874266434,
+      "spreadError": 2.97,
+      "historicalWeightFactor": 1.0015,
+      "calibratedWeight": 0.0973727386749242,
+      "variationPercentagePoints": 0.18679512482808
+    },
+    {
+      "instituto": "AtlasIntel",
+      "pollsterSlug": "atlasintel",
+      "weightedWeight": 0.0864410660162039,
+      "spreadError": 4.77,
+      "historicalWeightFactor": 0.9115,
+      "calibratedWeight": 0.0802117656305265,
+      "variationPercentagePoints": -0.62293003856774
+    },
+    {
+      "instituto": "Vox Brasil",
+      "pollsterSlug": "vox-brasil",
+      "weightedWeight": 0.0666394677412832,
+      "spreadError": 0.97,
+      "historicalWeightFactor": 1.1015,
+      "calibratedWeight": 0.0747269591983264,
+      "variationPercentagePoints": 0.80874914570432
+    },
+    {
+      "instituto": "Datafolha",
+      "pollsterSlug": "datafolha",
+      "weightedWeight": 0.0770102349085205,
+      "spreadError": 4.07,
+      "historicalWeightFactor": 0.9465,
+      "calibratedWeight": 0.0742045192143488,
+      "variationPercentagePoints": -0.28057156941717
+    },
+    {
+      "instituto": "Gerp",
+      "pollsterSlug": "gerp",
+      "weightedWeight": 0.0611230639530518,
+      "spreadError": 0.23,
+      "historicalWeightFactor": 1.1385,
+      "calibratedWeight": 0.0708434071973008,
+      "variationPercentagePoints": 0.9720343244249
+    },
+    {
+      "instituto": "Real Time Big Data",
+      "pollsterSlug": "real-time-big-data",
+      "weightedWeight": 0.0686083195636873,
+      "spreadError": 5.97,
+      "historicalWeightFactor": 0.8515,
+      "calibratedWeight": 0.0594733940386829,
+      "variationPercentagePoints": -0.91349255250044
+    },
+    {
+      "instituto": "Alfa Inteligência",
+      "pollsterSlug": "alfa-inteligencia",
+      "weightedWeight": 0.0677263866515809,
+      "spreadError": 9.47,
+      "historicalWeightFactor": 0.85,
+      "calibratedWeight": 0.0586054655846245,
+      "variationPercentagePoints": -0.91209210669564
+    },
+    {
+      "instituto": "Futura",
+      "pollsterSlug": "futura",
+      "weightedWeight": 0.045003685392218,
+      "spreadError": 0.33,
+      "historicalWeightFactor": 1.1335,
+      "calibratedWeight": 0.0519315031732939,
+      "variationPercentagePoints": 0.69278177810759
+    },
+    {
+      "instituto": "Indexa",
+      "pollsterSlug": "indexa",
+      "weightedWeight": 0.0567010905485019,
+      "spreadError": 7.77,
+      "historicalWeightFactor": 0.85,
+      "calibratedWeight": 0.0490649800622921,
+      "variationPercentagePoints": -0.76361104862098
+    },
+    {
+      "instituto": "Ipespe",
+      "pollsterSlug": "ipespe",
+      "weightedWeight": 0.0455681863364026,
+      "spreadError": null,
+      "historicalWeightFactor": 1,
+      "calibratedWeight": 0.0463898568780957,
+      "variationPercentagePoints": 0.08216705416931
+    },
+    {
+      "instituto": "Instituto França",
+      "pollsterSlug": "instituto-franca",
+      "weightedWeight": 0.0475371820422966,
+      "spreadError": 5.27,
+      "historicalWeightFactor": 0.8865,
+      "calibratedWeight": 0.04290159736229,
+      "variationPercentagePoints": -0.46355846800066
+    },
+    {
+      "instituto": "Quaest",
+      "pollsterSlug": "quaest",
+      "weightedWeight": 0.0432205330081019,
+      "spreadError": 4.17,
+      "historicalWeightFactor": 0.9415,
+      "calibratedWeight": 0.0414258789583877,
+      "variationPercentagePoints": -0.17946540497142
+    },
+    {
+      "instituto": "Palver",
+      "pollsterSlug": "palver",
+      "weightedWeight": 0.0336898666731229,
+      "spreadError": 2.23,
+      "historicalWeightFactor": 1.0385,
+      "calibratedWeight": 0.035617799286873,
+      "variationPercentagePoints": 0.19279326137501
+    },
+    {
+      "instituto": "Nexus",
+      "pollsterSlug": "nexus",
+      "weightedWeight": 0.0305615319765259,
+      "spreadError": 7.07,
+      "historicalWeightFactor": 0.85,
+      "calibratedWeight": 0.0264457163450618,
+      "variationPercentagePoints": -0.41158156314641
+    },
+    {
+      "instituto": "Meio/Ideia",
+      "pollsterSlug": "meio-ideia",
+      "weightedWeight": 0.0195593804649765,
+      "spreadError": 2.87,
+      "historicalWeightFactor": 1.0065,
+      "calibratedWeight": 0.0200414972245117,
+      "variationPercentagePoints": 0.04821167595352
+    },
+    {
+      "instituto": "DataTrends",
+      "pollsterSlug": "datatrends",
+      "weightedWeight": 0.0202303571690736,
+      "spreadError": 6.37,
+      "historicalWeightFactor": 0.85,
+      "calibratedWeight": 0.0175058726657925,
+      "variationPercentagePoints": -0.27244845032811
+    },
+    {
+      "instituto": "CNT/MDA",
+      "pollsterSlug": "cnt-mda",
+      "weightedWeight": 0.0126287322217049,
+      "spreadError": 7.57,
+      "historicalWeightFactor": 0.85,
+      "calibratedWeight": 0.0109279819607693,
+      "variationPercentagePoints": -0.17007502609356
+    }
+  ],
+  "checks": {
+    "percentagesUnchanged": true,
+    "historicalFactorsWithinBounds": true,
+    "ipespeFactor": 1,
+    "sumWeights": "1.0000000000000000",
+    "weightTolerance": "1e-12",
+    "capRespected": true
+  },
+  "configurationWarning": null,
+  "keyAlignment": "Padronizada antes da importação: 2026-PRESIDENT-BR -> BR-PRESIDENT-2026. Configuração do sistema preservada.",
+  "realImportEvidenceFile": "data/pollster-performance.real.2026-first-round.import.json"
+}

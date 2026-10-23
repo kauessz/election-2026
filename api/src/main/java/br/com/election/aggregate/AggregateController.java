@@ -35,8 +35,9 @@ public class AggregateController {
     public List<SnapshotResponse> history(@RequestParam(required=false) AggregateMethod method) { return snapshots.history(method); }
 
     @PostMapping("/api/admin/aggregates/snapshot")
-    public List<SnapshotResponse> snapshot(@RequestParam(required=false) @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate referenceDate) {
-        return snapshots.create(reference(referenceDate));
+    public List<SnapshotResponse> snapshot(@RequestParam(required=false) @DateTimeFormat(iso=DateTimeFormat.ISO.DATE) LocalDate referenceDate,
+        @RequestParam(required=false) AggregateMethod method) {
+        return snapshots.create(reference(referenceDate), method);
     }
     private LocalDate reference(LocalDate date) { return date == null ? service.today() : date; }
 }

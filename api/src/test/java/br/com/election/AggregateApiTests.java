@@ -204,4 +204,25 @@ class AggregateApiTests {
             assertThat(statistics.getPrepareStatementCount()).isEqualTo(5);
         } finally { statistics.setStatisticsEnabled(false); }
     }
+    @Test void snapshotCanSelectOnlyCalibratedAndKeepPreviousHistory() throws Exception {
+        poll(pollsters.getFirst(), "60");
+        var previous = snapshots.create(REFERENCE);
+        clock.advanceMinute();
+        mvc.perform(post("/api/admin/aggregates/snapshot").param("method", "CALIBRATED"))
+            .andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(1)))
+            .andExpect(jsonPath("$[0].method").value("CALIBRATED"));
+        assertThat(snapshots.history(null)).hasSize(5).containsAll(previous);
+        assertThat(snapshots.history(AggregateMethod.CALIBRATED)).hasSize(2);
+        for (var method : List.of(AggregateMethod.SIMPLE, AggregateMethod.RECENCY, AggregateMethod.WEIGHTED))
+            assertThat(snapshots.history(method)).hasSize(1);
+        var again = snapshots.create(REFERENCE, AggregateMethod.CALIBRATED);
+        assertThat(snapshots.history(null)).hasSize(5);
+        assertThat(again.getFirst()).isEqualTo(snapshots.history(AggregateMethod.CALIBRATED).getLast());
+    }
+    @Test void selectedSnapshotRejectsInvalidMethodAndEmptyPolls() throws Exception {
+        mvc.perform(post("/api/admin/aggregates/snapshot").param("method", "CALIBRATED")).andExpect(status().isBadRequest());
+        poll(pollsters.getFirst(), "60");
+        mvc.perform(post("/api/admin/aggregates/snapshot").param("method", "UNKNOWN")).andExpect(status().isBadRequest());
+        assertThat(snapshots.history(null)).isEmpty();
+    }
 }

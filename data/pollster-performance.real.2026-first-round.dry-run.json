@@ -1,0 +1,1042 @@
+{
+  "endpoint": "POST /api/admin/pollster-performances/import?dryRun=true",
+  "sha256": "6a77b734912918588eb48653429cb0d6ed47e617d637c3152a8039845f032cfd",
+  "calculations": [
+    {
+      "pollsterSlug": "verita",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 45,
+            "actual": 45.16,
+            "absoluteError": 0.16
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 47,
+            "actual": 47.03,
+            "absoluteError": 0.03
+          }
+        ],
+        "candidateError": 0.03,
+        "predictedSpread": 2,
+        "actualSpread": 1.87,
+        "spreadError": 0.13,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 0.1
+    },
+    {
+      "pollsterSlug": "gerp",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 45.4
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 43.3
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 43.3,
+            "actual": 45.16,
+            "absoluteError": 1.86
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 45.4,
+            "actual": 47.03,
+            "absoluteError": 1.63
+          }
+        ],
+        "candidateError": 1.63,
+        "predictedSpread": 2.1,
+        "actualSpread": 1.87,
+        "spreadError": 0.23,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 0.2
+    },
+    {
+      "pollsterSlug": "futura",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 44.8
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 42.6
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 42.6,
+            "actual": 45.16,
+            "absoluteError": 2.56
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 44.8,
+            "actual": 47.03,
+            "absoluteError": 2.23
+          }
+        ],
+        "candidateError": 2.23,
+        "predictedSpread": 2.2,
+        "actualSpread": 1.87,
+        "spreadError": 0.33,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 0.3
+    },
+    {
+      "pollsterSlug": "vox-brasil",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 45.9
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 45,
+            "actual": 45.16,
+            "absoluteError": 0.16
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 45.9,
+            "actual": 47.03,
+            "absoluteError": 1.13
+          }
+        ],
+        "candidateError": 1.13,
+        "predictedSpread": 0.9,
+        "actualSpread": 1.87,
+        "spreadError": 0.97,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 1
+    },
+    {
+      "pollsterSlug": "palver",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.5
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 43.4
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 43.4,
+            "actual": 45.16,
+            "absoluteError": 1.76
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 47.5,
+            "actual": 47.03,
+            "absoluteError": 0.47
+          }
+        ],
+        "candidateError": 0.47,
+        "predictedSpread": 4.1,
+        "actualSpread": 1.87,
+        "spreadError": 2.23,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 2.2
+    },
+    {
+      "pollsterSlug": "meio-ideia",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 39.1
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 40.1
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 40.1,
+            "actual": 45.16,
+            "absoluteError": 5.06
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 39.1,
+            "actual": 47.03,
+            "absoluteError": 7.93
+          }
+        ],
+        "candidateError": 7.93,
+        "predictedSpread": -1.0,
+        "actualSpread": 1.87,
+        "spreadError": 2.87,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 2.9
+    },
+    {
+      "pollsterSlug": "poderdata",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 44.1
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.2
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 45.2,
+            "actual": 45.16,
+            "absoluteError": 0.04
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 44.1,
+            "actual": 47.03,
+            "absoluteError": 2.93
+          }
+        ],
+        "candidateError": 2.93,
+        "predictedSpread": -1.1,
+        "actualSpread": 1.87,
+        "spreadError": 2.97,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 2.9
+    },
+    {
+      "pollsterSlug": "datafolha",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 43.5
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.7
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 45.7,
+            "actual": 45.16,
+            "absoluteError": 0.54
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 43.5,
+            "actual": 47.03,
+            "absoluteError": 3.53
+          }
+        ],
+        "candidateError": 3.53,
+        "predictedSpread": -2.2,
+        "actualSpread": 1.87,
+        "spreadError": 4.07,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 4
+    },
+    {
+      "pollsterSlug": "quaest",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 43.7
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 46
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 46,
+            "actual": 45.16,
+            "absoluteError": 0.84
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 43.7,
+            "actual": 47.03,
+            "absoluteError": 3.33
+          }
+        ],
+        "candidateError": 3.33,
+        "predictedSpread": -2.3,
+        "actualSpread": 1.87,
+        "spreadError": 4.17,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 4.2
+    },
+    {
+      "pollsterSlug": "atlasintel",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 44.1
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 47
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 47,
+            "actual": 45.16,
+            "absoluteError": 1.84
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 44.1,
+            "actual": 47.03,
+            "absoluteError": 2.93
+          }
+        ],
+        "candidateError": 2.93,
+        "predictedSpread": -2.9,
+        "actualSpread": 1.87,
+        "spreadError": 4.77,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 4.8
+    },
+    {
+      "pollsterSlug": "instituto-franca",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 40.5
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 43.9
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 43.9,
+            "actual": 45.16,
+            "absoluteError": 1.26
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 40.5,
+            "actual": 47.03,
+            "absoluteError": 6.53
+          }
+        ],
+        "candidateError": 6.53,
+        "predictedSpread": -3.4,
+        "actualSpread": 1.87,
+        "spreadError": 5.27,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 5.3
+    },
+    {
+      "pollsterSlug": "real-time-big-data",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 40
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 44.1
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 44.1,
+            "actual": 45.16,
+            "absoluteError": 1.06
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 40,
+            "actual": 47.03,
+            "absoluteError": 7.03
+          }
+        ],
+        "candidateError": 7.03,
+        "predictedSpread": -4.1,
+        "actualSpread": 1.87,
+        "spreadError": 5.97,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 6
+    },
+    {
+      "pollsterSlug": "datatrends",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 39.8
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 44.3
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 44.3,
+            "actual": 45.16,
+            "absoluteError": 0.86
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 39.8,
+            "actual": 47.03,
+            "absoluteError": 7.23
+          }
+        ],
+        "candidateError": 7.23,
+        "predictedSpread": -4.5,
+        "actualSpread": 1.87,
+        "spreadError": 6.37,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 6.4
+    },
+    {
+      "pollsterSlug": "nexus",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 39
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 44.2
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 44.2,
+            "actual": 45.16,
+            "absoluteError": 0.96
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 39,
+            "actual": 47.03,
+            "absoluteError": 8.03
+          }
+        ],
+        "candidateError": 8.03,
+        "predictedSpread": -5.2,
+        "actualSpread": 1.87,
+        "spreadError": 7.07,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 7.1
+    },
+    {
+      "pollsterSlug": "cnt-mda",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 42.5
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 48.2
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 48.2,
+            "actual": 45.16,
+            "absoluteError": 3.04
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 42.5,
+            "actual": 47.03,
+            "absoluteError": 4.53
+          }
+        ],
+        "candidateError": 4.53,
+        "predictedSpread": -5.7,
+        "actualSpread": 1.87,
+        "spreadError": 7.57,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 7.6
+    },
+    {
+      "pollsterSlug": "indexa",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 40
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.9
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 45.9,
+            "actual": 45.16,
+            "absoluteError": 0.74
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 40,
+            "actual": 47.03,
+            "absoluteError": 7.03
+          }
+        ],
+        "candidateError": 7.03,
+        "predictedSpread": -5.9,
+        "actualSpread": 1.87,
+        "spreadError": 7.77,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 7.8
+    },
+    {
+      "pollsterSlug": "alfa-inteligencia",
+      "request": {
+        "candidateA": 22,
+        "candidateB": 13,
+        "officialFinal": true,
+        "completeCandidateSet": false,
+        "predictedCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 36.1
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 43.7
+          }
+        ],
+        "actualCandidateResults": [
+          {
+            "ballotNumber": 22,
+            "percentage": 47.03
+          },
+          {
+            "ballotNumber": 13,
+            "percentage": 45.16
+          }
+        ]
+      },
+      "response": {
+        "pollId": null,
+        "candidateErrors": [
+          {
+            "ballotNumber": 13,
+            "predicted": 43.7,
+            "actual": 45.16,
+            "absoluteError": 1.46
+          },
+          {
+            "ballotNumber": 22,
+            "predicted": 36.1,
+            "actual": 47.03,
+            "absoluteError": 10.93
+          }
+        ],
+        "candidateError": 10.93,
+        "predictedSpread": -7.6,
+        "actualSpread": 1.87,
+        "spreadError": 9.47,
+        "persisted": false
+      },
+      "expectedApproxSpreadError": 9.5
+    }
+  ],
+  "report": {
+    "dryRun": true,
+    "created": 17,
+    "updated": 0,
+    "unchanged": 0,
+    "failed": 0,
+    "details": [
+      {
+        "index": 0,
+        "status": "CREATED",
+        "id": null,
+        "key": "86080655-4b86-46a4-9eac-b99a7031e1c2|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 1,
+        "status": "CREATED",
+        "id": null,
+        "key": "ee8dea57-0a3c-4c7d-9c71-8b62e3b2b841|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 2,
+        "status": "CREATED",
+        "id": null,
+        "key": "8833f3a7-4c69-4dc9-8417-8bcc6cfcc599|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 3,
+        "status": "CREATED",
+        "id": null,
+        "key": "6f42b3b2-2e72-4fe0-ae43-b2b8a347848b|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 4,
+        "status": "CREATED",
+        "id": null,
+        "key": "0c59cf9d-ba28-4891-a85d-81cf6b92a1f6|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 5,
+        "status": "CREATED",
+        "id": null,
+        "key": "a4e87d53-71e6-4e27-b2cc-4ea7456dd624|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 6,
+        "status": "CREATED",
+        "id": null,
+        "key": "7b140640-a349-43e9-935e-89fed4c8e513|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 7,
+        "status": "CREATED",
+        "id": null,
+        "key": "db1181ee-ba4a-46a9-bc1d-3b38f2dc1d63|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 8,
+        "status": "CREATED",
+        "id": null,
+        "key": "d998ad3a-1f9d-4d28-8d98-d3f0c5a13a81|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 9,
+        "status": "CREATED",
+        "id": null,
+        "key": "5952cab4-3c47-42ed-ab37-8bf8ec31938f|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 10,
+        "status": "CREATED",
+        "id": null,
+        "key": "2bbba3cf-3be8-40b0-8e78-b0806c45eeaf|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 11,
+        "status": "CREATED",
+        "id": null,
+        "key": "430afcc7-adb5-4e71-8a1d-73ed9b5025e5|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 12,
+        "status": "CREATED",
+        "id": null,
+        "key": "2972d3cf-ecb1-415e-abfa-250662badcd8|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 13,
+        "status": "CREATED",
+        "id": null,
+        "key": "aed187e8-07e7-484b-a9f4-3248abe277c4|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 14,
+        "status": "CREATED",
+        "id": null,
+        "key": "5b15d68d-6f9e-48d2-9fa2-ee076309f10d|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 15,
+        "status": "CREATED",
+        "id": null,
+        "key": "cbc2a235-bfde-4991-9cc4-15548e43da46|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      },
+      {
+        "index": 16,
+        "status": "CREATED",
+        "id": null,
+        "key": "7d9c0427-64c2-4f84-a2bb-624b893caac0|BR-PRESIDENT-2026|1",
+        "normalized": null,
+        "message": null
+      }
+    ]
+  },
+  "persistenceChecks": {
+    "pollsUnchanged": true,
+    "performancesStillEmpty": true,
+    "snapshotsUnchanged": true,
+    "freezeAbsent": true
+  },
+  "electionKey": "BR-PRESIDENT-2026"
+}
