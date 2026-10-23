@@ -1,0 +1,15 @@
+INSERT INTO pollsters (name, slug) VALUES
+('Datafolha', 'datafolha'),
+('Quaest', 'quaest'),
+('Veritá', 'verita'),
+('AtlasIntel', 'atlasintel'),
+('PoderData', 'poderdata'),
+('Gerp', 'gerp'),
+('Futura', 'futura'),
+('Real Time Big Data', 'real-time-big-data'),
+('Indexa', 'indexa'),
+('Nexus', 'nexus'),
+('Paraná Pesquisas', 'parana-pesquisas'),
+('CNT/MDA', 'cnt-mda'),
+('Ipespe', 'ipespe'),
+('Palver', 'palver');
