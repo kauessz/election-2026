@@ -46,6 +46,7 @@ public class OfficialResultsService {
    stale|=c.result.generatedAt().plus(p.staleThreshold()).isBefore(clock.instant());
   return stale?OfficialDataStatus.STALE:OfficialSnapshotStore.intrinsicStatus(c.result);
  }
+ public void refreshOverseas(){refresh(Scope.overseas(),urls.overseas());}
  public void refreshNational(){refresh(Scope.national(),urls.national());}
  public void refreshState(BrazilState uf){refresh(Scope.state(uf),urls.state(uf));}
  void refresh(Scope scope,String path){

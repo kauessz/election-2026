@@ -49,3 +49,14 @@ tse:
     municipality-interval: ${TSE_RESULTS_MUNICIPALITY_INTERVAL:30s}
     minimum-request-interval: ${TSE_RESULTS_MINIMUM_REQUEST_INTERVAL:500ms}
     scheduling-enabled: ${TSE_RESULTS_SCHEDULING_ENABLED:true}
+
+election:
+  projection:
+    enabled: ${ELECTION_PROJECTION_ENABLED:true}
+    prior-equivalent-progress: ${ELECTION_PROJECTION_PRIOR_EQUIVALENT_PROGRESS:0.05}
+    minimum-national-electorate-progress: ${ELECTION_PROJECTION_MINIMUM_NATIONAL_ELECTORATE_PROGRESS:0.05}
+    minimum-states-with-data: ${ELECTION_PROJECTION_MINIMUM_STATES_WITH_DATA:10}
+    high-coverage-progress: ${ELECTION_PROJECTION_HIGH_COVERAGE_PROGRESS:0.80}
+    minimum-observed-progress-without-baseline: ${ELECTION_PROJECTION_MINIMUM_OBSERVED_PROGRESS_WITHOUT_BASELINE:0.80}
+    minimum-regions-with-data: ${ELECTION_PROJECTION_MINIMUM_REGIONS_WITH_DATA:4}
+    minimum-key-states-with-data: ${ELECTION_PROJECTION_MINIMUM_KEY_STATES_WITH_DATA:3}

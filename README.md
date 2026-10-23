@@ -49,7 +49,7 @@ npm run dev
 
 Variáveis opcionais da API: `DATABASE_URL` (JDBC), `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `PORT`. Para o frontend, copie `web/.env.example` para `web/.env.local`; `NEXT_PUBLIC_API_URL` usa `http://localhost:8081` como fallback. Reinicie o Next.js após alterar as variáveis.
 
-Flyway aplica V1–V10 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
+Flyway aplica V1–V11 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
 
 ## Uso
 
@@ -58,7 +58,7 @@ Flyway aplica V1–V10 automaticamente. Hibernate apenas valida o schema (`ddl-a
 - `/admin/pesquisas`: cadastro, edição e exclusão de pesquisas. Os candidatos e institutos são carregados da API.
 - `/admin/institutos`: cadastro/edição de desempenho histórico e botão para salvar snapshots dos quatro modelos.
 - `/metodologia`: regras efetivamente implementadas.
-- `/apuracao`: dashboard oficial TSE, histórico, estados e busca de municípios, sem projeções.
+- `/apuracao`: dados oficiais TSE, ritmo dos votos e projeção territorial própria em cards distintos, estados e busca municipal.
 
 O admin e os endpoints de escrita não têm autenticação, conforme o escopo desta fase. O horário de cadastro usa o fuso do dispositivo e é enviado como um instante UTC; a publicação é exibida em `America/Sao_Paulo`. Datas de campo não sofrem conversão de fuso.
 
@@ -200,3 +200,20 @@ Configuração completa em `api/src/main/resources/application.yaml` (`tse.resul
 Endpoints GET em `/api/election`: `/president`, `/president/states`, `/president/states/{uf}`, `/president/municipalities`, `/president/states/{uf}/municipalities`, `/president/states/{uf}/municipalities/{municipalityCode}`, `/president/history?from=&to=&limit=`, `/source-status`.
 
 [Contratos, campos oficiais, disponibilidade, configuração e estratégia territorial](docs/tse-results-integration.md). Fixtures reais versionadas e cenários sintéticos identificados em `api/src/test/resources/tse/`. Testes HTTP executam exclusivamente contra servidor local.
+
+
+## Fase 4 — Ritmo e projeção territorial
+
+Modelo próprio `STATE_SHRINKAGE_V1`, separado do TSE e do agregador de pesquisas. Combina o share entre os candidatos 13/22 no primeiro turno oficial (6257) com votos observados por UF no segundo turno, usando eleitorado das seções totalizadas como progresso. Estima votos válidos e soma as 27 UFs; não extrapola o percentual nacional parcial; soma apenas votos oficiais observados do exterior, sem projetar votos restantes. Em 100% estadual usa votos observados exatamente; no encerramento oficial nacional, converge ao resultado nacional do TSE, incluindo exterior.
+
+V11 adiciona `election_baselines` e `projection_snapshots`. Baseline é carregado somente por `POST /api/admin/election-baselines/first-round/sync` (Brasil + 27 UFs; timeout recomendado 240s) e funciona offline depois. Não há sync recorrente. Consulte o resumo de sucessos/falhas e audite em `GET /api/admin/election-baselines/first-round`.
+
+Novos GETs: `/api/election/president/trend`, `/remaining`, `/projection`, `/projection/history`, todos sob o prefixo `/api/election/president`. O ritmo usa deltas consecutivos válidos de 5/15/30min; pendências usam eleitorado, sem inventar votos futuros. Projeção é publicada apenas após 5% do eleitorado nacional representado, dez UFs com votos, quatro das cinco regiões, três dos seis estados-chave (SP, MG, RJ, BA, PR, RS) e cobertura territorial suficiente. Faltas de baseline/dados são informadas.
+
+Configuração validada `election.projection` em `application.yaml`, com overrides `ELECTION_PROJECTION_*`. `ELECTION_PROJECTION_ENABLED=false` suspende publicação/snapshots e preserva os endpoints oficiais. O scheduler de análises não chama a rede; utiliza os snapshots já coletados e não roda nos testes por padrão.
+
+[Modelo, fórmulas, convergência, replay sem look-ahead, endpoints e limitações](docs/election-projection-model.md). Não há probabilidade eleitoral, chamada de eleição ou declaração de vencedor. A ordem de entrada das seções dentro de uma UF pode enviesar a estimativa.
+
+## Fase 5 — dados e freeze
+
+Importação administrativa em lote com dry run, qualidade, auditoria e congelamento imutável dos quatro modelos. Use `/admin/importacao` e `/admin/freeze`. Nenhuma pesquisa real ou freeze é criado automaticamente. Formatos e operação: [docs/data-import.md](docs/data-import.md) e [docs/pre-election-freeze.md](docs/pre-election-freeze.md). Exemplos fictícios em `data/`; fontes reais privadas podem ficar em `data/private/`. Fórmulas estatísticas preservadas.

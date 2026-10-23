@@ -138,3 +138,7 @@ Validação manual em 23/10/2026: PostgreSQL local saudável, Flyway V10, API re
 - Zona tem contrato/builder documentados/testados; coleta e interface de zona ficam para a próxima fase.
 - Não interpretar demais campos compactos sem necessidade/documentação. Nenhum campo atualmente exposto permanece com semântica presumida; não usar `and`, `md` ou `idg` para decidir vencedor/finalização/ordem.
 - Não há coordenação distribuída de rate limit nem retenção automática/expurgo de snapshots nesta fase. Uma instância coletora e PostgreSQL são os componentes operacionais previstos.
+
+### Complemento conservador da Fase 4 — exterior
+
+O EA20 `/oficial/ele2026/6258/dados/zz/zz-c0001-e006258-u.json` foi confirmado por HTTP 200 em 23/10/2026: tipo técnico `uf`, código `zz`, presidencial do segundo turno oficial. É coletado a cada 30s pelo mesmo cliente/orçamento global e persistido como STATE/ZZ, separado das 27 UFs brasileiras. A projeção incorpora apenas votos observados; não há baseline nem extrapolação do exterior. A ausência de ZZ não reduz a cobertura das UFs.

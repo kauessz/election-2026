@@ -19,7 +19,13 @@ public class PollsterPerformanceService {
     public List<PollsterPerformanceResponse> list() { return repository.findAllByOrderByElectionKeyDescRoundAscCreatedAtDesc().stream().map(this::response).toList(); }
     @Transactional public PollsterPerformanceResponse create(PollsterPerformanceRequest request) { return save(new PollsterPerformance(), request); }
     @Transactional public PollsterPerformanceResponse update(UUID id, PollsterPerformanceRequest request) {
-        return save(repository.findById(id).orElseThrow(() -> new NotFoundException("Desempenho histórico não encontrado.")), request);
+        var existing=repository.findById(id).orElseThrow(() -> new NotFoundException("Desempenho histórico não encontrado."));
+        existing.setVerifiedAt(null);
+        return save(existing, request);
+    }
+    @Transactional public PollsterPerformanceResponse importAudited(UUID id, PollsterPerformanceRequest request, String notes, java.time.Instant verifiedAt) {
+        var p=id==null?new PollsterPerformance():repository.findById(id).orElseThrow();
+        p.setNotes(notes);p.setVerifiedAt(verifiedAt);return save(p,request);
     }
     private PollsterPerformanceResponse save(PollsterPerformance p, PollsterPerformanceRequest r) {
         p.setPollster(pollsters.findById(r.pollsterId()).orElseThrow(() -> new NotFoundException("Instituto não encontrado.")));
@@ -30,6 +36,6 @@ public class PollsterPerformanceService {
     }
     private PollsterPerformanceResponse response(PollsterPerformance p) {
         return new PollsterPerformanceResponse(p.getId(), PollsterResponse.from(p.getPollster()), p.getElectionKey(), p.getRound(),
-            p.getCandidateError(), p.getSpreadError(), scoring.factor(p.getSpreadError()), p.getSourceUrl(), p.getSourceDescription(), p.getUpdatedAt());
+            p.getCandidateError(), p.getSpreadError(), scoring.factor(p.getSpreadError()), p.getSourceUrl(), p.getSourceDescription(), p.getUpdatedAt(), p.getVerifiedAt(), p.getNotes());
     }
 }

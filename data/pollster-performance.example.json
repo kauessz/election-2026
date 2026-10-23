@@ -1,0 +1,15 @@
+{
+  "_description": "EXEMPLO FICTÍCIO. Erros ilustrativos, sem desempenho eleitoral real.",
+  "performances": [
+    {
+      "pollsterSlug": "instituto-ficticio-exemplo",
+      "electionKey": "ELEICAO-FICTICIA-2000",
+      "round": 1,
+      "candidateError": 2,
+      "spreadError": 4,
+      "sourceUrl": "https://example.org/desempenho-ficticio",
+      "sourceDescription": "Exemplo didático; não usar em produção.",
+      "notes": "Números sintéticos para documentação, não evidência de desempenho."
+    }
+  ]
+}

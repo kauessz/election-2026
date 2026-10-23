@@ -22,6 +22,12 @@ public class PollsterPerformance extends TimestampedEntity {
     private String sourceUrl;
     @Column(length = 2000)
     private String sourceDescription;
+    private Instant verifiedAt;
+    @Column(length=5000) private String notes;
+    public Instant getVerifiedAt(){return verifiedAt;}
+    public void setVerifiedAt(Instant v){verifiedAt=v;}
+    public String getNotes(){return notes;}
+    public void setNotes(String v){notes=v;}
     public PollsterPerformance() {}
     public Pollster getPollster() { return pollster; }
     public void setPollster(Pollster value) { this.pollster = value; }

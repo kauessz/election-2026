@@ -32,8 +32,8 @@ export function Header() {
             </Link>
           ))}
         </nav>
-        <Link href="/admin/pesquisas" className="admin-link">
-          Cadastrar pesquisa <ArrowUpRight size={15} />
+        <Link href="/admin/importacao" className="admin-link">
+          Administrar dados <ArrowUpRight size={15} />
         </Link>
       </div>
     </header>

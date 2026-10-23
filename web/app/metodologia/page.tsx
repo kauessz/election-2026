@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 
 export const metadata = { title: "Metodologia" };
@@ -112,8 +113,10 @@ export default function MethodologyPage() {
           <p>Os modelos não calculam probabilidade de vitória.</p>
         </aside>
         <article className="prose-content">
+          <section id="freeze" className="section"><h2>Modelo pré-eleição congelado</h2><p>Após revisão das fontes e da qualidade, o freeze preserva os quatro agregados, configuração, pesquisas e desempenho histórico usados. Novas pesquisas podem alterar os agregados live, mas nunca o freeze. A composição e suas fontes aparecem junto ao modelo congelado na página inicial.</p><p>Na apuração parcial mostramos diferença atual (currentDifference). Somente após a finalização oficial do TSE mostramos erro final (finalError). O modelo congelado não é resultado oficial nem chamada de vencedor.</p><Link href="/#composicao-freeze" className="text-link">Ver composição congelada na home</Link></section>
           {sections.map((section, i) => (
-            <section key={section.title}>
+
+      <section key={section.title}>
               <span className="section-kicker">
                 {String(i + 1).padStart(2, "0")} / MODELO TRANSPARENTE
               </span>
@@ -135,6 +138,16 @@ export default function MethodologyPage() {
             <p>O percentual do candidato no EA20 é calculado pelo TSE sobre votos a votáveis concorrentes, que podem incluir votos anulados ou sub judice. Votos válidos, brancos e nulos são apresentados nos totais próprios. O sinal oficial de totalização final, e não apenas 100% das seções, define a conclusão.</p>
             <p>Antes da totalização, os percentuais principais aparecem como traço. Se a fonte não puder ser atualizada, mantemos o último dado válido e sinalizamos desatualização. O histórico mostra somente arquivos oficiais recebidos; não é uma projeção de resultado.</p>
             <p><a className="text-link" href="https://www.tse.jus.br/eleicoes/informacoes-tecnicas-sobre-a-divulgacao-de-resultados" target="_blank" rel="noopener noreferrer">Documentação técnica oficial do TSE</a></p>
+          </section>
+          <section id="projecao-apuracao">
+            <span className="section-kicker">MODELO PRÓPRIO / STATE_SHRINKAGE_V1</span>
+            <h2>Projeção durante a apuração</h2>
+            <p>Resultado oficial é o que o TSE publicou. Ritmo descreve somente os votos adicionados entre arquivos oficiais consecutivos nas últimas janelas de 5, 15 e 30 minutos. Projeção é uma estimativa própria, separada dos dois e sem declarar vencedor ou chance de vitória.</p>
+            <p>O ponto de partida de cada UF é o resultado final oficial do primeiro turno (eleição 6257): normalizamos os votos dos candidatos 13 e 22 entre os dois. Isso não supõe transferência perfeita dos votos dos demais candidatos. A projeção nacional soma estimativas estaduais, sem extrapolar o percentual nacional parcial.</p>
+            <p>Usamos o eleitorado das seções totalizadas para medir progresso. Com o padrão de prior equivalente a 5% do eleitorado, o peso observado é 50% quando 5% está representado e 80% quando 20% está representado. O mesmo peso combina a taxa de votos válidos observada e a do primeiro turno. Em 100%, usamos os votos observados exatamente.</p>
+            <p>Publicamos apenas após 5% do eleitorado nacional representado, pelo menos 10 UFs com votos, 4 das 5 regiões e 3 dos estados SP, MG, RJ, BA, PR e RS, além de cobertura territorial suficiente. Baixa, média e alta são faixas de cobertura do eleitorado, não probabilidades de acerto. Falta de baseline e dados indisponíveis são informados; fonte nacional desatualizada suspende a apresentação da projeção.</p>
+            <p>O modelo não sabe quais seções específicas ainda vão entrar dentro de uma UF e pode sofrer viés por ordem de totalização. Mudanças de comparecimento, votos inválidos e transferência entre turnos também limitam a estimativa. O modelo territorial contempla 27 UFs, acrescentando apenas votos oficialmente observados do exterior, sem estimar seus votos restantes; no encerramento oficial nacional, o resultado exibido converge ao TSE, incluindo o exterior.</p>
+            <p>O ritmo soma apenas intervalos completos dentro de cada janela. Não interpolamos votos em intervalos cortados pela borda, não extrapolamos períodos sem coleta e descartamos deltas regressivos ou incompatíveis. Eleitorado pendente inclui pessoas que podem se abster ou votar branco/nulo; não equivale a votos válidos restantes.</p>
           </section>
         </article>
       </div>

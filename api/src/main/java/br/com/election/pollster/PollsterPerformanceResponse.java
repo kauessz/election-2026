@@ -6,4 +6,4 @@ import java.util.UUID;
 
 public record PollsterPerformanceResponse(UUID id, PollsterResponse pollster, String electionKey, Integer round,
     BigDecimal candidateError, BigDecimal spreadError, BigDecimal historicalScore,
-    String sourceUrl, String sourceDescription, Instant updatedAt) {}
+    String sourceUrl, String sourceDescription, Instant updatedAt, Instant verifiedAt, String notes) {}

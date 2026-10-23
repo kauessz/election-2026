@@ -7,6 +7,7 @@ public record OfficialElectionResult(String electionId, int round, Scope scope, 
  List<CandidateResult> candidates, List<String> warnings) {
  public record Scope(ElectionScopeType type, String code, String name) {
   public static Scope national() { return new Scope(ElectionScopeType.NATIONAL,"BR","Brasil"); }
+  public static Scope overseas() { return new Scope(ElectionScopeType.STATE,"ZZ","Exterior"); }
   public static Scope state(BrazilState uf) { return new Scope(ElectionScopeType.STATE,uf.name(),uf.displayName); }
  }
  public record Sections(Long total, Long totalized, BigDecimal percentageTotalized, Long notTotalized) {}

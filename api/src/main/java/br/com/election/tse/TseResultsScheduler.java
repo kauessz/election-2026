@@ -15,6 +15,8 @@ public class TseResultsScheduler {
  // TODO EA14 -> EA15 -> EA20: validate live change-file contracts before implementing selective refresh.
  @Scheduled(fixedDelayString="${tse.results.state-interval:1s}",initialDelayString="3s")
  public void states(){service.refreshState(BrazilState.values()[stateIndex++ % BrazilState.values().length]);}
+ @Scheduled(fixedDelayString="30s",initialDelayString="2s")
+ public void overseas(){service.refreshOverseas();}
  @Scheduled(fixedDelayString="1m",initialDelayString="1s")
  public void municipalities(){service.refreshCatalogue();}
 }

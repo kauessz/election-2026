@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./election-analytics.css";
+import "./pre-election.css";
 import { Header } from "@/components/header";
 import Link from "next/link";
 

@@ -1,0 +1,27 @@
+{
+  "_description": "EXEMPLO FICTÍCIO. Não representa pesquisa real. Slug e candidatos devem ser cadastrados somente em ambiente de teste.",
+  "polls": [
+    {
+      "pollsterSlug": "instituto-ficticio-exemplo",
+      "tseRegistrationNumber": null,
+      "fieldStart": "2000-01-01",
+      "fieldEnd": "2000-01-02",
+      "publishedAt": "2000-01-03T12:00:00Z",
+      "sampleSize": 1000,
+      "marginOfError": 3,
+      "methodology": "EXEMPLO FICTÍCIO para demonstrar formato, sem evidência eleitoral.",
+      "sourceUrl": "https://example.org/exemplo-ficticio",
+      "voteBasis": "TOTAL",
+      "candidateResults": [
+        {
+          "ballotNumber": 9001,
+          "percentage": 40
+        },
+        {
+          "ballotNumber": 9002,
+          "percentage": 35
+        }
+      ]
+    }
+  ]
+}

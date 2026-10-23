@@ -1,2 +1,5 @@
 # Local execution logs
 *.log
+
+# Unversioned sourced electoral input files
+/data/private/

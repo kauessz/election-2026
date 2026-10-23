@@ -13,9 +13,10 @@ public class PollService {
     private final PollsterRepository pollsters;
     private final CandidateRepository candidates;
     private final PollNormalizationService normalization;
+    private final jakarta.validation.Validator validator;
     public PollService(PollRepository polls, PollResultRepository results, PollsterRepository pollsters,
-        CandidateRepository candidates, PollNormalizationService normalization) {
-        this.polls = polls; this.results = results; this.pollsters = pollsters; this.candidates = candidates; this.normalization = normalization;
+        CandidateRepository candidates, PollNormalizationService normalization, jakarta.validation.Validator validator) {
+        this.polls = polls; this.results = results; this.pollsters = pollsters; this.candidates = candidates; this.normalization = normalization; this.validator=validator;
     }
     public List<PollResponse> list() { return responses(polls.findAllByOrderByPublishedAtDescFieldEndDescCreatedAtDescIdDesc()); }
     public List<PollResponse> latest() { return responses(polls.findLatestByPollster()); }
@@ -37,11 +38,19 @@ public class PollService {
             .collect(java.util.stream.Collectors.groupingBy(PollResult::getPollId));
         return ids.stream().map(id -> PollResponse.from(fetched.get(id), grouped.getOrDefault(id, List.of()))).toList();
     }
-    private PollResponse save(Poll poll, PollRequest r) {
+    public List<java.math.BigDecimal> validateAndNormalize(PollRequest r) {
+        var errors=validator.validate(r);
+        if(!errors.isEmpty()) throw new IllegalArgumentException(errors.stream().map(e->e.getPropertyPath()+": "+e.getMessage()).sorted().collect(java.util.stream.Collectors.joining("; ")));
         if (r.fieldEnd().isBefore(r.fieldStart())) throw new IllegalArgumentException("O fim do campo não pode ser anterior ao início.");
         Set<UUID> ids = new HashSet<>();
         for (PollRequest.Result result : r.results()) if (!ids.add(result.candidateId())) throw new IllegalArgumentException("Candidato repetido na pesquisa.");
         var normalized = normalization.normalize(r.voteBasis(), r.results().stream().map(PollRequest.Result::originalPercentage).toList());
+        if(!pollsters.existsById(r.pollsterId())) throw new NotFoundException("Instituto não encontrado.");
+        for(var item:r.results()) if(!candidates.existsById(item.candidateId())) throw new NotFoundException("Candidato não encontrado.");
+        return normalized;
+    }
+    private PollResponse save(Poll poll, PollRequest r) {
+        var normalized=validateAndNormalize(r);
         poll.setPollster(pollsters.findById(r.pollsterId()).orElseThrow(() -> new NotFoundException("Instituto não encontrado.")));
         poll.setTseRegistrationNumber(r.registrationNumber()); poll.setFieldStart(r.fieldStart()); poll.setFieldEnd(r.fieldEnd());
         poll.setPublishedAt(r.publishedAt()); poll.setSampleSize(r.sampleSize()); poll.setMarginOfError(r.marginOfError());

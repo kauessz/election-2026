@@ -1,4 +1,5 @@
 "use client";
+import { PostFreezeNotice } from "@/components/pre-election-freeze";
 import { FormEvent, useRef, useState } from "react";
 import Link from "next/link";
 import { Save, Info } from "lucide-react";
@@ -86,6 +87,7 @@ function PollForm({
   }
   return (
     <form ref={form} onSubmit={submit} className="poll-form">
+      <PostFreezeNotice />
       <fieldset disabled={saving}>
         <div className="form-section">
           <span className="section-kicker">01 / IDENTIFICAÇÃO</span>
