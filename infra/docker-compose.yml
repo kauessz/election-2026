@@ -1,0 +1,22 @@
+name: election-2026
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: election-postgres
+    environment:
+      POSTGRES_DB: election
+      POSTGRES_USER: election
+      POSTGRES_PASSWORD: election
+    ports:
+      - "5433:5432"
+    volumes:
+      - election_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U election -d election"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  election_postgres_data:
