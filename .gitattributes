@@ -1,0 +1,2 @@
+# Preserve exact captured TSE bytes, including original whitespace and LF.
+api/src/test/resources/tse/*-official.json -text -whitespace

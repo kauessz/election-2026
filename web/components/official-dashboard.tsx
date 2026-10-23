@@ -1,0 +1,72 @@
+"use client";
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { ArrowRight, Search, Radio, RefreshCw } from "lucide-react";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { OfficialResponse, OfficialResult, OfficialStatus, Municipality, hasCounting, municipalityIndex, useOfficialPolling } from "@/lib/official-api";
+import { apiError } from "@/lib/api";
+const fmt = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 2 });
+const colors = ["#475569", "#946f48", "#65786d"];
+function n(value: number | null | undefined) { return value == null ? "—" : fmt.format(value); }
+function timestamp(value: string | null | undefined) { return value ? new Date(value).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" }) + " (Brasília)" : "—"; }
+const labels: Record<OfficialStatus, string> = { NOT_STARTED: "AGUARDANDO", FRESH: "AO VIVO", STALE: "DADOS DESATUALIZADOS", UNAVAILABLE: "FONTE INDISPONÍVEL", FINAL: "FINALIZADO" };
+export function Status({ status }: { status: OfficialStatus }) { return <Badge variant="outline" className={`official-status status-${status.toLowerCase()}`}><Radio size={13} />{labels[status]}</Badge>; }
+export function OfficialSummary() {
+ const { data, error } = useOfficialPolling<OfficialResponse>("/api/election/president");
+ const started = hasCounting(data?.result);
+ return <section className="counting-callout"><div className="empty-icon"><Radio size={24} /></div><div><span className="section-kicker">FONTE OFICIAL / TSE</span><h2>Apuração oficial</h2><p>{started ? `${data?.result?.candidates.map(c => `${c.displayName}: ${n(c.percentage)}%`).join(" · ")} · ${n(data?.result?.sections.percentageTotalized)}% das seções` : data?.result ? "Apuração começa após o encerramento da votação." : "Aguardando dados oficiais do TSE."}</p>{error && <p role="status">Conexão com a API interrompida. Últimos dados preservados.</p>}{data && <Status status={error ? data.result ? "STALE" : "UNAVAILABLE" : data.status} />}</div><Link href="/apuracao" className="text-link">Acompanhar <ArrowRight size={16} /></Link></section>;
+}
+function ResultCard({ data }: { data: OfficialResponse }) {
+ const r = data.result;
+ if (!r) return <div className="official-empty"><RefreshCw size={24} /><h2>{data.refreshing ? "Consultando o TSE…" : "Resultado ainda indisponível"}</h2><p>O resultado será exibido assim que um arquivo oficial válido estiver disponível. Atualização automática.</p></div>;
+ const counting = hasCounting(r);
+ const sorted = [...r.candidates].sort((a, b) => b.votes - a.votes);
+ const difference = sorted.length >= 2 ? sorted[0].votes - sorted[1].votes : null;
+ const pp = sorted.length >= 2 && sorted[0].percentage != null && sorted[1].percentage != null ? Math.abs(sorted[0].percentage - sorted[1].percentage) : null;
+ return <section className="official-result" aria-label="Resultado oficial"><div className="official-result-heading"><div><span className="section-kicker">2º TURNO / ELEIÇÃO {r.electionId}</span><h2>{counting ? "Votos divulgados pelo TSE" : "Aguardando início da totalização"}</h2></div><span>{n(r.sections.percentageTotalized)}% das seções totalizadas</span></div>
+ <div className="official-candidates">{r.candidates.map((c, i) => <div className="official-candidate" key={c.candidateNumber}><span className="official-candidate-number">{c.candidateNumber} / CANDIDATO</span><h3>{c.displayName || c.name}</h3><strong style={{ color: colors[i % colors.length] }}>{counting ? `${n(c.percentage)}%` : "—"}</strong><span>{counting ? `${n(c.votes)} votos` : "Aguardando votos"}</span></div>)}</div>
+ <div className="official-bar" role="img" aria-label={counting ? "Proporção oficial dos votos a candidatos concorrentes" : "Apuração não iniciada"}>{counting && r.candidates.map((c, i) => <div key={c.candidateNumber} style={{ width: `${c.percentage ?? 0}%`, background: colors[i % colors.length] }} />)}</div>
+ <p className="official-difference">Diferença calculada a partir dos dados oficiais: <strong>{counting ? `${n(difference)} votos · ${n(pp)} p.p.` : "—"}</strong></p>
+ <dl className="official-metrics">{[["Seções totalizadas", `${n(r.sections.totalized)} / ${n(r.sections.total)}`],["Eleitorado", n(r.electorate.total)],["Votos válidos", n(r.votes.validVotes)],["Brancos", n(r.votes.blankVotes)],["Nulos (inclui técnicos)", n(r.votes.nullVotes)],["Total de votos", n(r.votes.totalVotes)]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}</dl>
+ <div className="official-timestamps"><p>Geração oficial: <strong>{timestamp(r.generatedAt)}</strong></p><p>Última consulta bem-sucedida: {timestamp(data.lastSuccessfulUpdate)}</p></div>
+ {r.warnings.length > 0 && <p className="official-notice">{r.warnings.join(". ")}. Os dados oficiais foram preservados.</p>}
+ </section>;
+}
+function Evolution() {
+ const { data, error } = useOfficialPolling<OfficialResult[]>("/api/election/president/history?limit=1000", 15000);
+ const snapshots = (data ?? []).filter(hasCounting);
+ const candidates = snapshots.at(-1)?.candidates ?? [];
+ const points = snapshots.map(r => ({ time: new Date(r.generatedAt).getTime(), sections: r.sections.percentageTotalized, ...Object.fromEntries(r.candidates.map(c => [c.candidateNumber, c.percentage])) }));
+ return <section className="official-section"><span className="section-kicker">HISTÓRICO OFICIAL</span><h2>Evolução da apuração</h2><p>Percentuais publicados pelo TSE, sobre votos a votáveis concorrentes. Usualmente coincidem com votos válidos; podem incluir votos anulados ou sub judice. Sem projeção.</p>{error && <p role="status" className="official-notice">Não foi possível atualizar o histórico. {data ? "Últimos pontos preservados." : error}</p>}{points.length ? <><div className="official-legend">{candidates.map((c,i)=><span key={c.candidateNumber}><i style={{background:colors[i % colors.length]}} />{c.displayName}</span>)}</div><div className="official-chart"><ResponsiveContainer width="100%" height="100%"><LineChart data={points} accessibilityLayer margin={{top:16,right:20,bottom:16,left:0}}><CartesianGrid strokeDasharray="3 3" vertical={false} /><XAxis dataKey="time" type="number" domain={["dataMin","dataMax"]} tickFormatter={v=>new Date(v).toLocaleTimeString("pt-BR", {timeZone:"America/Sao_Paulo",hour:"2-digit",minute:"2-digit"})} /><YAxis domain={[0,100]} unit="%" /><Tooltip content={({active,payload})=>{const point=payload?.[0]?.payload as (typeof points)[number] | undefined;return active&&point?<div className="official-tooltip"><strong>{timestamp(new Date(point.time).toISOString())}</strong>{candidates.map(c=><p key={c.candidateNumber}>{c.displayName}: {n((point as Record<string, number | null>)[c.candidateNumber])}%</p>)}<p>Seções totalizadas: {n(point.sections)}%</p></div>:null;}} />{candidates.map((c,i)=><Line key={c.candidateNumber} dataKey={c.candidateNumber} name={c.displayName} stroke={colors[i % colors.length]} strokeWidth={2} dot={points.length===1} isAnimationActive={false} connectNulls={false} />)}</LineChart></ResponsiveContainer></div><details className="official-history-table"><summary>Ver pontos do gráfico em tabela</summary><div className="official-table-wrap"><table><thead><tr><th>Geração</th>{candidates.map(c=><th key={c.candidateNumber}>{c.displayName}</th>)}<th>Seções</th></tr></thead><tbody>{snapshots.map((r,i)=><tr key={`${r.generatedAt}-${i}`}><td>{timestamp(r.generatedAt)}</td>{candidates.map(c=><td key={c.candidateNumber}>{n(r.candidates.find(x=>x.candidateNumber===c.candidateNumber)?.percentage)}%</td>)}<td>{n(r.sections.percentageTotalized)}%</td></tr>)}</tbody></table></div></details></> : <div className="official-empty"><p>{data ? "O gráfico aparecerá quando houver votos válidos em seções totalizadas." : error ? "Histórico indisponível; nova tentativa automática." : "Carregando histórico…"}</p></div>}</section>;
+}
+const normalize = (value: string) => value.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+function MunicipalityMatches({ query }: { query: string }) {
+ const [data,setData] = useState<Municipality[] | null>(null); const [error,setError] = useState<string | null>(null);
+ useEffect(()=>{let active=true;municipalityIndex().then(rows=>{if(active)setData(rows);}).catch(e=>{if(active)setError(apiError(e));});return()=>{active=false;};},[]);
+ const matches=(data ?? []).filter(m=>normalize(`${m.name} ${m.uf} ${m.code}`).includes(normalize(query)));
+ return <><p className="official-search-caption">{error ?? (data ? `${matches.length} municípios encontrados. Exibindo até 20.` : "Carregando catálogo oficial de municípios…")}</p><ul className="official-search-results">{matches.slice(0,20).map(m=><li key={`${m.uf}:${m.code}`}><Link href={`/apuracao/${m.uf.toLowerCase()}/${m.code}`}>{m.name} / {m.uf}<span>TSE {m.code} <ArrowRight size={14} /></span></Link></li>)}</ul></>;
+}
+function Territories() {
+ const { data, error }=useOfficialPolling<OfficialResponse[]>("/api/election/president/states",15000);
+ const [query,setQuery]=useState("");
+ const states=(data ?? []).filter(r=>normalize(`${r.scope.code} ${r.scope.name}`).includes(normalize(query)));
+ const columns = [...new Map((data ?? []).flatMap(r=>r.result?.candidates ?? []).map(c=>[c.candidateNumber,c])).values()].sort((a,b)=>a.candidateNumber.localeCompare(b.candidateNumber));
+ return <section className="official-section"><span className="section-kicker">BRASIL / TERRITÓRIOS</span><h2>Resultados por estado</h2><label className="official-search"><Search size={18} /><Input aria-label="Buscar estado ou município" placeholder="Buscar estado ou município" value={query} onChange={e=>setQuery(e.target.value)} /></label>{query.trim().length>=2 && <MunicipalityMatches query={query} />}{error && <p role="status" className="official-notice">Conexão interrompida. {data ? "Tabela preservada com os últimos dados recebidos." : error}</p>}
+ <div className="official-table-wrap"><table><thead><tr><th>UF</th><th>Líder</th>{columns.map(c=><th key={c.candidateNumber}>{c.displayName} %</th>)}<th>Seções totalizadas</th><th>Status</th></tr></thead><tbody>{states.map(row=>{const r=row.result;const counting=hasCounting(r);const leaders=r?.candidates.filter(c=>c.votes===Math.max(...r.candidates.map(x=>x.votes)))??[];return <tr key={row.scope.code}><td><Link href={`/apuracao/${row.scope.code.toLowerCase()}`}>{row.scope.code} <span>{row.scope.name}</span></Link></td><td>{counting ? leaders.length>1?"Empate":leaders[0]?.displayName : "—"}</td>{columns.map(c=><td key={c.candidateNumber}>{counting ? n(r?.candidates.find(x=>x.candidateNumber===c.candidateNumber)?.percentage) : "—"}</td>)}<td>{r ? `${n(r.sections.percentageTotalized)}%` : "—"}</td><td><Status status={error ? row.result ? "STALE" : "UNAVAILABLE" : row.status} /></td></tr>;})}</tbody></table></div>{!data && !error && <p>Carregando estados…</p>}<p className="official-footnote">Os resultados estaduais são atualizados gradualmente. O resultado nacional também inclui votos do exterior.</p></section>;
+}
+function Municipalities({ uf }: { uf: string }) {
+ const { data,error }=useOfficialPolling<Municipality[]>(`/api/election/president/states/${uf}/municipalities`,60000);
+ const [query,setQuery]=useState("");const matches=(data ?? []).filter(m=>normalize(m.name+" "+m.code).includes(normalize(query)));
+ return <section className="official-section"><h2>Municípios</h2><label className="official-search"><Search size={18}/><Input aria-label="Buscar município" placeholder="Buscar município ou código TSE" value={query} onChange={e=>setQuery(e.target.value)}/></label>{error && <p className="official-notice" role="status">{error}</p>}<p>{data ? `${matches.length} municípios. Resultados carregados sob demanda.` : "Aguardando catálogo oficial…"}</p><ul className="official-search-results municipality-list">{matches.map(m=><li key={m.code}><Link href={`/apuracao/${uf.toLowerCase()}/${m.code}`}>{m.name}<span>{m.code}<ArrowRight size={14}/></span></Link></li>)}</ul></section>;
+}
+export function OfficialDashboard({ uf, municipality }: { uf?: string; municipality?: string }) {
+ const path=municipality ? `/api/election/president/states/${uf}/municipalities/${municipality}` : uf ? `/api/election/president/states/${uf}` : "/api/election/president";
+ const { data, loading,error }=useOfficialPolling<OfficialResponse>(path, municipality ? 10000 : 5000);
+ const title=data?.scope.name ?? (municipality ? `Município TSE ${municipality} / ${uf?.toUpperCase()}` : uf?.toUpperCase() ?? "Brasil");
+ return <div className="official-page"><div className="page-intro"><span className="eyebrow">APURAÇÃO OFICIAL</span><div className="official-title-row"><h1>Presidente — {title}<span className="heading-dot">.</span></h1>{data && <Status status={error ? data.result ? "STALE" : "UNAVAILABLE" : data.status}/>}</div><p>Fonte: Tribunal Superior Eleitoral · 2º turno de 2026</p>{uf && <nav className="official-breadcrumb" aria-label="Abrangência"><Link href="/apuracao">Brasil</Link> / <Link href={`/apuracao/${uf.toLowerCase()}`}>{uf.toUpperCase()}</Link>{municipality && ` / ${municipality}`}</nav>}</div>
+ {error && <div role="alert" className="official-notice">{error} {data?.result && "Últimos dados recebidos preservados; a conexão com a API será verificada novamente."}</div>}{data?.status==="STALE" && <div role="status" className="official-notice">Dados desatualizados. Exibindo o último resultado oficial válido, sem estimar votos novos.</div>}{loading ? <div className="official-empty" role="status">Carregando resultado oficial…</div> : data && <ResultCard data={data}/>}
+ {!uf && <><Evolution/><Territories/></>}{uf && !municipality && <Municipalities uf={uf}/>}
+ <footer className="official-transparency"><p>Dados oficiais fornecidos pelo Tribunal Superior Eleitoral.</p><p>Análises e projeções próprias, quando disponíveis, serão identificadas separadamente.</p><p>Percentuais preservados conforme o TSE; diferenças em votos e pontos percentuais são cálculos derivados. Nenhuma previsão de vencedor.</p><Link href="/metodologia" className="text-link">Entenda os dados e a metodologia <ArrowRight size={14}/></Link></footer></div>;
+}

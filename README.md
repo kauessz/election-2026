@@ -1,6 +1,6 @@
 # Eleições 2026
 
-Plataforma brasileira para acompanhar pesquisas do segundo turno presidencial. Monorepo simples com API, web e infraestrutura local. As Fases 1 e 2 entregam cadastro, normalização, quatro agregados transparentes e snapshots históricos. Não há apuração nem previsão probabilística de vencedor.
+Plataforma brasileira para acompanhar pesquisas do segundo turno presidencial. Monorepo simples com API, web e infraestrutura local. As Fases 1 e 2 entregam cadastro, normalização, quatro agregados transparentes e snapshots históricos. A Fase 3 acrescenta apuração oficial TSE por Brasil, UF e município. Não há previsão probabilística de vencedor.
 
 ## Stack
 
@@ -49,7 +49,7 @@ npm run dev
 
 Variáveis opcionais da API: `DATABASE_URL` (JDBC), `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `PORT`. Para o frontend, copie `web/.env.example` para `web/.env.local`; `NEXT_PUBLIC_API_URL` usa `http://localhost:8081` como fallback. Reinicie o Next.js após alterar as variáveis.
 
-Flyway aplica V1–V9 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
+Flyway aplica V1–V10 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
 
 ## Uso
 
@@ -58,11 +58,11 @@ Flyway aplica V1–V9 automaticamente. Hibernate apenas valida o schema (`ddl-au
 - `/admin/pesquisas`: cadastro, edição e exclusão de pesquisas. Os candidatos e institutos são carregados da API.
 - `/admin/institutos`: cadastro/edição de desempenho histórico e botão para salvar snapshots dos quatro modelos.
 - `/metodologia`: regras efetivamente implementadas.
-- `/apuracao`: placeholder sem dados fictícios.
+- `/apuracao`: dashboard oficial TSE, histórico, estados e busca de municípios, sem projeções.
 
 O admin e os endpoints de escrita não têm autenticação, conforme o escopo desta fase. O horário de cadastro usa o fuso do dispositivo e é enviado como um instante UTC; a publicação é exibida em `America/Sao_Paulo`. Datas de campo não sofrem conversão de fuso.
 
-O seed configura Flávio Bolsonaro (PL, 22) e Lula (PT, 13) conforme o escopo solicitado. Não é confirmação de candidatura ou integração oficial com o TSE. Também cadastra os 14 institutos solicitados, sem pesquisas ou percentuais inventados.
+O seed configura Flávio Bolsonaro (PL, 22) e Lula (PT, 13) conforme o escopo solicitado. O seed é independente da fonte oficial; a Fase 3 associa os resultados TSE pelo número eleitoral, mantendo nomes e percentuais oficiais. Também cadastra os 14 institutos solicitados, sem pesquisas ou percentuais inventados.
 
 ## API REST
 
@@ -186,4 +186,17 @@ Veja o **exemplo completo com oito institutos**, fórmulas, critérios, tolerân
 
 ## Escopo futuro
 
-Integração TSE, SSE, apuração, autenticação, mapas, scraping e projeção probabilística não foram implementados. Os próximos passos do modelo incluem revisão empírica dos fatores, sensibilidade e cadastro de desempenho real com fontes.
+SSE, autenticação, mapas, scraping e projeção probabilística não foram implementados. Os próximos passos do modelo incluem revisão empírica dos fatores, sensibilidade e cadastro de desempenho real com fontes.
+
+
+## Fase 3 — Apuração oficial TSE
+
+Integração presidencial do 2º turno (eleição 6258, cargo 0001), separada do motor de pesquisas. `/apuracao` apresenta Brasil, UFs, busca municipal e páginas `/apuracao/{uf}/{codigoTse}`. Antes da contagem, exibe espera e percentuais `—`. Histórico somente oficial, sem projeção.
+
+A migration **V10** adiciona snapshots oficiais JSONB e catálogo persistente de municípios. O cliente RestClient usa timeouts, User-Agent, ETag/Last-Modified, 304 sem snapshot, backoff e limite global padrão de 2 req/s. Nacional a cada 5s; uma UF por segundo (ciclo ~27s + latência); municípios sob demanda/cache de 30s. Último resultado válido sobrevive a falhas e reinícios. EA14/EA15 e coleta por zona permanecem como extensões documentadas.
+
+Configuração completa em `api/src/main/resources/application.yaml` (`tse.results`), com overrides `TSE_RESULTS_*`. Desligar coleta: `TSE_RESULTS_SCHEDULING_ENABLED=false`. Já está desligada por padrão nos testes. Operar uma única instância coletora nesta fase.
+
+Endpoints GET em `/api/election`: `/president`, `/president/states`, `/president/states/{uf}`, `/president/municipalities`, `/president/states/{uf}/municipalities`, `/president/states/{uf}/municipalities/{municipalityCode}`, `/president/history?from=&to=&limit=`, `/source-status`.
+
+[Contratos, campos oficiais, disponibilidade, configuração e estratégia territorial](docs/tse-results-integration.md). Fixtures reais versionadas e cenários sintéticos identificados em `api/src/test/resources/tse/`. Testes HTTP executam exclusivamente contra servidor local.

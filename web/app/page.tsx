@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Vote } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { PollList } from "@/components/poll-list";
+import { OfficialSummary } from "@/components/official-dashboard";
 import { AggregateDashboard } from "@/components/aggregate-dashboard";
 
 export default function Home() {
@@ -46,22 +47,7 @@ export default function Home() {
         </div>
         <PollList latest />
       </section>
-      <section className="counting-callout">
-        <div className="empty-icon">
-          <Vote size={24} />
-        </div>
-        <div>
-          <span className="section-kicker">NO DIA DA VOTAÇÃO</span>
-          <h2>Apuração oficial</h2>
-          <p>
-            A apuração oficial será disponibilizada a partir dos dados do
-            Tribunal Superior Eleitoral.
-          </p>
-        </div>
-        <Link href="/apuracao" className="text-link">
-          Saiba mais <ArrowRight size={16} />
-        </Link>
-      </section>
+      <OfficialSummary />
     </>
   );
 }

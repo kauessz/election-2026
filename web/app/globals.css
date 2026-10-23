@@ -1152,3 +1152,61 @@ h3 {
     max-width: 120px;
   }
 }
+
+/* Official TSE results: neutral data palette, separate from the polling model. */
+.official-page { max-width: 1120px; margin: 0 auto; padding-bottom: 64px; }
+.official-title-row { display:flex; align-items:center; justify-content:space-between; gap:20px; flex-wrap:wrap; }
+.official-title-row h1 { font-size:clamp(2rem,4vw,3rem); }
+.official-status { white-space:nowrap; gap:6px; font-size:10px; letter-spacing:.06em; }
+.status-fresh { background:#eaf3ee; border-color:#91b5a1; }
+.status-stale,.status-unavailable { background:#fff7e6; border-color:#c9b883; }
+.official-result { border:1px solid var(--border); background:var(--card); border-radius:14px; padding:30px; }
+.official-result-heading { display:flex; justify-content:space-between; gap:20px; align-items:center; flex-wrap:wrap; }
+.official-result-heading h2 { font-size:20px; margin-top:8px; font-weight:600; }
+.official-result-heading>span { font-size:13px; color:var(--muted-foreground); }
+.official-candidates { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:30px; padding:32px 0 24px; }
+.official-candidate { display:flex; flex-direction:column; gap:6px; }
+.official-candidate:last-child { text-align:right; }
+.official-candidate-number { font-size:10px; letter-spacing:.1em; color:var(--muted-foreground); }
+.official-candidate h3 { font-size:18px; font-weight:600; }
+.official-candidate strong { font-size:clamp(36px,6vw,56px); font-variant-numeric:tabular-nums; font-weight:550; line-height:1.2; }
+.official-candidate>span:last-child { font-size:13px; color:var(--muted-foreground); }
+.official-bar { height:12px; background:#eceeed; display:flex; overflow:hidden; border-radius:8px; }
+.official-difference { margin:18px 0 28px; font-size:13px; color:var(--muted-foreground); }
+.official-difference strong { color:var(--foreground); }
+.official-metrics { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--border); gap:24px; padding-top:24px; }
+.official-metrics dt { font-size:12px; color:var(--muted-foreground); margin-bottom:6px; }
+.official-metrics dd { font-size:20px; font-weight:550; font-variant-numeric:tabular-nums; }
+.official-timestamps { border-top:1px solid var(--border); margin-top:24px; padding-top:18px; font-size:11px; color:var(--muted-foreground); line-height:1.8; }
+.official-section { margin-top:48px; }
+.official-section h2 { font-size:25px; font-weight:600; margin:8px 0; }
+.official-section>p { font-size:13px; color:var(--muted-foreground); max-width:800px; line-height:1.7; }
+.official-chart { height:300px; margin:24px 0; font-size:11px; }
+.official-legend { display:flex; gap:22px; margin-top:20px; font-size:12px; }
+.official-legend span { display:flex; align-items:center; gap:8px; }
+.official-legend i { height:9px; width:9px; border-radius:50%; }
+.official-tooltip { background:var(--card); border:1px solid var(--border); padding:14px; border-radius:8px; font-size:12px; line-height:1.8; }
+.official-search { display:flex; align-items:center; gap:10px; margin:22px 0; max-width:460px; }
+.official-search input { background:var(--card); }
+.official-search-results { list-style:none; padding:0; margin:12px 0 24px; }
+.official-search-results a { display:flex; align-items:center; justify-content:space-between; gap:12px; border-bottom:1px solid var(--border); padding:12px 6px; font-size:14px; }
+.official-search-results a:hover { background:var(--muted); }
+.official-search-results span { display:flex; gap:10px; color:var(--muted-foreground); font-size:11px; }
+.official-search-caption { font-size:12px; color:var(--muted-foreground); }
+.official-table-wrap { overflow-x:auto; margin:22px 0; border:1px solid var(--border); border-radius:10px; background:var(--card); }
+.official-table-wrap table { width:100%; border-collapse:collapse; text-align:left; white-space:nowrap; font-size:13px; }
+.official-table-wrap th { font-size:11px; color:var(--muted-foreground); font-weight:500; padding:16px; border-bottom:1px solid var(--border); }
+.official-table-wrap td { padding:14px 16px; border-bottom:1px solid var(--border); font-variant-numeric:tabular-nums; }
+.official-table-wrap tr:last-child td { border-bottom:0; }
+.official-table-wrap td a { font-weight:600; }
+.official-table-wrap td a span { font-weight:400; margin-left:10px; color:var(--muted-foreground); }
+.official-notice { padding:16px 20px; border:1px solid #d4c7a4; background:#fffbf0; color:#62512c; font-size:13px; line-height:1.7; border-radius:8px; margin:16px 0; }
+.official-empty { border:1px dashed var(--border); text-align:center; padding:52px 24px; border-radius:10px; color:var(--muted-foreground); font-size:14px; line-height:1.8; }
+.official-empty>svg { margin:0 auto 12px; }
+.official-empty h2 { font-size:20px; color:var(--foreground); }
+.official-transparency { border-top:1px solid var(--border); margin-top:48px; padding-top:24px; font-size:12px; color:var(--muted-foreground); line-height:1.9; }
+.official-transparency .text-link { margin-top:14px; }
+.official-breadcrumb { margin-top:18px; font-size:12px; }
+.official-breadcrumb a:hover { text-decoration:underline; }
+.official-history-table summary { cursor:pointer; font-size:12px; color:var(--muted-foreground); }
+@media(max-width:760px) { .official-page { padding:0 20px 48px; } .official-page .page-intro { padding-left:0; padding-right:0; } .official-result { padding:22px 18px; } .official-metrics { grid-template-columns:repeat(2,1fr); } .official-candidates { grid-template-columns:1fr 1fr; gap:14px; } .official-candidate h3 { font-size:15px; } .official-candidate strong { font-size:38px; } }

@@ -50,7 +50,7 @@ class PollApiTests {
         return UUID.fromString(location.substring(location.lastIndexOf('/') + 1));
     }
     @Test void migrationsAndSeeds() {
-        assertThat(flyway.info().applied()).hasSize(9);
+        assertThat(flyway.info().applied()).hasSize(10);
         assertThat(flyway.validateWithResult().validationSuccessful).isTrue();
         assertThat(jdbc.queryForObject("SELECT count(*) FROM candidates", Integer.class)).isEqualTo(2);
         assertThat(jdbc.queryForObject("SELECT count(*) FROM pollsters", Integer.class)).isEqualTo(14);

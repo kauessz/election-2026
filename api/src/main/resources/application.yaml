@@ -33,3 +33,19 @@ polling:
     historical-neutral-spread-error: 3
     historical-election-key: BR-PRESIDENT-2026
     historical-round: 1
+
+tse:
+  results:
+    base-url: ${TSE_RESULTS_BASE_URL:https://resultados.tse.jus.br}
+    environment: ${TSE_RESULTS_ENVIRONMENT:oficial}
+    year: ${TSE_RESULTS_YEAR:2026}
+    election-id: "${TSE_RESULTS_ELECTION_ID:6258}"
+    president-office-code: "${TSE_RESULTS_PRESIDENT_OFFICE_CODE:0001}"
+    polling-interval: ${TSE_RESULTS_POLLING_INTERVAL:5s}
+    connect-timeout: ${TSE_RESULTS_CONNECT_TIMEOUT:3s}
+    read-timeout: ${TSE_RESULTS_READ_TIMEOUT:5s}
+    stale-threshold: ${TSE_RESULTS_STALE_THRESHOLD:2m}
+    state-interval: ${TSE_RESULTS_STATE_INTERVAL:1s}
+    municipality-interval: ${TSE_RESULTS_MUNICIPALITY_INTERVAL:30s}
+    minimum-request-interval: ${TSE_RESULTS_MINIMUM_REQUEST_INTERVAL:500ms}
+    scheduling-enabled: ${TSE_RESULTS_SCHEDULING_ENABLED:true}

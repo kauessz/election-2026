@@ -128,6 +128,14 @@ export default function MethodologyPage() {
               )}
             </section>
           ))}
+          <section>
+            <span className="section-kicker">FONTE OFICIAL / TSE</span>
+            <h2>Apuração oficial</h2>
+            <p>Os resultados de apuração são publicados pelo Tribunal Superior Eleitoral (eleição 6258, 2º turno) e ficam separados do agregador de pesquisas. Preservamos votos e percentuais oficiais. Diferenças em votos e pontos percentuais são cálculos derivados identificados na interface.</p>
+            <p>O percentual do candidato no EA20 é calculado pelo TSE sobre votos a votáveis concorrentes, que podem incluir votos anulados ou sub judice. Votos válidos, brancos e nulos são apresentados nos totais próprios. O sinal oficial de totalização final, e não apenas 100% das seções, define a conclusão.</p>
+            <p>Antes da totalização, os percentuais principais aparecem como traço. Se a fonte não puder ser atualizada, mantemos o último dado válido e sinalizamos desatualização. O histórico mostra somente arquivos oficiais recebidos; não é uma projeção de resultado.</p>
+            <p><a className="text-link" href="https://www.tse.jus.br/eleicoes/informacoes-tecnicas-sobre-a-divulgacao-de-resultados" target="_blank" rel="noopener noreferrer">Documentação técnica oficial do TSE</a></p>
+          </section>
         </article>
       </div>
     </>
