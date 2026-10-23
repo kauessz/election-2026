@@ -1,42 +1,70 @@
-# Runbook de produção
+# Runbook: Cloud Run + Neon + Vercel
 
-## Antes do domingo
+Este documento substitui as instruções do target anterior. Nenhum procedimento operacional abaixo foi executado nesta preparação. Não criar freeze, importar banco remoto, excluir snapshots ou alterar dados automaticamente.
 
-- Uma réplica da API, uma região, private networking do Postgres e health UP.
-- ADMIN_API_KEY selada no Railway; ADMIN_UI_ENABLED=false no Vercel; testar 401/403/200 e CORS exato.
-- Habilitar scheduled backups no serviço Postgres, aba Backups: ao menos Daily e, conforme retenção necessária, Weekly/Monthly. Confirmar execução recente e retenção no painel.
-- Criar backup manual antes de qualquer freeze futuro e antes de mudanças operacionais importantes. Esta fase não cria freeze nem backup via código.
-- Anotar versão da aplicação, migrations aplicadas, horário/ID do backup e contagens da base. Guardar evidência fora de logs contendo segredos.
-- Ensaiar restore e medir o tempo antes de depender do procedimento em incidente.
+## Antes da janela crítica
 
-## Restore Railway
+- Cloud Run election-2026-api em southamerica-east1: 1 CPU, 1GiB, instance-based billing, min=1 **e** max=1, concurrency=40, timeout=60s. Conferir revisão única com tráfego, IAM público e ausência de revisões extras mantendo instâncias.
+- Budget e billing alerts ativos no projeto. Max=1 reduz risco de escala, mas não é um teto de custo nem garantia de que nunca haverá instâncias temporárias extras.
+- Quatro secrets versionados no Secret Manager, acessíveis apenas pela service account de runtime. Admin com X-Admin-Key; frontend sem segredo e ADMIN_UI_ENABLED=false. CORS deve ser origem Vercel exata.
+- Neon dedicado, região disponível próxima da API, URL pooled fornecida pelo Console com sslmode=require, Hikari max=5/min-idle=1. Preparar endpoint direto para pg_dump e recuperação.
+- Validar Flyway/validate no Neon antes de carregar dados reais. O pooler remoto não foi testado localmente. Se migrations exigirem sessão direta, o override padrão SPRING_FLYWAY_URL permite separá-las sem mudar o runtime pooled; ver deployment.md.
+- Conferir janela de restore/retention e recursos de backup disponíveis no plano Neon da conta; não presumir retenção ou região. Fazer ensaio em branch/banco de teste antes de depender do restore.
 
-1. Registrar incidente, estado atual e horário-alvo; pausar mudanças admin e parar a API/scheduler para impedir escritas durante a recuperação.
-2. Se possível, tirar backup do estado atual antes de restaurar.
-3. No Postgres > Backups, escolher backup pelo timestamp, clicar Restore, revisar volume e mudanças staged, depois Deploy. Restore é operação destrutiva para dados posteriores ao backup: confirmar o alvo no painel.
-4. A documentação Railway restringe restore ao mesmo projeto/ambiente; backups do volume não substituem cópia externa e desaparecem se o volume for apagado. Conferir limites/retenção vigentes antes da operação.
-5. Validar Postgres; subir a API com uma réplica e a mesma configuração privada. Flyway deve validar/aplicar migrations compatíveis com a versão restaurada.
-6. Executar smoke read-only, data-quality, aggregates/audit, history e apuração. Conferir contagens com evidência do backup e preservar registros de auditoria; só então retomar escritas.
+## Backup lógico antes de qualquer freeze futuro
 
-Opcional: `pg_dump --format=custom --file=election-backup.dump` com PGHOST/PGPORT/PGDATABASE/PGUSER e senha via `.pgpass` fora do Git (permissões restritas). O comando não inclui senha/URL com credenciais. Dentro da rede Railway, usar host privado; de fora, só com acesso/túnel explicitamente configurado. `pg_restore --list election-backup.dump` inspeciona o arquivo sem escrita. Ensaio de restore deve apontar para banco separado de teste, nunca para produção por padrão. Não implementar backup customizado dentro da aplicação.
+Usar a conexão **direta** copiada do Neon Console, com TLS. Não usar endpoint pooled para pg_dump/pg_restore. Configurar PGHOST/PGPORT/PGDATABASE/PGUSER a partir de um canal seguro. Senha em PGPASSFILE fora do Git, com permissões restritas; não colocá-la na URL ou linha de comando. Não imprimir variáveis nem gravar transcrição com segredos.
 
-## Startup e recuperação TSE
+Exemplo documental, após o operador configurar o ambiente seguro:
 
-A aplicação precisa de PostgreSQL funcional e migrations válidas. Após Flyway/Hibernate, no ApplicationReadyEvent, recupera os últimos snapshots oficiais de Brasil, 27 UFs e exterior do banco, sem depender de HTTP TSE. O scheduler segue as mesmas frequências, timeout, rate limiter, ETag, Last-Modified, backoff e deduplicação. Nenhuma agressividade foi aumentada.
+```powershell
+$env:PGSSLMODE = 'require'
+pg_dump --format=custom --no-owner --no-acl --file='election-before-freeze.dump'
+pg_restore --list 'election-before-freeze.dump'
+```
 
-`election.tse.enabled=true` é explícito no production profile; ELECTION_TSE_ENABLED controla o default de scheduling. TSE_RESULTS_SCHEDULING_ENABLED=false desliga os jobs e consultas municipais em testes/manutenção. Quando ambas forem informadas, o override específico de scheduling prevalece. Uma indisponibilidade TSE não derruba o startup/health: a última totalização segue disponível com status STALE quando aplicável. Sem snapshot anterior, UNAVAILABLE é esperado. Health não faz fetch ao TSE.
+Guardar cópia externa protegida e registrar horário, versão/schema, contagens e hash do arquivo. O dump pode conter todos os dados eleitorais operacionais: restringir acesso. Nenhum dump foi executado nesta tarefa e nenhum sistema de backup customizado foi adicionado à aplicação.
 
-Se escalar para mais de uma réplica, implementar leader election/lock distribuído antes. Durante troca de versão, evitar sobreposição prolongada de instâncias: interromper a antiga antes de iniciar a nova se precisar garantir exclusividade absoluta do scheduler; o rollout com healthcheck pode sobrepor processos temporariamente mesmo com numReplicas=1.
+## Restore — somente procedimento
 
-## Diagnóstico
+1. Registrar incidente, horário-alvo e estado atual. Suspender mudanças admin e parar temporariamente o serviço/scheduler no Console para evitar escritas durante recuperação; min=0 sozinho não garante parada imediata.
+2. Quando possível, guardar um dump do estado atual antes de restaurar.
+3. Escolher uma branch/banco de teste vazio no Neon com conexão direta. Confirmar o alvo e permissões; nunca ensaiar sobre a base operacional.
+4. Restaurar o dump no alvo configurado por PGHOST/PGDATABASE/PGUSER/PGPASSFILE, mantendo PGSSLMODE=require. Exemplo documental: `pg_restore --dbname=$env:PGDATABASE --no-owner --no-acl --exit-on-error election-before-freeze.dump`. O comando escreve no alvo; não executar sem a conferência anterior.
+5. Alternativamente, usar recursos de restore/branching disponíveis no Neon Console e plano contratado, verificando a janela de retenção. Não assumir que um deploy anterior do Cloud Run restaura o banco.
+6. Validar migrations/schema, contagens, pesquisas, históricos, snapshots e integridade. Se promover o alvo, adicionar nova versão dos secrets de DB e apontar o serviço deliberadamente para ela, sem imprimir valores.
+7. Subir uma instância, conferir recovery, health e smoke read-only, depois data-quality/aggregates/audit/history. Retomar escritas somente após conferência. Não recriar freeze ou snapshots automaticamente para esconder diferenças.
 
-- Health 503: conferir disponibilidade DB, recursos e prontidão; não mascarar falha com health falso. Erro de migration/schema impede inicialização.
-- Admin 401/403: conferir presença/chave correta no HTTP client; nunca colocar segredo no navegador. Sem ADMIN_API_KEY, production falha antes de servir tráfego.
-- Browser bloqueado por CORS: conferir domínio exato em APP_CORS_ALLOWED_ORIGINS (CSV). Nenhum wildcard e nenhuma URL Preview arbitrária liberada automaticamente.
-- TSE 304 é sucesso de revalidação; 404/429/transport failures usam backoff existente. Conferir source-status e logs. Não reduzir intervalos para compensar indisponibilidade.
-- Recovery: log `startup official_recovery_complete`; fetch debug `tse status=200/304`; falhas/retry em WARN; snapshot `persisted=true/false`; projeção registra model/status/coverage. Sem dump de payload, headers, chave, senha ou URL JDBC com credenciais.
-- Frontend: NEXT_PUBLIC_API_URL exige novo build se mudar. ADMIN_UI_ENABLED deve permanecer false em produção/preview. API indisponível deve apresentar mensagens de conexão/retry, preservando a navegação pública.
+## Monitoramento de tamanho do banco
+
+SQL somente de leitura:
+
+```sql
+SELECT pg_size_pretty(pg_database_size(current_database()));
+
+SELECT relname, pg_size_pretty(pg_total_relation_size(relid))
+FROM pg_catalog.pg_statio_user_tables
+ORDER BY pg_total_relation_size(relid) DESC;
+```
+
+Faixas informativas: menos de 500 MB confortável; 500–750 MB acompanhar; acima de 750 MB avaliar upgrade/estratégia. Não são thresholds estatísticos nem rotinas automáticas. Não excluir snapshots automaticamente.
+
+## Recovery e diagnóstico
+
+O estado durável fica no PostgreSQL: não há dependência de disco local Cloud Run para último resultado, pesquisas, históricos ou snapshots. Após migrations, o recovery existente carrega Brasil/UFs/exterior sem chamar o TSE durante essa etapa. Scheduler Java/Spring retoma; ETag/Last-Modified, limites de requisição, timeout, backoff e dedup continuam os existentes. Caches transitórios podem ser reconstruídos no restart; snapshots persistidos são a referência durável. Mais de uma instância exige coordenação distribuída futura, não implementada aqui.
+
+- Health 200 só com DB e prontidão; 503/erro de startup exige verificar conectividade Neon/TLS, credenciais e migrations. Não enfraquecer o health e não usá-lo como ping para manter CPU ligada.
+- Admin 401/403: conferir header/chave no HTTP client, nunca no browser. Sem chave, production não inicia. Não habilitar logs de headers, Environment, Hikari DEBUG ou URL com credenciais.
+- TSE indisponível: conferir source-status, backoff e STALE; não encurtar intervalos. Ausência temporária do TSE não bloqueia startup. Sem snapshot anterior, UNAVAILABLE é esperado.
+- Logs JSON: startup/recovery, requests TSE 200/304 em DEBUG específico, falhas/retry em WARN, snapshot persistido/skipped e status de projeção. Não imprimir payloads/segredos desnecessários.
+- Se CPU parece parar entre requests, conferir instance-based billing/--no-cpu-throttling **e** min=1. Max=1 sozinho não resolve scale-to-zero nem CPU throttling.
+- Observar memória/RSS e latência Cloud Run↔Neon. Manter 1GiB se não houver evidência de insuficiência. O smoke local com limite de 1GiB não substitui observação durante totalização completa.
+- Sobreposição temporária em restart/deploy pode ocorrer mesmo com máximo 1. Evitar rollout na janela crítica e tráfego dividido; exclusividade estrita requer leader/lock distribuído antes de escalar.
+
+## Depois da eleição
+
+Mudança **manual**, após encerrar a necessidade do scheduler contínuo: no Console reduzir minimum instances para 0, considerar request-based billing, manter máximo baixo e Neon com autosuspend/scale-to-zero quando disponível no plano. Conserva dados e backups. Não automatizar esse desligamento nem assumir que o scheduler continua rodando com min=0/CPU sob demanda. Revisar budget/alertas, Artifact Registry, Cloud Build e custos Neon; alertas não bloqueiam faturamento automaticamente.
 
 ## Referências
 
-[Backups Railway](https://docs.railway.com/volumes/backups) e [backup/restore Postgres](https://docs.railway.com/guides/postgres-backups-restores). Habilitar/agendar e testar backups requer acesso ao projeto real; preparar estes arquivos não executa nenhuma operação no Railway.
+[Deploy e carga explícita](deployment.md), [Neon pooling / uso de conexão direta](https://neon.com/docs/connect/connection-pooling), [Cloud Run instance-based billing](https://docs.cloud.google.com/run/docs/configuring/billing-settings) e [Cloud Run secrets](https://docs.cloud.google.com/run/docs/configuring/services/secrets).

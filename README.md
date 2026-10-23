@@ -220,4 +220,4 @@ Importação administrativa em lote com dry run, qualidade, auditoria e congelam
 
 ## Produção — Fase 6
 
-Configuração Railway/Vercel, segurança, smoke tests e carga explícita em [docs/deployment.md](docs/deployment.md). Backup, restore, recuperação TSE e operação com uma réplica em [docs/production-runbook.md](docs/production-runbook.md). Nenhum dado local é migrado automaticamente.
+Configuração Google Cloud Run + Neon PostgreSQL + Vercel, segurança, smoke tests e carga explícita em [docs/deployment.md](docs/deployment.md). Backup, restore, recuperação TSE e operação com uma réplica em [docs/production-runbook.md](docs/production-runbook.md). Nenhum dado local é migrado automaticamente.

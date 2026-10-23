@@ -3,3 +3,6 @@
 
 # Unversioned sourced electoral input files
 /data/private/
+
+# Operator-specific Cloud Run environment (example remains versioned)
+/api/cloudrun.env.yaml

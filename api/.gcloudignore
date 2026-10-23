@@ -1,0 +1,12 @@
+.gcloudignore
+.git
+.gitignore
+target/
+.env*
+*.log
+.settings/
+.vscode/
+.project
+.classpath
+.factorypath
+cloudrun.env.yaml
