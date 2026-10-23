@@ -1,5 +1,7 @@
 # Validação da adaptação Cloud Run + Neon
 
+> Registro histórico/alternativo. O target operacional atual é Azure Container Apps + Neon + Vercel; consultar [deployment.md](deployment.md) e [production-runbook.md](production-runbook.md). Os resultados abaixo pertencem à preparação anterior.
+
 Preparação concluída em 23/10/2026; nenhum deploy, recurso GCP/Neon, credencial real, import remoto, push, commit ou freeze. API e frontend mantêm os endpoints existentes.
 
 ## Configuração

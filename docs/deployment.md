@@ -1,122 +1,98 @@
-# Deploy: Cloud Run + Neon PostgreSQL + Vercel
+# Deploy: Azure Container Apps + Neon PostgreSQL + Vercel
 
-Somente preparação: nenhum comando de criação/deploy abaixo foi executado. Não usar credenciais reais nesta tarefa, fazer push, migrar dados automaticamente ou criar PreElectionFreeze. Railway deixou de ser o target; sua configuração foi removida. O relatório antigo da Fase 6 é histórico, não um procedimento atual.
+Target operacional atual: **Azure Container Apps**. Apenas preparação: nenhum deploy, push, carga remota ou freeze foi executado. Cloud Run é alternativa histórica; seus exemplos em api/ e a [validação anterior](cloudrun-neon-validation.md) não orientam o target atual.
 
-## Contrato de produção
+## Contrato operacional
 
-| Configuração | Valor inicial |
+| Item | Configuração |
 |---|---|
-| API / região | election-2026-api / southamerica-east1 |
-| CPU / memória | 1 vCPU / 1 GiB |
-| Billing / CPU | instance-based / CPU sem throttling entre requests |
-| Scaling do serviço | mínimo 1 **e** máximo 1 |
-| HTTP concurrency / timeout | 40 / 60 segundos |
-| Startup probe | GET /actuator/health |
-| Acesso HTTP | público/unauthenticated; admin continua X-Admin-Key |
-| Banco | Neon PostgreSQL, JDBC padrão, TLS obrigatório para Neon |
-| Frontend | Vercel, root web, ADMIN_UI_ENABLED=false |
+| Região | Brazil South / brazilsouth |
+| Plano e workload profile | Consumption |
+| Recursos por réplica | CPU 0.5 / memória 1Gi |
+| Scaling | min replicas=1 / max replicas=1 |
+| Revisões | Single, sem divisão de tráfego |
+| Ingress | externo HTTPS, allowInsecure=false, targetPort=8081 |
+| Imagem | GHCR público, Linux amd64, tag SHA completo |
+| Banco / frontend | Neon PostgreSQL / Vercel |
 
-`PORT` é injetada pelo Cloud Run: não criar secret/variável customizada PORT nem passá-la em --set-env-vars. `server.port=${PORT:8081}` permanece; production escuta 0.0.0.0. O Dockerfile existente em api é reutilizado: multi-stage Maven/JDK 21, JRE 21 versionado, usuário election não-root e exec-form `java -jar` como processo principal, recebendo SIGTERM. Não há credenciais, arquivos locais de produção ou dependência de provedor na imagem. Não foi criada pipeline CI/CD.
+O Dockerfile existente de api/ permanece intacto: Java 21, build multi-stage, usuário não-root e exec-form para SIGTERM. A aplicação mantém `server.port=${PORT:8081}` e bind production 0.0.0.0. O template define PORT=8081 explicitamente como variável não secreta. Azure usa **target port 8081** no ingress; PORT não configura o ingress.
 
-## 1. Preparação GCP e IAM
+## 1. Imagem GHCR
 
-1. Criar projeto GCP dedicado, habilitar billing e escolher southamerica-east1. Criar budget e billing alerts antes do uso. Alertas avisam; não são um teto financeiro automático.
-2. Habilitar Cloud Run Admin API, Cloud Build API, Artifact Registry API e Secret Manager API. O deploy por source usa Cloud Build e Artifact Registry e encontra o Dockerfile no diretório api, sem trocar para buildpacks.
-3. Criar service account de runtime dedicada, por exemplo `election-2026-api@PROJECT_ID.iam.gserviceaccount.com`. Não conceder Owner/Editor. Seu acesso GCP nesta fase limita-se a Secret Accessor nos quatro secrets específicos usados pela API.
-4. Separar identidade de runtime da identidade de deploy/build. Seguir os papéis mínimos de source deploy e Cloud Run Builder na documentação oficial; o operador precisa poder usar a service account e autorizar acesso HTTP público. Não resolver erros concedendo Editor à conta de runtime. Políticas organizacionais podem impedir allUsers/unauthenticated; nesse caso o administrador precisa resolver a política antes de publicar.
-5. Não implementar IAP, Cloud Scheduler, worker separado ou distributed lock nesta fase.
+[.github/workflows/api-image.yml](../.github/workflows/api-image.yml) publica via GitHub Actions, com push em main quando api/** ou o workflow mudarem, além de workflow_dispatch. Build de api/Dockerfile com contexto api/, linux/amd64:
 
-## 2. Neon e conexão JDBC
+- `ghcr.io/<github-owner-em-minúsculas>/election-2026-api:<git-sha-completo>`
+- alias `main` somente quando a referência executada for main.
 
-Criar projeto dedicado `election-2026-production`. Escolher no Neon Console uma região disponível para a conta geograficamente próxima do Cloud Run, priorizando latência entre os dois. Não presumir disponibilidade de uma região específica.
+Usa GITHUB_TOKEN temporário, contents:read e packages:write. Sem credencial Azure, PAT fixo, ACR ou latest. Deploy/rollback usam o SHA aprovado, nunca dependem do alias main. A label OCI conecta o package ao repositório; packages preexistentes precisam conceder acesso de Actions ao repositório.
 
-Copiar os connection details do Neon Console. Para runtime, preferir a opção pooled oferecida pelo Console (hostname normalmente contém -pooler); nunca fabricar esse hostname no código. Guardar usuário/senha separados da URL. Formato JDBC, com host e database copiados do Console:
+Após a primeira publicação, tornar o package **PUBLIC** em Package settings → Change visibility. Confirmar pull anônimo da tag SHA; repositório público não garante package público. O template assume imagem pública.
 
-```text
-jdbc:postgresql://<HOST>:5432/<DATABASE>?sslmode=require
-```
+Alternativa private: configurar registry ghcr.io no Container App, usuário autorizado e PAT classic com read:packages (SSO se exigido pela organização). Guardar o PAT em secret adicional e usar configuration.registries[].passwordSecretRef. Não usar GITHUB_TOKEN temporário como credencial permanente no Azure. Não versionar PAT. [Referência GHCR](https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry).
 
-Não colocar valores reais nesses exemplos ou no Git. Direct e pooled são suportados pelo mesmo driver PostgreSQL; não há SDK Neon nem flags novas de PgBouncer. Para pg_dump/pg_restore e operações que precisam de sessão persistente, usar endpoint **direto** do Console.
+## 2. Resource group, Environment e Container App
 
-Production configura Hikari maximum-pool-size=5 e minimum-idle=1; nenhum timeout foi modificado. Flyway continua habilitado e Hibernate ddl-auto=validate. A validação lê a URL efetiva usada pelo Spring: para neon.tech exige sslmode=require (ou verify-ca/verify-full, mais estritos); rejeita sslmode=disable/modos fracos e parâmetros duplicados. A regra não é aplicada ao profile local. Exceções não incluem a URL ou credenciais.
+[infra/azure/main.json](../infra/azure/main.json) é template ARM em escopo de resource group. Cria somente Environment Consumption e Container App, com dependência explícita entre eles. Não cria ACR, Key Vault, banco ou workspace de logs. Exportação persistente de logs está desativada (destination=none); usar console/log stream. Retenção futura via Azure Monitor exige configuração e orçamento próprios.
 
-Os testes locais validam PostgreSQL, Flyway, Hibernate e Hikari; **Neon/pooler real não foi acessado**. A documentação Neon recomenda direct para migrations por possíveis limitações de sessões. Antes da carga real, validar Flyway no endpoint escolhido em banco de teste. Se houver incompatibilidade, usar URL direta exclusivamente em `SPRING_FLYWAY_URL`, injetada por um secret separado, mantendo o runtime pooled. O Spring já suporta esse override; ele não foi ativado e não foi adicionada arquitetura paralela de migrations.
+Procedimento para execução posterior pelo operador:
 
-## 3. Secret Manager
+1. Conferir assinatura, permissões e quota Consumption em Brazil South; registrar os providers Microsoft.App/Microsoft.OperationalInsights se exigido pelo serviço.
+2. Criar resource group, por exemplo election-2026-production, em Brazil South.
+3. Azure Portal → Deploy a custom template → Build your own template → carregar infra/azure/main.json e selecionar esse resource group.
+4. Preencher image com a tag SHA pública do GHCR já publicada.
+5. Preencher os quatro parâmetros secretos no formulário seguro; são secureString obrigatórios, sem defaults e sem outputs. Não salvar valores no Git.
+6. corsAllowedOrigins pode ficar vazio até existir o domínio Vercel. Revisar recursos e custo antes de submeter.
 
-Criar via Console os secrets abaixo e adicionar valores/versões por interface segura. Não digitar valores em comandos versionados, histórico de shell, logs, arquivos .env do repositório ou frontend.
+Secrets, env vars, ingress, scaling e probes entram na mesma criação do Container App, evitando primeira revisão sem credenciais. Também é possível aplicar esse ARM por CLI posteriormente com parâmetros seguros fora do Git; nunca usar valores literais no histórico do shell. Nenhum desses procedimentos foi executado nesta entrega.
 
-| Secret | Environment no Cloud Run |
-|---|---|
-| election-admin-api-key | ADMIN_API_KEY |
-| election-db-url | SPRING_DATASOURCE_URL |
-| election-db-username | SPRING_DATASOURCE_USERNAME |
-| election-db-password | SPRING_DATASOURCE_PASSWORD |
+## 3. Neon e Container Apps Secrets
 
-DB_URL também fica como secret por conter infraestrutura. Os nomes genéricos DB_USERNAME/DB_PASSWORD representam esses secrets, não novas propriedades da aplicação. Conceder `roles/secretmanager.secretAccessor` à conta de runtime **em cada um desses quatro secrets**, não no projeto inteiro. Exemplo seguro de binding, sem valores de segredo:
+Neon dedicado em região disponível próxima da API; medir latência, sem presumir que oferece Brazil South. Copiar host/database/credenciais do Neon Console. Preferir endpoint pooled fornecido pelo Console para runtime, sem fabricar hostname. JDBC: `jdbc:postgresql://<HOST>:5432/<DATABASE>?sslmode=require`. Usuário/senha separados da URL; backup/restore usa endpoint direto.
 
-```powershell
-$runtimeIdentity = 'election-2026-api@PROJECT_ID.iam.gserviceaccount.com'
-gcloud secrets add-iam-policy-binding election-admin-api-key --member="serviceAccount:$runtimeIdentity" --role=roles/secretmanager.secretAccessor
-# Repetir somente para os três secrets de banco listados acima.
-```
+Hikari production permanece max=5/min-idle=1. Flyway habilitado, Hibernate validate e validação TLS existentes permanecem intactos. Neon/pooler remoto exige ensaio antes da carga. Se migrations exigirem conexão direta, avaliar o override padrão Spring SPRING_FLYWAY_URL via secret separado; ele não foi ativado nem alterado nesta fase.
 
-Usar versões numéricas aprovadas nos bindings de env vars; os exemplos :1 abaixo são placeholders de versão, a conferir no Console. Rotacionar criando nova versão e atualizando a revisão, sem imprimir valores. Production sem ADMIN_API_KEY falha no startup.
+| Parâmetro ARM seguro | Container Apps Secret | Env com secretRef |
+|---|---|---|
+| adminApiKey | admin-api-key | ADMIN_API_KEY |
+| dbUrl | db-url | SPRING_DATASOURCE_URL |
+| dbUsername | db-username | SPRING_DATASOURCE_USERNAME |
+| dbPassword | db-password | SPRING_DATASOURCE_PASSWORD |
 
-Variáveis não sensíveis da API: SPRING_PROFILES_ACTIVE=production, APP_CORS_ALLOWED_ORIGINS com origem exata Vercel e ELECTION_TSE_ENABLED=true. O arquivo `api/cloudrun.env.example.yaml` é somente um exemplo não sensível. Não definir ADMIN_UI_ENABLED na API e não definir PORT manualmente.
+São Azure Container Apps Secrets, **sem exigir Key Vault**. Nenhum valor é versionado. Production sem chave continua falhando no startup; X-Admin-Key permanece obrigatório para administração.
 
-## 4. Deploy por source — procedimento para execução posterior
+Env não secretas: SPRING_PROFILES_ACTIVE=production, PORT=8081, ELECTION_TSE_ENABLED=true e APP_CORS_ALLOWED_ORIGINS com origem Vercel exata, inicialmente vazia. Não definir ADMIN_UI_ENABLED na API.
 
-A CLI gcloud não está instalada neste workspace. A sintaxe foi conferida na referência oficial atual em 23/10/2026, incluindo --min, --max, --no-cpu-throttling e --startup-probe. No ambiente do operador, conferir `gcloud version` e `gcloud run deploy --help`; atualizar a CLI se necessário. Alternativamente, configurar os mesmos valores no Console. Nenhuma flag foi executada nesta tarefa.
+Rotação de secret não cria revisão automaticamente: reiniciar deliberadamente a revisão ativa ou criar nova revisão após alterar o secret. Em redeploy ARM, fornecer parâmetros seguros novamente, sem substituir valores por placeholders. Não imprimir headers, secrets ou environment completo em logs.
 
-Após IAM, secrets e projeto preparados, executar **a partir de api/**. O Dockerfile atual será usado pelo source build. Estes comandos publicam recursos: são documentação, não autorização para executá-los nesta preparação.
+## 4. Ingress, scaling e probes
 
-```powershell
-gcloud config set project PROJECT_ID
-gcloud config set run/region southamerica-east1
-# Executar a partir de api/:
-gcloud run deploy election-2026-api `
-  --source . `
-  --region southamerica-east1 `
-  --allow-unauthenticated `
-  --service-account election-2026-api@PROJECT_ID.iam.gserviceaccount.com `
-  --cpu 1 `
-  --memory 1Gi `
-  --no-cpu-throttling `
-  --min 1 `
-  --max 1 `
-  --concurrency 40 `
-  --timeout 60 `
-  --startup-probe="httpGet.path=/actuator/health,periodSeconds=10,timeoutSeconds=5,failureThreshold=24" `
-  --set-env-vars="SPRING_PROFILES_ACTIVE=production,APP_CORS_ALLOWED_ORIGINS=https://frontend.example.org,ELECTION_TSE_ENABLED=true" `
-  --set-secrets="ADMIN_API_KEY=election-admin-api-key:1,SPRING_DATASOURCE_URL=election-db-url:1,SPRING_DATASOURCE_USERNAME=election-db-username:1,SPRING_DATASOURCE_PASSWORD=election-db-password:1"
-```
+Conferir após criação: HTTPS externo, target port 8081, revisão Single, Consumption, CPU 0.5/1Gi e min/max=1. Não copiar flags de Cloud Run ou usar porta 8080.
 
-Substituir PROJECT_ID, domínio exato e versões pelos valores aprovados. Os comandos não contêm credenciais reais. O domínio example.org não é o domínio de produção. Não adicionar --port nem uma variável PORT: usar a porta padrão injetada pela plataforma. O mesmo Dockerfile foi validado com PORT=8080 apenas no teste Docker local, não em um deploy.
+Todas as probes usam **GET /actuator/health na porta 8081**, HTTP interno:
 
-`--set-env-vars`/`--set-secrets` substituem listas existentes: revisar antes de um redeploy; para mudanças pontuais usar o Console ou as variantes --update-* da CLI. Para CORS CSV com vários domínios, usar o Console ou arquivo local de env fora do Git, evitando confundir a vírgula da lista CORS com o delimitador da CLI.
+| Probe | initialDelay | period | timeout | failureThreshold |
+|---|---:|---:|---:|---:|
+| Startup | 30s | 30s | 5s | 10 |
+| Readiness | 30s | 10s | 5s | 6 |
+| Liveness | 60s | 30s | 5s | 6 |
 
-Após deploy, conferir no Console/descrição do serviço: região, uma revisão recebendo tráfego, min=1, max=1, instance-based billing, 1 CPU/1GiB, concurrency 40, timeout 60s, secrets e startup probe. A opção --no-cpu-throttling habilita a CPU entre requests, necessária para as threads Spring/Java do scheduler. Não confiar somente em max=1: min=1 evita scale-to-zero na janela crítica. Não criar health ping externo para manter a instância viva.
+Startup admite cerca de cinco minutos de tentativas após o delay para Spring/Flyway com 0.5 CPU; protege a inicialização antes das demais verificações. Health não foi enfraquecido: banco indisponível continua 503 e detalhes ocultos. TSE indisponível não bloqueia startup.
 
-O health atual serve como startup probe: depende de DB e prontidão; retorna 503 se banco indisponível e não expõe detalhes. Orçamento de startup de até 240s (24 × 10s), dentro do limite da plataforma. Não usar health que consulta banco como liveness agressiva: falha transitória do Neon não deve criar ciclo de restarts. A disponibilidade do TSE não entra no health.
+Como liveness também usa esse health, uma indisponibilidade prolongada do Neon pode reiniciar a réplica após falhas consecutivas. Thresholds conservadores evitam reinício imediato, mas não recuperam um banco indisponível: diagnosticar Neon/TLS. [Probes Azure](https://learn.microsoft.com/en-us/azure/container-apps/health-probes).
 
-## 5. Scheduler e substituição de instâncias
+## 5. Smoke, scheduler e recovery
 
-Nada mudou no polling: nacional aproximadamente 5s, ciclo UF existente, municípios sob demanda/cache, ETag/Last-Modified, timeouts, rate limiter, retry/backoff e deduplicação. Uma CPU alocada entre requests permite que as threads Java continuem trabalhando. Request timeout 60s não altera os timeouts HTTP internos TSE.
-
-Min/max=1 reduzem concorrência operacional, mas não constituem exclusão distribuída: a plataforma pode substituir instâncias e ter sobreposição temporária, especialmente em deploy/revisões. Evitar tráfego dividido, revisões extras com minimum instances e deploys na janela crítica. Uma garantia estrita de scheduler único em qualquer rollout precisará de leader/distributed lock futuro, que não foi implementado.
-
-Estado importante fica no PostgreSQL. O startup recovery existente recarrega os últimos snapshots oficiais; o scheduler retoma e indisponibilidade temporária do TSE não impede startup. O frontend mostra o último estado com STALE quando aplicável. Sem estado anterior, UNAVAILABLE é esperado. Monitorar memória e contagem real de instâncias, sem elevar preventivamente para 2GiB.
-
-## 6. Saúde, smoke e carga
-
-Após API + Neon reais, validar health e executar o smoke read-only a partir da raiz:
+Após API+Neon reais, usar apiUrl retornado pelo template:
 
 ```powershell
-.\scripts\production-smoke.ps1 -ApiBaseUrl 'https://<cloud-run-url>' -AdminApiKey $env:ADMIN_API_KEY
+.\scripts\production-smoke.ps1 -ApiBaseUrl 'https://<container-app-fqdn>' -AdminApiKey $env:ADMIN_API_KEY
 ```
 
-O script é agnóstico ao provedor; só faz GET. Freeze ausente (204) é válido. Confere admin sem chave 401 e com chave 200. Não importa nada nem cria snapshots.
+O script existente só faz GET, aceita freeze ausente (204), verifica admin sem chave 401/com chave 200 e não altera dados.
+
+Neon guarda o estado durável fora da réplica. Restart não perde pesquisas, históricos, snapshots ou último resultado oficial **persistido**. O recovery existente lê Brasil/UFs/exterior do banco no startup, sem nova chamada ao TSE; scheduler Spring reinicia normalmente. Caches/estado ainda não persistido não têm essa garantia.
+
+Manter min=1 enquanto o scheduler estiver ativo, sem depender de tráfego HTTP para manter a réplica. Max=1 e revisão Single reduzem concorrência, mas substituições/rollouts ainda podem sobrepor processos. Evitar rollout na janela crítica e manter max=1 até implementar distributed lock. Intervalos, retry/backoff, ETag e persistência não mudam.
 
 ## Carga explícita após o deploy
 
@@ -125,7 +101,7 @@ O banco Neon de produção começa sem pesquisas reais, históricos, snapshots o
 Comandos abaixo são um procedimento para execução posterior pelo operador. Não foram executados em produção por esta fase. Executar um passo por vez, inspecionando falhas, qualidade e auditoria antes da próxima escrita. A chave deve vir de secret/env, sem transcrição de sessão ou verbose de headers.
 
 ```powershell
-$base = 'https://<cloud-run-url>'
+$base = 'https://<container-app-fqdn>'
 $headers = @{ 'X-Admin-Key' = $env:ADMIN_API_KEY }
 $polls = [IO.File]::ReadAllBytes((Resolve-Path 'data/polls.real.2026-10-23.json'))
 $history = [IO.File]::ReadAllBytes((Resolve-Path 'data/pollster-performance.real.2026-first-round.json'))
@@ -155,22 +131,23 @@ Resultados de referência para a carga de 18 pesquisas + 17 históricos, data de
 
 Conferir também pollCount=18, pollsterCount=18, totalSampleSize=59442, Ipespe neutro, pesos somando 1 e cap 15%. Não criar freeze nesta fase. Nenhum desses imports foi executado remotamente.
 
-## 7. Vercel e CORS
 
-Frontend permanece em Vercel, Root Directory web, framework Next.js, instalação/build padrão. Definir NEXT_PUBLIC_API_URL=https://<cloud-run-url> e ADMIN_UI_ENABLED=false em Production/Preview. Nunca definir ADMIN_API_KEY ou NEXT_PUBLIC_ADMIN_API_KEY no frontend. Alterou NEXT_PUBLIC_API_URL, reconstruir o frontend.
+## 6. Vercel e CORS
 
-Depois do deploy Vercel, configurar APP_CORS_ALLOWED_ORIGINS no Cloud Run com a origem exata, por exemplo https://election-2026.vercel.app; domínio próprio futuro pode ser adicionado via CSV. Os exemplos são ilustrativos, não domínios confirmados do projeto. Sem wildcard, caminhos ou credentials. Admin continua protegido por X-Admin-Key independentemente de CORS; /admin/** continua 404 no frontend.
+Vercel: Root Directory web, Next.js, instalação/build padrão. Definir NEXT_PUBLIC_API_URL=https://<container-app-fqdn> e ADMIN_UI_ENABLED=false em Production/Preview. Nunca colocar ADMIN_API_KEY ou NEXT_PUBLIC_ADMIN_API_KEY no frontend. Mudança da URL pública exige novo build.
 
-Executar novamente o smoke da API e `scripts/admin-ui-smoke.ps1 -WebBaseUrl 'https://<frontend>'`. Confirmar navegação pública, tratamento de API indisponível e apuração com STALE quando a fonte estiver atrasada. Operações admin de produção são feitas por HTTP client, sem painel público.
+Depois de obter o domínio Vercel, preencher APP_CORS_ALLOWED_ORIGINS no Container App com origem HTTPS exata, sem caminho/wildcard. Domínio próprio futuro pode entrar via CSV. Atualizar também corsAllowedOrigins nos próximos deployments ARM para não apagar a configuração. Alteração de env cria revisão: conferir health e réplica única.
 
-## Referências oficiais
+Reexecutar smoke API e `scripts/admin-ui-smoke.ps1 -WebBaseUrl 'https://<frontend>'`. Conferir navegação pública e /admin/** com 404. CORS não substitui X-Admin-Key.
 
-- [gcloud run deploy: flags atuais](https://docs.cloud.google.com/sdk/gcloud/reference/run/deploy)
-- [Cloud Run source deploy / Dockerfile / IAM de build](https://docs.cloud.google.com/run/docs/deploying-source-code)
-- [Instance-based billing](https://docs.cloud.google.com/run/docs/configuring/billing-settings)
-- [Secret Manager no Cloud Run](https://docs.cloud.google.com/run/docs/configuring/services/secrets)
-- [Startup probes](https://docs.cloud.google.com/run/docs/configuring/healthchecks)
-- [Neon: pooling e limitações de sessão](https://neon.com/docs/connect/connection-pooling)
-- [Neon: conexão padrão](https://neon.com/docs/connect/connect-from-any-app)
+## 7. Custos e referências
 
-Backup, restore, custo após a eleição e monitoramento: [production-runbook.md](production-runbook.md).
+Consumption cobra recursos/uso conforme tarifa vigente; min=1 mantém réplica e impede scale-to-zero enquanto scheduler roda. Não prometer custo zero nem tratar max=1 como teto financeiro. Após eleição, encerrada a necessidade do scheduler contínuo, mudar **manualmente min replicas para 0** e manter max=1. Sem réplica não há scheduler; tráfego pode reativar a aplicação. Considerar Neon/Vercel/logs e configurar orçamento/alertas Azure.
+
+- [ARM Container App](https://learn.microsoft.com/en-us/azure/templates/microsoft.app/2025-01-01/containerapps)
+- [ARM Environment](https://learn.microsoft.com/en-us/azure/templates/microsoft.app/2025-01-01/managedenvironments)
+- [GitHub Actions e GHCR](https://docs.github.com/en/actions/tutorials/publish-packages/publish-docker-images)
+- [Azure Consumption e cobrança](https://learn.microsoft.com/en-us/azure/container-apps/billing)
+- [Neon pooling](https://neon.com/docs/connect/connection-pooling)
+
+Backup, recuperação e operação: [production-runbook.md](production-runbook.md).

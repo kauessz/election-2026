@@ -1,6 +1,6 @@
 # Validação local — Fase 6
 
-> Registro histórico: Railway deixou de ser o target atual. As instruções vigentes são [deployment.md](deployment.md) e [production-runbook.md](production-runbook.md), para Cloud Run + Neon + Vercel. Os resultados abaixo registram a validação anterior, sem orientar deploy atual.
+> Registro histórico: Railway deixou de ser o target atual. As instruções vigentes são [deployment.md](deployment.md) e [production-runbook.md](production-runbook.md), para Azure Container Apps + Neon + Vercel. Os resultados abaixo registram a validação anterior, sem orientar deploy atual.
 
 Preparação Railway/Vercel concluída em 23/10/2026. Não houve deploy público, commit, freeze, carga de produção ou alteração das fórmulas/thresholds. Base operacional conferida integralmente antes/depois: 18 pesquisas, 17 históricos, cinco snapshots agregados e nenhum PreElectionFreeze, com os mesmos registros e resultados.
 

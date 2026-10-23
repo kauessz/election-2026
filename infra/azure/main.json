@@ -1,0 +1,206 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "location": {
+      "type": "string",
+      "defaultValue": "brazilsouth",
+      "allowedValues": [
+        "brazilsouth"
+      ]
+    },
+    "appName": {
+      "type": "string",
+      "defaultValue": "election-2026-api"
+    },
+    "environmentName": {
+      "type": "string",
+      "defaultValue": "election-2026-env"
+    },
+    "image": {
+      "type": "string",
+      "metadata": {
+        "description": "Public GHCR Linux amd64 image pinned to a full Git SHA: ghcr.io/<owner>/election-2026-api:<git-sha>."
+      }
+    },
+    "corsAllowedOrigins": {
+      "type": "string",
+      "defaultValue": "",
+      "metadata": {
+        "description": "Exact Vercel HTTPS origin. Empty until the frontend domain is known."
+      }
+    },
+    "adminApiKey": {
+      "type": "secureString",
+      "minLength": 1
+    },
+    "dbUrl": {
+      "type": "secureString",
+      "minLength": 1
+    },
+    "dbUsername": {
+      "type": "secureString",
+      "minLength": 1
+    },
+    "dbPassword": {
+      "type": "secureString",
+      "minLength": 1
+    }
+  },
+  "resources": [
+    {
+      "type": "Microsoft.App/managedEnvironments",
+      "apiVersion": "2025-01-01",
+      "name": "[parameters('environmentName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "appLogsConfiguration": {
+          "destination": "none"
+        },
+        "workloadProfiles": [
+          {
+            "name": "Consumption",
+            "workloadProfileType": "Consumption"
+          }
+        ]
+      }
+    },
+    {
+      "type": "Microsoft.App/containerApps",
+      "apiVersion": "2025-01-01",
+      "name": "[parameters('appName')]",
+      "location": "[parameters('location')]",
+      "dependsOn": [
+        "[resourceId('Microsoft.App/managedEnvironments', parameters('environmentName'))]"
+      ],
+      "properties": {
+        "managedEnvironmentId": "[resourceId('Microsoft.App/managedEnvironments', parameters('environmentName'))]",
+        "workloadProfileName": "Consumption",
+        "configuration": {
+          "activeRevisionsMode": "Single",
+          "ingress": {
+            "external": true,
+            "targetPort": 8081,
+            "transport": "auto",
+            "allowInsecure": false
+          },
+          "secrets": [
+            {
+              "name": "admin-api-key",
+              "value": "[parameters('adminApiKey')]"
+            },
+            {
+              "name": "db-url",
+              "value": "[parameters('dbUrl')]"
+            },
+            {
+              "name": "db-username",
+              "value": "[parameters('dbUsername')]"
+            },
+            {
+              "name": "db-password",
+              "value": "[parameters('dbPassword')]"
+            }
+          ]
+        },
+        "template": {
+          "containers": [
+            {
+              "name": "api",
+              "image": "[parameters('image')]",
+              "resources": {
+                "cpu": 0.5,
+                "memory": "1Gi"
+              },
+              "env": [
+                {
+                  "name": "SPRING_PROFILES_ACTIVE",
+                  "value": "production"
+                },
+                {
+                  "name": "PORT",
+                  "value": "8081"
+                },
+                {
+                  "name": "ELECTION_TSE_ENABLED",
+                  "value": "true"
+                },
+                {
+                  "name": "APP_CORS_ALLOWED_ORIGINS",
+                  "value": "[parameters('corsAllowedOrigins')]"
+                },
+                {
+                  "name": "ADMIN_API_KEY",
+                  "secretRef": "admin-api-key"
+                },
+                {
+                  "name": "SPRING_DATASOURCE_URL",
+                  "secretRef": "db-url"
+                },
+                {
+                  "name": "SPRING_DATASOURCE_USERNAME",
+                  "secretRef": "db-username"
+                },
+                {
+                  "name": "SPRING_DATASOURCE_PASSWORD",
+                  "secretRef": "db-password"
+                }
+              ],
+              "probes": [
+                {
+                  "type": "Startup",
+                  "httpGet": {
+                    "path": "/actuator/health",
+                    "port": 8081,
+                    "scheme": "HTTP"
+                  },
+                  "initialDelaySeconds": 30,
+                  "periodSeconds": 30,
+                  "timeoutSeconds": 5,
+                  "failureThreshold": 10,
+                  "successThreshold": 1
+                },
+                {
+                  "type": "Readiness",
+                  "httpGet": {
+                    "path": "/actuator/health",
+                    "port": 8081,
+                    "scheme": "HTTP"
+                  },
+                  "initialDelaySeconds": 30,
+                  "periodSeconds": 10,
+                  "timeoutSeconds": 5,
+                  "failureThreshold": 6,
+                  "successThreshold": 1
+                },
+                {
+                  "type": "Liveness",
+                  "httpGet": {
+                    "path": "/actuator/health",
+                    "port": 8081,
+                    "scheme": "HTTP"
+                  },
+                  "initialDelaySeconds": 60,
+                  "periodSeconds": 30,
+                  "timeoutSeconds": 5,
+                  "failureThreshold": 6,
+                  "successThreshold": 1
+                }
+              ]
+            }
+          ],
+          "scale": {
+            "minReplicas": 1,
+            "maxReplicas": 1
+          }
+        }
+      }
+    }
+  ],
+  "outputs": {
+    "apiUrl": {
+      "type": "string",
+      "value": "[concat('https://', reference(resourceId('Microsoft.App/containerApps', parameters('appName')), '2025-01-01').configuration.ingress.fqdn)]"
+    }
+  }
+}

@@ -220,4 +220,4 @@ Importação administrativa em lote com dry run, qualidade, auditoria e congelam
 
 ## Produção — Fase 6
 
-Configuração Google Cloud Run + Neon PostgreSQL + Vercel, segurança, smoke tests e carga explícita em [docs/deployment.md](docs/deployment.md). Backup, restore, recuperação TSE e operação com uma réplica em [docs/production-runbook.md](docs/production-runbook.md). Nenhum dado local é migrado automaticamente.
+Configuração Azure Container Apps (Brazil South, Consumption) + Neon PostgreSQL + Vercel, workflow GHCR, segurança, smoke tests e carga explícita em [docs/deployment.md](docs/deployment.md). Template em [infra/azure/main.json](infra/azure/main.json). Backup, restore, recuperação TSE e operação com uma réplica em [docs/production-runbook.md](docs/production-runbook.md). Nenhum dado local é migrado automaticamente. Cloud Run permanece somente como alternativa histórica.
