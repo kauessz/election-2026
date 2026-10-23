@@ -1,0 +1,572 @@
+{
+  "sha256": "002b29b39e42bdb032219a72dfba96e52eae7c762d22c95cb9d245e399726d89",
+  "endpoint": "POST /api/admin/polls/import?dryRun=true",
+  "report": {
+    "dryRun": true,
+    "created": 18,
+    "updated": 0,
+    "unchanged": 0,
+    "failed": 0,
+    "details": [
+      {
+        "index": 0,
+        "status": "CREATED",
+        "id": null,
+        "key": "7b140640-a349-43e9-935e-89fed4c8e513|REG:BR-07926/2026",
+        "normalized": [
+          51.0,
+          49.0
+        ],
+        "message": null
+      },
+      {
+        "index": 1,
+        "status": "CREATED",
+        "id": null,
+        "key": "db1181ee-ba4a-46a9-bc1d-3b38f2dc1d63|REG:BR-09709/2026",
+        "normalized": [
+          50.0,
+          50.0
+        ],
+        "message": null
+      },
+      {
+        "index": 2,
+        "status": "CREATED",
+        "id": null,
+        "key": "cbc2a235-bfde-4991-9cc4-15548e43da46|REG:BR-02348/2026",
+        "normalized": [
+          50.6,
+          49.4
+        ],
+        "message": null
+      },
+      {
+        "index": 3,
+        "status": "CREATED",
+        "id": null,
+        "key": "5b15d68d-6f9e-48d2-9fa2-ee076309f10d|REG:BR-00652/2026",
+        "normalized": [
+          50.5,
+          49.5
+        ],
+        "message": null
+      },
+      {
+        "index": 4,
+        "status": "CREATED",
+        "id": null,
+        "key": "d998ad3a-1f9d-4d28-8d98-d3f0c5a13a81|REG:BR-08535/2026",
+        "normalized": [
+          50.5618,
+          49.4382
+        ],
+        "message": null
+      },
+      {
+        "index": 5,
+        "status": "CREATED",
+        "id": null,
+        "key": "0c59cf9d-ba28-4891-a85d-81cf6b92a1f6|REG:BR-04612/2026",
+        "normalized": [
+          51.0204,
+          48.9796
+        ],
+        "message": null
+      },
+      {
+        "index": 6,
+        "status": "CREATED",
+        "id": null,
+        "key": "aed187e8-07e7-484b-a9f4-3248abe277c4|REG:BR-04499/2026",
+        "normalized": [
+          50.3,
+          49.7
+        ],
+        "message": null
+      },
+      {
+        "index": 7,
+        "status": "CREATED",
+        "id": null,
+        "key": "ee8dea57-0a3c-4c7d-9c71-8b62e3b2b841|REG:BR-03835/2026",
+        "normalized": [
+          53.0,
+          47.0
+        ],
+        "message": null
+      },
+      {
+        "index": 8,
+        "status": "CREATED",
+        "id": null,
+        "key": "8833f3a7-4c69-4dc9-8417-8bcc6cfcc599|REG:BR-06614/2026",
+        "normalized": [
+          51.1,
+          48.9
+        ],
+        "message": null
+      },
+      {
+        "index": 9,
+        "status": "CREATED",
+        "id": null,
+        "key": "2972d3cf-ecb1-415e-abfa-250662badcd8|REG:BR-04454/2026",
+        "normalized": [
+          51.5,
+          48.5
+        ],
+        "message": null
+      },
+      {
+        "index": 10,
+        "status": "CREATED",
+        "id": null,
+        "key": "438fb9da-a7c7-473d-9245-ee777f2ed510|REG:BR-04350/2026",
+        "normalized": [
+          50.5,
+          49.5
+        ],
+        "message": null
+      },
+      {
+        "index": 11,
+        "status": "CREATED",
+        "id": null,
+        "key": "5952cab4-3c47-42ed-ab37-8bf8ec31938f|REG:BR-02418/2026",
+        "normalized": [
+          51.1,
+          48.9
+        ],
+        "message": null
+      },
+      {
+        "index": 12,
+        "status": "CREATED",
+        "id": null,
+        "key": "6f42b3b2-2e72-4fe0-ae43-b2b8a347848b|REG:BR-03259/2026",
+        "normalized": [
+          49.4,
+          50.6
+        ],
+        "message": null
+      },
+      {
+        "index": 13,
+        "status": "CREATED",
+        "id": null,
+        "key": "430afcc7-adb5-4e71-8a1d-73ed9b5025e5|REG:BR-09670/2026",
+        "normalized": [
+          52.0,
+          48.0
+        ],
+        "message": null
+      },
+      {
+        "index": 14,
+        "status": "CREATED",
+        "id": null,
+        "key": "2bbba3cf-3be8-40b0-8e78-b0806c45eeaf|REG:BR-07896/2026",
+        "normalized": [
+          50.81,
+          49.19
+        ],
+        "message": null
+      },
+      {
+        "index": 15,
+        "status": "CREATED",
+        "id": null,
+        "key": "a4e87d53-71e6-4e27-b2cc-4ea7456dd624|REG:BR-08251/2026",
+        "normalized": [
+          51.1,
+          48.9
+        ],
+        "message": null
+      },
+      {
+        "index": 16,
+        "status": "CREATED",
+        "id": null,
+        "key": "86080655-4b86-46a4-9eac-b99a7031e1c2|REG:BR-06396/2026",
+        "normalized": [
+          50.7,
+          49.3
+        ],
+        "message": null
+      },
+      {
+        "index": 17,
+        "status": "CREATED",
+        "id": null,
+        "key": "7d9c0427-64c2-4f84-a2bb-624b893caac0|REG:BR-08496/2026",
+        "normalized": [
+          52.0,
+          48.0
+        ],
+        "message": null
+      }
+    ]
+  },
+  "before": {
+    "polls": [],
+    "freeze": null,
+    "quality": {
+      "status": "WARNINGS",
+      "ready": true,
+      "checkedAt": "2026-10-23T14:23:03.583367800Z",
+      "issues": [
+        {
+          "severity": "WARNING",
+          "code": "NO_POLLS",
+          "entityId": null,
+          "message": "Nenhuma pesquisa cadastrada; freeze exige agregados calculáveis."
+        }
+      ]
+    }
+  },
+  "after": {
+    "polls": [],
+    "freeze": null,
+    "quality": {
+      "status": "WARNINGS",
+      "ready": true,
+      "checkedAt": "2026-10-23T14:23:04.145852300Z",
+      "issues": [
+        {
+          "severity": "WARNING",
+          "code": "NO_POLLS",
+          "entityId": null,
+          "message": "Nenhuma pesquisa cadastrada; freeze exige agregados calculáveis."
+        }
+      ]
+    }
+  },
+  "provenance": [
+    {
+      "index": 0,
+      "name": "PoderData/Aya",
+      "pollsterSlug": "poderdata",
+      "registration": "BR-07926/2026",
+      "sourceUrl": "https://www.poder360.com.br/poderdata/flavio-tem-51-e-lula-tem-49-dos-votos-validos-diz-poderdata-aya/",
+      "publishedAt": "2026-10-22T07:15:27-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "f0ec801399d2deb7b3aefb5989d09c655651b037f769e1698da61dbcd0828da9",
+      "pending": []
+    },
+    {
+      "index": 1,
+      "name": "Datafolha",
+      "pollsterSlug": "datafolha",
+      "registration": "BR-09709/2026",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/datafolha-flavio-e-lula-empatam-em-50-de-votos-validos-no-2o-turno/",
+      "publishedAt": "2026-10-22T19:07:02-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "f0d1090fd456012f87070a54f71a2c43be0cdffda8e2c5f8b6ea6c19df744500",
+      "pending": []
+    },
+    {
+      "index": 2,
+      "name": "Indexa/Broadcast",
+      "pollsterSlug": "indexa",
+      "registration": "BR-02348/2026",
+      "sourceUrl": "https://portaln10.com.br/politica/eleicoes/indexa-broadcast-mostra-flavio-com-506-e-lula-com-494-diferenca-cai-na-reta-final-do-2o-turno-355944/",
+      "publishedAt": "2026-10-22T13:36:12-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "55a864abcd11110f16d5d5a6bfc210cf90544ee119e90d41ade42ee33103f414",
+      "pending": []
+    },
+    {
+      "index": 3,
+      "name": "CNT/MDA",
+      "pollsterSlug": "cnt-mda",
+      "registration": "BR-00652/2026",
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/cnt-mda-presidente-outubro-2026-segundo-turno/",
+      "publishedAt": "2026-10-16T15:44:16.000Z",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "cf678d84a3361f5a754661112d43e47e5a854c0efcea1a49ae7e3249a0a233a5",
+      "pending": []
+    },
+    {
+      "index": 4,
+      "name": "Quaest",
+      "pollsterSlug": "quaest",
+      "registration": "BR-08535/2026",
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/flavio-tem-45-contra-44-de-lula-no-2o-turno-diz-quaest/",
+      "publishedAt": "2026-10-21T10:56:45-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "35c5233065e81cca3e2b3ec04b50710b1f862f729c14877d17e94f47f60df89d",
+      "pending": []
+    },
+    {
+      "index": 5,
+      "name": "Palver",
+      "pollsterSlug": "palver",
+      "registration": "BR-04612/2026",
+      "sourceUrl": "https://www.jota.info/eleicoes/eleicoes-2026/flavio-bolsonaro-tem-51-dos-votos-validos-ante-49-de-lula-diz-pesquisa-palver",
+      "publishedAt": "2026-10-21T09:41:14-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "8717086659ee4d67d5439aac7f05110a0d6c6e2a3f6e9526b3a7a5f18ae8db5a",
+      "pending": []
+    },
+    {
+      "index": 6,
+      "name": "BTG/Nexus",
+      "pollsterSlug": "nexus",
+      "registration": "BR-04499/2026",
+      "sourceUrl": "https://www.nexus.fsb.com.br/estudos-divulgados/pesquisa-btg-nexus-de-intencao-de-votos-para-presidente-do-brasil-19-de-outubro-de-2026/",
+      "publishedAt": "2026-10-19T11:45:25+00:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "33b0f3f774399566f55ad4fcb30b16356d3e778b23a385f159c161cb29e9cd83",
+      "pending": []
+    },
+    {
+      "index": 7,
+      "name": "Gerp",
+      "pollsterSlug": "gerp",
+      "registration": "BR-03835/2026",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/gerp-flavio-tem-53-dos-votos-validos-no-2o-turno-lula-47-2/",
+      "publishedAt": "2026-10-21T18:00:56-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "6df4c27f70ee02ee082ba87773b0111edfd48165a75c94bb89ad9f205c3faf96",
+      "pending": []
+    },
+    {
+      "index": 8,
+      "name": "Futura",
+      "pollsterSlug": "futura",
+      "registration": "BR-06614/2026",
+      "sourceUrl": "https://www.poder360.com.br/poder-pesquisas/flavio-tem-511-dos-votos-validos-contra-489-de-lula-diz-futura/",
+      "publishedAt": "2026-10-21T10:45:11-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "3e8128835dbe2ef10e1d735cc255aac63ff86f13603a21accb1b8d3ebc186199",
+      "pending": []
+    },
+    {
+      "index": 9,
+      "name": "DataTrends",
+      "pollsterSlug": "datatrends",
+      "registration": "BR-04454/2026",
+      "sourceUrl": "https://www.blogdobg.com.br/pesquisa-datatrends-flavio-bolsonaro-tem-515-dos-votos-validos-contra-485-de-lula/",
+      "publishedAt": "2026-10-19T13:07:00-03:00",
+      "publicationEvidence": "Horário público visível verificado na página; instante fornecido pelo usuário: 2026-10-19T13:07:00-03:00",
+      "sha256Html": null,
+      "pending": []
+    },
+    {
+      "index": 10,
+      "name": "Ipespe/Abrapel",
+      "pollsterSlug": "ipespe",
+      "registration": "BR-04350/2026",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/ipespe-abrapel-flavio-tem-505-dos-votos-validos-lula-495/?utm_source=chatgpt.com",
+      "publishedAt": "2026-10-23T10:00:54-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "7c4beaf6eab690344e17c46809f610d3b2f3bc31ab17bc69e6625939b2835ed1",
+      "pending": []
+    },
+    {
+      "index": 11,
+      "name": "AtlasIntel",
+      "pollsterSlug": "atlasintel",
+      "registration": "BR-02418/2026",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/atlas-flavio-tem-511-dos-votos-validos-no-2o-turno-lula-489/",
+      "publishedAt": "2026-10-19T07:30:21-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "ad844ff565aee5186e6ccc54a1cf048bbf2896fc48111da3acc483eeb3680def",
+      "pending": []
+    },
+    {
+      "index": 12,
+      "name": "Vox Brasil",
+      "pollsterSlug": "vox-brasil",
+      "registration": "BR-03259/2026",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/vox-lula-tem-506-dos-votos-validos-no-2o-turno-flavio-494/",
+      "publishedAt": "2026-10-23T00:00:35-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "75b9aca78d68aa4bf7e5f35936aff07d47ca59b0d7b2925e9bc5389758f4e5e8",
+      "pending": []
+    },
+    {
+      "index": 13,
+      "name": "Real Time Big Data",
+      "pollsterSlug": "real-time-big-data",
+      "registration": "BR-09670/2026",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/real-time-flavio-tem-52-dos-votos-validos-no-2o-turno-lula-48/",
+      "publishedAt": "2026-10-23T07:00:21-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "a7a0db190defc388a520c7dbee2b39d22ff09c093a9ede7c3352e172e1fe373a",
+      "pending": []
+    },
+    {
+      "index": 14,
+      "name": "Instituto França",
+      "pollsterSlug": "instituto-franca",
+      "registration": "BR-07896/2026",
+      "sourceUrl": "https://fanf1.com.br/2026/10/20/instituto-franca-flavio-tem-508-e-lula-492-indecisos-sao-quase-9/",
+      "publishedAt": "2026-10-20T07:09:00-03:00",
+      "publicationEvidence": "Horário público visível verificado na página; instante fornecido pelo usuário: 2026-10-20T07:09:00-03:00",
+      "sha256Html": null,
+      "pending": []
+    },
+    {
+      "index": 15,
+      "name": "Meio/Ideia",
+      "pollsterSlug": "meio-ideia",
+      "registration": "BR-08251/2026",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/meio-ideia-flavio-tem-511-dos-votos-validos-no-2o-turno-lula-489/",
+      "publishedAt": "2026-10-21T07:00:15-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "7fe76bf38560d7f8e4e624db8275f5c4ddf1a68b4983e1a681018b51c5def57a",
+      "pending": []
+    },
+    {
+      "index": 16,
+      "name": "Veritá",
+      "pollsterSlug": "verita",
+      "registration": "BR-06396/2026",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/verita-flavio-tem-507-dos-votos-validos-no-2o-turno-lula-493/?utm_source=chatgpt.com",
+      "publishedAt": "2026-10-21T12:00:12-03:00",
+      "publicationEvidence": "JSON-LD datePublished da publicação, com offset explícito",
+      "sha256Html": "2a4e514038b1a52f74054f1c223421a61d75f5d93b6e212a785d82e0dfa63f06",
+      "pending": []
+    },
+    {
+      "index": 17,
+      "name": "Alfa Inteligência",
+      "pollsterSlug": "alfa-inteligencia",
+      "registration": "BR-08496/2026",
+      "sourceUrl": "https://www.itatiaia.com.br/politica/eleicoes/pesquisas/alfa-inteligencia-flavio-bolsonaro-tem-52-dos-validos-lula-48-no-2o-turno/",
+      "publishedAt": "2026-10-23T08:01:43-03:00",
+      "publicationEvidence": "JSON-LD datePublished; article:published_time with explicit -03:00 offset; registration BR-08496/2026 in publication",
+      "sha256Html": "2f735ac7e3cf712489d288d99e822e94d07bcc8fa7b3bb777171a4dbf0fb6c1f",
+      "pending": []
+    }
+  ],
+  "pollstersCreated": [
+    {
+      "status": "CREATED",
+      "pollster": {
+        "id": "2972d3cf-ecb1-415e-abfa-250662badcd8",
+        "name": "DataTrends",
+        "slug": "datatrends",
+        "websiteUrl": null,
+        "active": true
+      }
+    },
+    {
+      "status": "CREATED",
+      "pollster": {
+        "id": "6f42b3b2-2e72-4fe0-ae43-b2b8a347848b",
+        "name": "Vox Brasil",
+        "slug": "vox-brasil",
+        "websiteUrl": null,
+        "active": true
+      }
+    },
+    {
+      "status": "CREATED",
+      "pollster": {
+        "id": "2bbba3cf-3be8-40b0-8e78-b0806c45eeaf",
+        "name": "Instituto França",
+        "slug": "instituto-franca",
+        "websiteUrl": null,
+        "active": true
+      }
+    },
+    {
+      "status": "CREATED",
+      "pollster": {
+        "id": "a4e87d53-71e6-4e27-b2cc-4ea7456dd624",
+        "name": "Meio/Ideia",
+        "slug": "meio-ideia",
+        "websiteUrl": null,
+        "active": true
+      }
+    },
+    {
+      "status": "CREATED",
+      "pollster": {
+        "id": "7d9c0427-64c2-4f84-a2bb-624b893caac0",
+        "name": "Alfa Inteligência",
+        "slug": "alfa-inteligencia",
+        "websiteUrl": null,
+        "active": true
+      }
+    }
+  ],
+  "mathematicalPreview": {
+    "file": "data/polls.real.2026-10-23.preview.json",
+    "referenceDate": "2026-10-23",
+    "allRecordsImportable": true,
+    "publishedAtFabricated": false,
+    "matchingHistoricalFactors": 0,
+    "methods": [
+      {
+        "method": "SIMPLE",
+        "results": [
+          {
+            "candidateId": "00000000-0000-0000-0000-000000000001",
+            "candidateName": "Flávio Bolsonaro",
+            "percentage": 50.9551
+          },
+          {
+            "candidateId": "00000000-0000-0000-0000-000000000002",
+            "candidateName": "Lula",
+            "percentage": 49.0449
+          }
+        ]
+      },
+      {
+        "method": "RECENCY",
+        "results": [
+          {
+            "candidateId": "00000000-0000-0000-0000-000000000001",
+            "candidateName": "Flávio Bolsonaro",
+            "percentage": 50.9383
+          },
+          {
+            "candidateId": "00000000-0000-0000-0000-000000000002",
+            "candidateName": "Lula",
+            "percentage": 49.0617
+          }
+        ]
+      },
+      {
+        "method": "WEIGHTED",
+        "results": [
+          {
+            "candidateId": "00000000-0000-0000-0000-000000000001",
+            "candidateName": "Flávio Bolsonaro",
+            "percentage": 50.963
+          },
+          {
+            "candidateId": "00000000-0000-0000-0000-000000000002",
+            "candidateName": "Lula",
+            "percentage": 49.037
+          }
+        ]
+      },
+      {
+        "method": "CALIBRATED",
+        "results": [
+          {
+            "candidateId": "00000000-0000-0000-0000-000000000001",
+            "candidateName": "Flávio Bolsonaro",
+            "percentage": 50.963
+          },
+          {
+            "candidateId": "00000000-0000-0000-0000-000000000002",
+            "candidateName": "Lula",
+            "percentage": 49.037
+          }
+        ]
+      }
+    ]
+  },
+  "resolution": {
+    "pollsterSlugsResolved": true,
+    "alfaMetadataResolved": true,
+    "pending": [],
+    "publicationMetadataResolved": true
+  }
+}

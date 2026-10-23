@@ -1,0 +1,401 @@
+{
+  "_description": "PREPARAÇÃO OPERACIONAL REAL — 18 valores eleitorais verificados fornecidos pelo usuário. Somente dry run autorizado. Auditoria de fontes e divergências em docs/polls-real-2026-10-23.md; não confirmar importação real.",
+  "polls": [
+    {
+      "pollsterSlug": "poderdata",
+      "tseRegistrationNumber": "BR-07926/2026",
+      "fieldStart": "2026-10-19",
+      "fieldEnd": "2026-10-21",
+      "publishedAt": "2026-10-22T07:15:27-03:00",
+      "sampleSize": 4000,
+      "marginOfError": 1.6,
+      "methodology": null,
+      "sourceUrl": "https://www.poder360.com.br/poderdata/flavio-tem-51-e-lula-tem-49-dos-votos-validos-diz-poderdata-aya/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 51.0
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 49.0
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "datafolha",
+      "tseRegistrationNumber": "BR-09709/2026",
+      "fieldStart": "2026-10-20",
+      "fieldEnd": "2026-10-22",
+      "publishedAt": "2026-10-22T19:07:02-03:00",
+      "sampleSize": 2520,
+      "marginOfError": 2.0,
+      "methodology": null,
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/datafolha-flavio-e-lula-empatam-em-50-de-votos-validos-no-2o-turno/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 50.0
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 50.0
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "indexa",
+      "tseRegistrationNumber": "BR-02348/2026",
+      "fieldStart": "2026-10-20",
+      "fieldEnd": "2026-10-21",
+      "publishedAt": "2026-10-22T13:36:12-03:00",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "methodology": null,
+      "sourceUrl": "https://portaln10.com.br/politica/eleicoes/indexa-broadcast-mostra-flavio-com-506-e-lula-com-494-diferenca-cai-na-reta-final-do-2o-turno-355944/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 50.6
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 49.4
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "cnt-mda",
+      "tseRegistrationNumber": "BR-00652/2026",
+      "fieldStart": "2026-10-13",
+      "fieldEnd": "2026-10-15",
+      "publishedAt": "2026-10-16T15:44:16.000Z",
+      "sampleSize": 2014,
+      "marginOfError": 2.2,
+      "methodology": null,
+      "sourceUrl": "https://www.gazetadopovo.com.br/eleicoes/2026/pesquisa-eleitoral-2026/cnt-mda-presidente-outubro-2026-segundo-turno/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 50.5
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 49.5
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "quaest",
+      "tseRegistrationNumber": "BR-08535/2026",
+      "fieldStart": "2026-10-17",
+      "fieldEnd": "2026-10-20",
+      "publishedAt": "2026-10-21T10:56:45-03:00",
+      "sampleSize": 2154,
+      "marginOfError": 2.0,
+      "methodology": null,
+      "sourceUrl": "https://www.poder360.com.br/poder-eleicoes-2026/flavio-tem-45-contra-44-de-lula-no-2o-turno-diz-quaest/",
+      "voteBasis": "TOTAL",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 45.0
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 44.0
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "palver",
+      "tseRegistrationNumber": "BR-04612/2026",
+      "fieldStart": "2026-10-18",
+      "fieldEnd": "2026-10-20",
+      "publishedAt": "2026-10-21T09:41:14-03:00",
+      "sampleSize": 5000,
+      "marginOfError": 2.4,
+      "methodology": null,
+      "sourceUrl": "https://www.jota.info/eleicoes/eleicoes-2026/flavio-bolsonaro-tem-51-dos-votos-validos-ante-49-de-lula-diz-pesquisa-palver",
+      "voteBasis": "TOTAL",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 50.0
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 48.0
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "nexus",
+      "tseRegistrationNumber": "BR-04499/2026",
+      "fieldStart": "2026-10-16",
+      "fieldEnd": "2026-10-18",
+      "publishedAt": "2026-10-19T11:45:25+00:00",
+      "sampleSize": 2002,
+      "marginOfError": 2.0,
+      "methodology": null,
+      "sourceUrl": "https://www.nexus.fsb.com.br/estudos-divulgados/pesquisa-btg-nexus-de-intencao-de-votos-para-presidente-do-brasil-19-de-outubro-de-2026/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 50.3
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 49.7
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "gerp",
+      "tseRegistrationNumber": "BR-03835/2026",
+      "fieldStart": "2026-10-19",
+      "fieldEnd": "2026-10-21",
+      "publishedAt": "2026-10-21T18:00:56-03:00",
+      "sampleSize": 2400,
+      "marginOfError": 2.0,
+      "methodology": null,
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/gerp-flavio-tem-53-dos-votos-validos-no-2o-turno-lula-47-2/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 53.0
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 47.0
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "futura",
+      "tseRegistrationNumber": "BR-06614/2026",
+      "fieldStart": "2026-10-19",
+      "fieldEnd": "2026-10-20",
+      "publishedAt": "2026-10-21T10:45:11-03:00",
+      "sampleSize": 2000,
+      "marginOfError": 2.2,
+      "methodology": null,
+      "sourceUrl": "https://www.poder360.com.br/poder-pesquisas/flavio-tem-511-dos-votos-validos-contra-489-de-lula-diz-futura/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 51.1
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 48.9
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "datatrends",
+      "tseRegistrationNumber": "BR-04454/2026",
+      "fieldStart": "2026-10-15",
+      "fieldEnd": "2026-10-17",
+      "publishedAt": "2026-10-19T13:07:00-03:00",
+      "sampleSize": 2000,
+      "marginOfError": 2.19,
+      "methodology": null,
+      "sourceUrl": "https://www.blogdobg.com.br/pesquisa-datatrends-flavio-bolsonaro-tem-515-dos-votos-validos-contra-485-de-lula/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 51.5
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 48.5
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "ipespe",
+      "tseRegistrationNumber": "BR-04350/2026",
+      "fieldStart": "2026-10-20",
+      "fieldEnd": "2026-10-22",
+      "publishedAt": "2026-10-23T10:00:54-03:00",
+      "sampleSize": 1500,
+      "marginOfError": 2.6,
+      "methodology": null,
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/ipespe-abrapel-flavio-tem-505-dos-votos-validos-lula-495/?utm_source=chatgpt.com",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 50.5
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 49.5
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "atlasintel",
+      "tseRegistrationNumber": "BR-02418/2026",
+      "fieldStart": "2026-10-13",
+      "fieldEnd": "2026-10-18",
+      "publishedAt": "2026-10-19T07:30:21-03:00",
+      "sampleSize": 4998,
+      "marginOfError": 1.0,
+      "methodology": null,
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/atlas-flavio-tem-511-dos-votos-validos-no-2o-turno-lula-489/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 51.1
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 48.9
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "vox-brasil",
+      "tseRegistrationNumber": "BR-03259/2026",
+      "fieldStart": "2026-10-20",
+      "fieldEnd": "2026-10-22",
+      "publishedAt": "2026-10-23T00:00:35-03:00",
+      "sampleSize": 2100,
+      "marginOfError": 2.15,
+      "methodology": null,
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/vox-lula-tem-506-dos-votos-validos-no-2o-turno-flavio-494/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 49.4
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 50.6
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "real-time-big-data",
+      "tseRegistrationNumber": "BR-09670/2026",
+      "fieldStart": "2026-10-19",
+      "fieldEnd": "2026-10-22",
+      "publishedAt": "2026-10-23T07:00:21-03:00",
+      "sampleSize": 2000,
+      "marginOfError": 2.0,
+      "methodology": null,
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/real-time-flavio-tem-52-dos-votos-validos-no-2o-turno-lula-48/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 52.0
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 48.0
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "instituto-franca",
+      "tseRegistrationNumber": "BR-07896/2026",
+      "fieldStart": "2026-10-16",
+      "fieldEnd": "2026-10-20",
+      "publishedAt": "2026-10-20T07:09:00-03:00",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "methodology": null,
+      "sourceUrl": "https://fanf1.com.br/2026/10/20/instituto-franca-flavio-tem-508-e-lula-492-indecisos-sao-quase-9/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 50.81
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 49.19
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "meio-ideia",
+      "tseRegistrationNumber": "BR-08251/2026",
+      "fieldStart": "2026-10-15",
+      "fieldEnd": "2026-10-19",
+      "publishedAt": "2026-10-21T07:00:15-03:00",
+      "sampleSize": 1500,
+      "marginOfError": 2.5,
+      "methodology": null,
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/meio-ideia-flavio-tem-511-dos-votos-validos-no-2o-turno-lula-489/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 51.1
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 48.9
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "verita",
+      "tseRegistrationNumber": "BR-06396/2026",
+      "fieldStart": "2026-10-15",
+      "fieldEnd": "2026-10-19",
+      "publishedAt": "2026-10-21T12:00:12-03:00",
+      "sampleSize": 15554,
+      "marginOfError": 1.0,
+      "methodology": null,
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/verita-flavio-tem-507-dos-votos-validos-no-2o-turno-lula-493/?utm_source=chatgpt.com",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 50.7
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 49.3
+        }
+      ]
+    },
+    {
+      "pollsterSlug": "alfa-inteligencia",
+      "tseRegistrationNumber": "BR-08496/2026",
+      "fieldStart": "2026-10-18",
+      "fieldEnd": "2026-10-22",
+      "publishedAt": "2026-10-23T08:01:43-03:00",
+      "sampleSize": 2700,
+      "marginOfError": 1.9,
+      "methodology": null,
+      "sourceUrl": "https://www.itatiaia.com.br/politica/eleicoes/pesquisas/alfa-inteligencia-flavio-bolsonaro-tem-52-dos-validos-lula-48-no-2o-turno/",
+      "voteBasis": "VALID",
+      "candidateResults": [
+        {
+          "ballotNumber": 22,
+          "percentage": 52.0
+        },
+        {
+          "ballotNumber": 13,
+          "percentage": 48.0
+        }
+      ]
+    }
+  ]
+}
