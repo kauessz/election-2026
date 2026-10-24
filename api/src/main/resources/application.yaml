@@ -40,6 +40,10 @@ management:
         include: health,info
 
 polling:
+  discovery:
+    operational-from: ${POLL_DISCOVERY_OPERATIONAL_FROM:2026-10-05}
+    enabled: ${POLL_DISCOVERY_ENABLED:true}
+    tse-open-data-url: ${POLL_DISCOVERY_TSE_URL:https://cdn.tse.jus.br/estatistica/sead/odsele/pesquisa_eleitoral/pesquisa_eleitoral_2026.zip}
   aggregation:
     half-life-days: 3
     max-institute-weight: 0.15

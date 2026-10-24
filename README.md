@@ -1,6 +1,6 @@
 # Eleições 2026
 
-Plataforma brasileira para acompanhar pesquisas do segundo turno presidencial. Monorepo simples com API, web e infraestrutura local. As Fases 1 e 2 entregam cadastro, normalização, quatro agregados transparentes e snapshots históricos. A Fase 3 acrescenta apuração oficial TSE por Brasil, UF e município. Não há previsão probabilística de vencedor.
+Plataforma brasileira para acompanhar as eleições presidenciais de 2026: pesquisas operacionais do segundo turno, quatro agregados transparentes, arquivo histórico isolado, inbox semiautomática, snapshots auditáveis e freeze pré-eleição imutável. Apuração oficial TSE, projeção territorial experimental e ritmo dos votos são apresentados separadamente. Monorepo com API Spring Boot, Next.js e produção preparada para Azure Container Apps + Neon PostgreSQL + Vercel. Não há previsão probabilística de vencedor.
 
 ## Stack
 
@@ -47,20 +47,21 @@ npm run dev
 - Saúde: http://localhost:8081/actuator/health
 - PostgreSQL: `localhost:5433`, banco/usuário/senha locais: `election`.
 
-Variáveis opcionais da API: `DATABASE_URL` (JDBC), `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `PORT`. Para o frontend, copie `web/.env.example` para `web/.env.local`; `NEXT_PUBLIC_API_URL` usa `http://localhost:8081` como fallback. Reinicie o Next.js após alterar as variáveis.
+Variáveis opcionais da API: `DATABASE_URL` (JDBC), `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `PORT`. Para o frontend, copie `web/.env.example` para `web/.env.local`; configure `NEXT_PUBLIC_API_URL=http://localhost:8081` para desenvolvimento e o domínio HTTPS da API para Vercel. Reinicie o Next.js após alterar as variáveis.
 
-Flyway aplica V1–V11 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
+Flyway aplica V1–V14 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
 
 ## Uso
 
 - `/`: quatro modelos agregados, comparação, composição por instituto, evolução por snapshots e últimas pesquisas.
 - `/pesquisas`: histórico com valores originais e normalizados, fonte e metadados.
 - `/admin/pesquisas`: cadastro, edição e exclusão de pesquisas. Os candidatos e institutos são carregados da API.
+- `/admin/pesquisas/inbox`: descoberta de registros PesqEle, staging, revisão humana, dry-run e aprovação explícita antes de importar.
 - `/admin/institutos`: cadastro/edição de desempenho histórico e botão para salvar snapshots dos quatro modelos.
 - `/metodologia`: regras efetivamente implementadas.
 - `/apuracao`: dados oficiais TSE, ritmo dos votos e projeção territorial própria em cards distintos, estados e busca municipal.
 
-O admin e os endpoints de escrita não têm autenticação, conforme o escopo desta fase. O horário de cadastro usa o fuso do dispositivo e é enviado como um instante UTC; a publicação é exibida em `America/Sao_Paulo`. Datas de campo não sofrem conversão de fuso.
+A API administrativa é protegida por `X-Admin-Key` quando `ADMIN_API_KEY` está configurada; em `production`, a chave é obrigatória. O frontend administrativo fica oculto por padrão e exige `ADMIN_UI_ENABLED=true` no servidor Vercel. Isso não substitui a autorização da API. A inbox solicita a chave apenas em memória, sem gravá-la no navegador. O horário de cadastro usa o fuso do dispositivo e é enviado como um instante UTC; a publicação é exibida em `America/Sao_Paulo`. Datas de campo não sofrem conversão de fuso.
 
 O seed configura Flávio Bolsonaro (PL, 22) e Lula (PT, 13) conforme o escopo solicitado. O seed é independente da fonte oficial; a Fase 3 associa os resultados TSE pelo número eleitoral, mantendo nomes e percentuais oficiais. Também cadastra os 14 institutos solicitados, sem pesquisas ou percentuais inventados.
 
@@ -130,7 +131,12 @@ Migrations em `api/src/main/resources/db/migration`:
 6. `V6__seed_candidates.sql`
 7. `V7__seed_pollsters.sql`
 8. `V8__create_aggregate_snapshots.sql`
-9. `V9__prepare_pollster_performance_sources.sql` — campos de procedência e índice; sem INSERT de números inventados.
+9. `V9__prepare_pollster_performance_sources.sql` — campos de procedência.
+10. `V10__official_election_results.sql` — resultados oficiais TSE.
+11. `V11__election_baselines_and_projections.sql` — baseline e projeção territorial.
+12. `V12__pre_election_readiness.sql` — auditoria e freeze imutável.
+13. `V13__historical_polls.sql` — arquivo histórico isolado.
+14. `V14__poll_discoveries.sql` — inbox semiautomática e eventos de auditoria, sem seed de pesquisas.
 
 UUIDs nativos, timestamps com fuso, percentuais `NUMERIC(7,4)`, FKs e constraints explícitas. Há unicidade de instituto por slug, resultado por pesquisa/candidato e desempenho por instituto/eleição/turno. Índices cobrem publicação, seleção por instituto e referências de candidatos. A seleção de latest usa `DISTINCT ON` no PostgreSQL, sem carregar o histórico em memória.
 
@@ -147,6 +153,7 @@ Linux/macOS: `./mvnw test`. O Testcontainers cria bancos isolados; não usa o ba
 Na pasta `web`:
 
 ```sh
+npm test
 npm run lint
 npm run build
 ```
@@ -186,7 +193,7 @@ Veja o **exemplo completo com oito institutos**, fórmulas, critérios, tolerân
 
 ## Escopo futuro
 
-SSE, autenticação, mapas, scraping e projeção probabilística não foram implementados. Os próximos passos do modelo incluem revisão empírica dos fatores, sensibilidade e cadastro de desempenho real com fontes.
+Não há scraping editorial genérico nem previsão probabilística de vencedor. Adapters futuros poderão apenas propor resultados ao staging para revisão humana; nunca importar diretamente. SSE e distributed lock entre réplicas permanecem fora do escopo.
 
 
 ## Fase 3 — Apuração oficial TSE
@@ -225,3 +232,16 @@ Histórico público de pesquisas presidenciais de 2026 em `/pesquisas/historico`
 ## Produção — Fase 6
 
 Configuração Azure Container Apps (Brazil South, Consumption) + Neon PostgreSQL + Vercel, workflow GHCR, segurança, smoke tests e carga explícita em [docs/deployment.md](docs/deployment.md). Template em [infra/azure/main.json](infra/azure/main.json). Backup, restore, recuperação TSE e operação com uma réplica em [docs/production-runbook.md](docs/production-runbook.md). Nenhum dado local é migrado automaticamente. Cloud Run permanece somente como alternativa histórica.
+
+
+## Inbox semiautomática de pesquisas
+
+A descoberta usa somente o ZIP oficial PesqEle, com limites de tamanho, expansão, linhas e tempo; executa às **08:00, 12:00 e 16:00 de Brasília**, além de sync manual. `POLL_DISCOVERY_ENABLED=true` é o padrão; `false` desliga download e agendamento. `POLL_DISCOVERY_TSE_URL` aceita apenas o endpoint oficial HTTPS de 2026, não URLs do operador.
+
+Fluxo obrigatório: **descoberta → staging → revisão humana → dry-run existente → aprovação com hash → importação**. Não há captura automática de percentuais de sites editoriais. O CSV não informa explicitamente turno, liminares ou horário real da publicação: a revisão deve confirmar o cenário 13/22, a permissão de divulgação, a fonte e um `publishedAt` verificável. O campo deve estar entre o primeiro e segundo turnos; registros estaduais e de outros cargos/anos são excluídos.
+
+Apenas a aprovação chama o `BatchImportService` e o `AggregateSnapshotService` na mesma transação, com quatro snapshots novos e rollback se qualquer etapa falhar. Como o serviço existente limita snapshots por método/data/minuto, uma aprovação em minuto já ocupado deve ser repetida no minuto seguinte, sem importar parcialmente. Sync, edição, ignore e dry-run nunca geram snapshots. Staging e eventos permanecem para auditoria.
+
+Endpoints protegidos: `POST /api/admin/poll-discoveries/sync`, `GET /api/admin/poll-discoveries?status=&date=&pollster=`, `GET /api/admin/poll-discoveries/{id}`, `PUT .../{id}/results`, `POST .../{id}/dry-run`, `POST .../{id}/import` e `POST .../{id}/ignore`.
+
+Operação, contrato CSV confirmado, payloads e limites: [docs/poll-discovery.md](docs/poll-discovery.md). Azure Container Apps + Neon PostgreSQL + Vercel continuam sendo os targets atuais. Mantenha uma réplica enquanto houver scheduler; nenhum dado, freeze ou deploy é criado pela instalação da inbox.

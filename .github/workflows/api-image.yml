@@ -2,7 +2,7 @@ name: API image (GHCR)
 
 on:
   push:
-    branches: [main]
+    branches: [master]
     paths:
       - 'api/**'
       - '.github/workflows/api-image.yml'
@@ -50,13 +50,13 @@ jobs:
             --tag "$IMAGE:$GITHUB_SHA" api
           docker push "$IMAGE:$GITHUB_SHA"
 
-      - name: Update main alias
-        if: github.ref == 'refs/heads/main'
+      - name: Update master alias
+        if: github.ref == 'refs/heads/master'
         shell: bash
         run: |
           set -euo pipefail
-          docker tag "$IMAGE:$GITHUB_SHA" "$IMAGE:main"
-          docker push "$IMAGE:main"
+          docker tag "$IMAGE:$GITHUB_SHA" "$IMAGE:master"
+          docker push "$IMAGE:master"
 
       - name: Log out of GHCR
         if: always()

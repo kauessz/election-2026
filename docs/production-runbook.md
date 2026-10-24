@@ -4,7 +4,7 @@ Target operacional: Azure Container Apps; Cloud Run é somente alternativa hist�
 
 ## Antes da janela crítica
 
-- Container App election-2026-api em Brazil South/brazilsouth: Consumption, 0.5 CPU/1Gi, min=1 e max=1, activeRevisionsMode=Single. Conferir ingress externo HTTPS, target port 8081, PORT=8081 e imagem GHCR pública fixada por SHA; não depender do alias main. Configuração em infra/azure/main.json.
+- Container App election-2026-api em Brazil South/brazilsouth: Consumption, 0.5 CPU/1Gi, min=1 e max=1, activeRevisionsMode=Single. Conferir ingress externo HTTPS, target port 8081, PORT=8081 e imagem GHCR pública fixada por SHA; não depender do alias master. Configuração em infra/azure/main.json.
 - Budget e billing alerts ativos no projeto. Max=1 reduz risco de escala, mas não é um teto de custo nem garantia de que nunca haverá instâncias temporárias extras.
 - Quatro Azure Container Apps Secrets: admin-api-key, db-url, db-username, db-password, mapeados às env por secretRef. Sem Key Vault obrigatório. Rotação exige reiniciar revisão ou publicar nova revisão; não basta editar o secret. Admin com X-Admin-Key; frontend sem segredo e ADMIN_UI_ENABLED=false. CORS deve ser origem Vercel exata.
 - Neon dedicado, região disponível próxima da API, URL pooled fornecida pelo Console com sslmode=require, Hikari max=5/min-idle=1. Preparar endpoint direto para pg_dump e recuperação.
@@ -74,3 +74,8 @@ Mudança **manual**, após encerrar a necessidade do scheduler contínuo: no Por
 ## Referências
 
 [Deploy e carga explícita](deployment.md), [Neon pooling / uso de conexão direta](https://neon.com/docs/connect/connection-pooling), [Azure Consumption](https://learn.microsoft.com/en-us/azure/container-apps/billing) e [Azure secrets](https://learn.microsoft.com/en-us/azure/container-apps/manage-secrets).
+
+
+## Inbox de pesquisas
+
+O scheduler de descoberta consulta somente o registro PesqEle às 08h/12h/16h de Brasília, com `POLL_DISCOVERY_ENABLED=true`; desligar com false. Não importa percentuais automaticamente. Operação, confirmação de autorização/cenário, revisão, hash e rollback transacional em [poll-discovery.md](poll-discovery.md). A carga real continua exigindo aprovação administrativa. Mantenha max replicas=1.

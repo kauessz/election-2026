@@ -1,0 +1,27 @@
+.discovery-inbox { padding-block:2rem 4rem; min-width:0; }
+.discovery-inbox h1 { font-size:2rem; font-weight:650; margin-block:1rem; }
+.discovery-inbox h2 { font-size:1.4rem; font-weight:600; margin-block:1rem; }
+.discovery-inbox p { margin-block:.75rem; line-height:1.6; }
+.discovery-actions { display:flex; flex-wrap:wrap; align-items:center; gap:1rem; margin-block:1.25rem; }
+.discovery-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:1rem; align-items:end; margin-block:1.25rem; }
+.discovery-inbox label { display:flex; flex-direction:column; gap:.45rem; font-size:.85rem; min-width:0; }
+.discovery-inbox input,.discovery-inbox select,.discovery-inbox textarea { min-width:0; width:100%; border:1px solid #cbd6ce; border-radius:.35rem; background:white; padding:.65rem; font:inherit; }
+.discovery-inbox textarea { min-height:6rem; margin-bottom:1rem; }
+.discovery-inbox button { cursor:pointer; }
+.discovery-inbox button:disabled { opacity:.5; cursor:not-allowed; }
+.discovery-inbox small { display:block; color:#58685e; font-size:.75rem; }
+.discovery-key { max-width:30rem; margin-top:1.5rem; }
+.discovery-summary { display:grid; grid-template-columns:repeat(auto-fit,minmax(140px,1fr)); gap:1rem; margin-block:2rem; }
+.discovery-summary article { padding:1rem; border:1px solid #dce4de; border-radius:.5rem; font-size:.8rem; }
+.discovery-summary strong { display:block; font-size:1.8rem; }
+.discovery-table { overflow-x:auto; max-width:100%; }
+.discovery-table table { width:100%; text-align:left; border-collapse:collapse; font-size:.8rem; }
+.discovery-table td,.discovery-table th { padding:.75rem; border-bottom:1px solid #dce4de; }
+.discovery-table button,.discovery-inbox a { text-decoration:underline; }
+.discovery-review { border:1px solid #cbd6ce; border-radius:.75rem; margin-top:2rem; padding:1.25rem; min-width:0; }
+.discovery-inbox pre { white-space:pre-wrap; overflow-wrap:anywhere; max-width:100%; background:#f4f7f2; padding:1rem; font-size:.75rem; }
+.discovery-inbox .discovery-check { display:flex; flex-direction:row; align-items:flex-start; gap:.65rem; margin-block:1rem; }
+.discovery-check input { width:1rem; flex-shrink:0; margin-top:.25rem; }
+.discovery-notice { border-left:3px solid #946f48; padding:1rem; background:#f7f5ef; }
+.discovery-inbox :focus-visible { outline:3px solid #946f48; outline-offset:3px; }
+@media(max-width:640px) { .discovery-fields { grid-template-columns:minmax(0,1fr); } .discovery-review { padding:.85rem; } }

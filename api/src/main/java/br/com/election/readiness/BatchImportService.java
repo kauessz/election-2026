@@ -49,6 +49,18 @@ public class BatchImportService {
  }
 
  public Report run(JsonNode body,boolean dryRun,boolean performance){
+  return runUsing(body,dryRun,performance,tx);
+ }
+
+ // Single approved inbox item joins its caller's transaction, so poll + audit + snapshots commit together.
+ // The exact same row conversion, validation, normalization and import logic is reused below.
+ public Report runInTransaction(JsonNode body){
+  if(!org.springframework.transaction.support.TransactionSynchronizationManager.isActualTransactionActive())
+   throw new IllegalStateException("Importação atômica exige transação ativa.");
+  return runUsing(body,false,false,null);
+ }
+
+ private Report runUsing(JsonNode body,boolean dryRun,boolean performance,TransactionTemplate template){
 
   String field=performance?"performances":"polls";JsonNode rows=body.isArray()?body:body.get(field);
 
@@ -58,7 +70,7 @@ public class BatchImportService {
 
   for(int i=0;i<rows.size();i++){final int index=i;final JsonNode row=rows.get(i);
 
-   try{Detail detail=tx.execute(status->{
+   try{java.util.function.Function<org.springframework.transaction.TransactionStatus,Detail> work=status->{
 
     // Same lock for all imports serializes logical lookup + write across concurrent files.
 
@@ -68,7 +80,7 @@ public class BatchImportService {
 
     if(dryRun)status.setRollbackOnly();return d;
 
-   });details.add(detail);
+   };Detail detail=template==null?work.apply(null):template.execute(status->work.apply(status));details.add(detail);
 
    }catch(RuntimeException e){details.add(new Detail(index,"FAILED",null,null,null,message(e)));}
 

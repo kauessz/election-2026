@@ -19,12 +19,12 @@ O Dockerfile existente de api/ permanece intacto: Java 21, build multi-stage, us
 
 ## 1. Imagem GHCR
 
-[.github/workflows/api-image.yml](../.github/workflows/api-image.yml) publica via GitHub Actions, com push em main quando api/** ou o workflow mudarem, além de workflow_dispatch. Build de api/Dockerfile com contexto api/, linux/amd64:
+[.github/workflows/api-image.yml](../.github/workflows/api-image.yml) publica via GitHub Actions, com push em master quando api/** ou o workflow mudarem, além de workflow_dispatch. Build de api/Dockerfile com contexto api/, linux/amd64:
 
 - `ghcr.io/<github-owner-em-minúsculas>/election-2026-api:<git-sha-completo>`
-- alias `main` somente quando a referência executada for main.
+- alias `master` somente quando a referência executada for master.
 
-Usa GITHUB_TOKEN temporário, contents:read e packages:write. Sem credencial Azure, PAT fixo, ACR ou latest. Deploy/rollback usam o SHA aprovado, nunca dependem do alias main. A label OCI conecta o package ao repositório; packages preexistentes precisam conceder acesso de Actions ao repositório.
+Usa GITHUB_TOKEN temporário, contents:read e packages:write. Sem credencial Azure, PAT fixo, ACR ou latest. Deploy/rollback usam o SHA aprovado, nunca dependem do alias master. A label OCI conecta o package ao repositório; packages preexistentes precisam conceder acesso de Actions ao repositório.
 
 Após a primeira publicação, tornar o package **PUBLIC** em Package settings → Change visibility. Confirmar pull anônimo da tag SHA; repositório público não garante package público. O template assume imagem pública.
 
@@ -96,7 +96,7 @@ Manter min=1 enquanto o scheduler estiver ativo, sem depender de tráfego HTTP p
 
 ## Carga explícita após o deploy
 
-O banco Neon de produção começa sem pesquisas reais, históricos, snapshots ou freeze. As 12 migrations existentes só mantêm os schemas/seeds estruturais já versionados. Não há nova migration nem cópia automática do banco local. Institutos extras da base local precisam ser cadastrados explicitamente por POST /api/admin/pollsters antes do dry run: DataTrends (`datatrends`), Vox Brasil (`vox-brasil`), Instituto França (`instituto-franca`), Meio/Ideia (`meio-ideia`) e Alfa Inteligência (`alfa-inteligencia`). Conferir primeiro GET /api/pollsters para evitar duplicatas. Não inventar registros nem slugs.
+O banco Neon de produção começa sem pesquisas reais, históricos, snapshots ou freeze. As 14 migrations mantêm os schemas e seeds estruturais versionados, incluindo histórico isolado (V13) e inbox (V14). Não há carga automática de percentuais nem cópia do banco local. A descoberta PesqEle apenas prepara staging; consulte [docs/poll-discovery.md](poll-discovery.md). Institutos extras da base local precisam ser cadastrados explicitamente por POST /api/admin/pollsters antes do dry run: DataTrends (`datatrends`), Vox Brasil (`vox-brasil`), Instituto França (`instituto-franca`), Meio/Ideia (`meio-ideia`) e Alfa Inteligência (`alfa-inteligencia`). Conferir primeiro GET /api/pollsters para evitar duplicatas. Não inventar registros nem slugs.
 
 Comandos abaixo são um procedimento para execução posterior pelo operador. Não foram executados em produção por esta fase. Executar um passo por vez, inspecionando falhas, qualidade e auditoria antes da próxima escrita. A chave deve vir de secret/env, sem transcrição de sessão ou verbose de headers.
 

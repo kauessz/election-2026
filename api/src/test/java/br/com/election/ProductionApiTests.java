@@ -38,7 +38,7 @@ class ProductionApiTests {
             .andExpect(status().isUnauthorized());
     }
     @Test void protectsNestedAndSemicolonAdminPaths() throws Exception {
-        for(var path:List.of("/api/admin/polls", "/api/admin/aggregates/snapshot", "/api/admin/pollster-performances/import", "/api/admin/poll-history/import"))
+        for(var path:List.of("/api/admin/polls", "/api/admin/aggregates/snapshot", "/api/admin/pollster-performances/import", "/api/admin/poll-history/import", "/api/admin/poll-discoveries/sync"))
             mvc.perform(post(path).contentType("application/json").content("{}")).andExpect(status().isUnauthorized());
         mvc.perform(get("/api/admin/data-quality;extra")).andExpect(status().isUnauthorized());
     }
@@ -50,7 +50,7 @@ class ProductionApiTests {
     @Test void healthIsAnonymousAndDoesNotExposeDatabaseDetails() throws Exception {
         mvc.perform(get("/actuator/health")).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("UP"))
             .andExpect(jsonPath("$.components").doesNotExist()).andExpect(jsonPath("$.details").doesNotExist());
-        assertThat(jdbc.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success", Integer.class)).isEqualTo(13);
+        assertThat(jdbc.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success", Integer.class)).isEqualTo(14);
     }
     @Test void corsAllowsExactCsvOriginsAndAdminPreflightWithoutSecret() throws Exception {
         for (var origin:List.of("https://frontend.example.org", "https://second.example.org"))

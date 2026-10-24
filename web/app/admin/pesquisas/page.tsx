@@ -311,10 +311,11 @@ export default function AdminPollsPage() {
               Adicione os dados publicados e mantenha o histórico atualizado.
             </p>
           </div>
-          <Badge variant="outline">Ambiente sem autenticação</Badge>
+          <Badge variant="outline">Administração protegida por configuração</Badge>
         </div>
       </div>
       <div className="admin-toolbar">
+        <Link href="/admin/pesquisas/inbox" className="text-link">Inbox de pesquisas →</Link>
         <Link href="/admin/institutos" className="text-link">
           Desempenho dos institutos e snapshots →
         </Link>
