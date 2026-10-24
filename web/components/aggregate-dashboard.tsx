@@ -8,6 +8,7 @@ import {
   Bar,
   CartesianGrid,
   Legend,
+  LabelList,
   LineChart,
   Line,
   ResponsiveContainer,
@@ -17,7 +18,9 @@ import {
 } from "recharts";
 import { Aggregate, AggregateMethod, AggregateSnapshot } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
-import { modelPercent as percent, publicNumber } from "@/lib/presentation";
+import { modelPercent as percent, publicNumber, publicPercent } from "@/lib/presentation";
+import { latestSeriesLabels } from "@/lib/chart-labels";
+import { ChartValueLabel } from "@/components/chart-value-label";
 import { RefreshControls } from "@/components/refresh-controls";
 import type { ApiState } from "@/lib/api-refresh";
 import { date, ErrorState, number } from "@/components/poll-list";
@@ -181,7 +184,7 @@ function Comparison({ aggregates }: { aggregates: Aggregate[] }) {
           <BarChart
             data={data}
             layout="vertical"
-            margin={{ top: 10, right: 24, bottom: 5, left: 0 }}
+            margin={{ top: 10, right: 64, bottom: 5, left: 0 }}
           >
             <CartesianGrid horizontal={false} stroke="#e8eeeb" />
             <XAxis
@@ -211,7 +214,10 @@ function Comparison({ aggregates }: { aggregates: Aggregate[] }) {
                 fill={seriesColors[i % seriesColors.length]}
                 radius={[0, 3, 3, 0]}
                 maxBarSize={17}
-              />
+              >
+                <LabelList position="right" offset={6} formatter={(value) => publicPercent(Number(value))}
+                  fontSize={11} fontWeight={600} fill="#294b44" />
+              </Bar>
             ))}
           </BarChart>
         </ResponsiveContainer>
@@ -379,6 +385,7 @@ function AggregateHistory() {
     reference: s.referenceDate,
     ...Object.fromEntries(s.results.map((r) => [r.candidateId, r.percentage])),
   }));
+  const endLabels = latestSeriesLabels(points, candidates.map(([id]) => id), "timestamp");
   return (
     <section className="section">
       <div className="section-heading">
@@ -438,7 +445,7 @@ function AggregateHistory() {
             <ResponsiveContainer width="100%" height="100%">
               <LineChart
                 data={points}
-                margin={{ top: 15, right: 24, left: 0, bottom: 10 }}
+                margin={{ top: 40, right: 72, left: 0, bottom: 28 }}
               >
                 <CartesianGrid stroke="#e8eeeb" />
                 <XAxis
@@ -481,7 +488,10 @@ function AggregateHistory() {
                     dot={{ r: 3 }}
                     connectNulls={false}
                     isAnimationActive={false}
-                  />
+                  >
+                    <LabelList content={(label) => <ChartValueLabel label={label} endpoint={endLabels[id]}
+                      color={seriesColors[i % seriesColors.length]} />} />
+                  </Line>
                 ))}
               </LineChart>
             </ResponsiveContainer>

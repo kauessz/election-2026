@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { CartesianGrid, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from "recharts";
+import { CartesianGrid, LabelList, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from "recharts";
+import { latestSeriesLabels, observationLabelOffset } from "@/lib/chart-labels";
+import { ChartValueLabel } from "@/components/chart-value-label";
 import { RefreshCw } from "lucide-react";
 import type { AggregateMethod, AggregateSnapshot, Candidate, Poll } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
@@ -51,9 +53,9 @@ function ObservationTable({ polls, hidden }: { polls: TimelinePoll[]; hidden: st
   </details>;
 }
 
-function IndividualRound({ round, polls, domain, colors, hidden, pending, unavailable }: {
+function IndividualRound({ round, polls, domain, colors, hidden, pending, unavailable, showValues }: {
   round: 1 | 2; polls: TimelinePoll[]; domain: [number, number]; colors: Map<string,string>; hidden: string[];
-  pending: boolean; unavailable: boolean;
+  pending: boolean; unavailable: boolean; showValues: boolean;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const selected = polls.find((poll) => pollId(poll) === selectedId);
@@ -64,7 +66,7 @@ function IndividualRound({ round, polls, domain, colors, hidden, pending, unavai
     {!polls.length && <p className={"poll-history-empty"} role="status">{pending ? "Carregando pesquisas…" : unavailable ? "Não foi possível carregar esta fonte. Tente atualizar os dados." : round === 1 ? "Nenhuma observação do 1º turno disponível para estes filtros. O arquivo será preenchido apenas com fontes verificadas." : "Nenhuma observação do 2º turno corresponde aos filtros."}</p>}
     <div className={"poll-history-chart"} aria-label={`Observações individuais do ${round}º turno; valores completos na tabela abaixo`}>
       <ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{ width: 600, height: 320 }}>
-        <ScatterChart margin={{ top: 42, right: 20, bottom: 20, left: 0 }}>
+        <ScatterChart margin={{ top: 42, right: showValues ? 66 : 20, bottom: 20, left: 0 }}>
           <CartesianGrid stroke="#e2e8e3" strokeDasharray="3 3" />
           <XAxis dataKey="time" type="number" domain={domain} allowDataOverflow tickFormatter={shortDay} tick={{fontSize:11}} minTickGap={32} />
           <YAxis dataKey="percentage" type="number" domain={[0,100]} unit="%" tick={{fontSize:11}} width={46} />
@@ -73,19 +75,21 @@ function IndividualRound({ round, polls, domain, colors, hidden, pending, unavai
             const point=payload?.[0]?.payload as Point | undefined;
             return active && point ? <div className={"poll-history-tooltip"}><PollDetails poll={point.poll} /></div> : null;
           }} />
-          {candidates.map(([key, candidate]) => {
+          {candidates.map(([key, candidate], seriesIndex) => {
             const points: Point[] = polls.flatMap((poll) => poll.results.filter((result) => candidateIdentity(result) === key)
               .map((result) => ({time:Date.parse(poll.publishedAt),percentage:result.originalPercentage,poll,result})));
             return <Scatter key={key} name={candidateLabel(candidate)} data={points} fill={colors.get(key)} line={false} isAnimationActive={false}
               shape={(props: unknown) => {
                 const {cx,cy,payload} = props as {cx:number;cy:number;payload:Point};
                 const description=`${candidateLabel(payload.result)}, ${publicPercent(payload.percentage)}, ${payload.poll.pollster.name}, ${date(payload.poll.publishedAt,true)}, base ${payload.poll.voteBasis}. Mostrar detalhes da pesquisa.`;
-                return <circle cx={cx} cy={cy} r={5} fill={payload.poll.voteBasis === "TOTAL" ? "#fff" : colors.get(key)} stroke={colors.get(key)} strokeWidth={2}
+                return <g><circle cx={cx} cy={cy} r={5} fill={payload.poll.voteBasis === "TOTAL" ? "#fff" : colors.get(key)} stroke={colors.get(key)} strokeWidth={2}
                   tabIndex={0} role="button" aria-label={description} className={"poll-history-point"}
                   onFocus={() => setSelectedId(pollId(payload.poll))} onMouseEnter={() => setSelectedId(pollId(payload.poll))}
                   onClick={() => setSelectedId(pollId(payload.poll))} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedId(pollId(payload.poll)); } }}>
                   <title>{description}</title>
-                </circle>;
+                </circle>{showValues && <text className="chart-observation-value" x={cx+7} y={cy+observationLabelOffset(payload.percentage,seriesIndex)}
+                  fill={colors.get(key)} fontSize={10} fontWeight={500} stroke="white" strokeWidth={3} paintOrder="stroke"
+                  aria-hidden="true" pointerEvents="none">{publicPercent(payload.percentage)}</text>}</g>;
               }} />;
           })}
         </ScatterChart>
@@ -108,20 +112,29 @@ function ModelSnapshots({ visibleIds, from, to }: { visibleIds: string[]; from: 
     && (!to || Date.parse(snapshot.calculatedAt)<=Date.parse(`${to}T23:59:59.999-03:00`)))
     .sort((a,b)=>Date.parse(a.calculatedAt)-Date.parse(b.calculatedAt));
   const candidates=[...new Map(selected.flatMap((snapshot)=>snapshot.results).filter((candidate)=>visibleIds.includes(candidate.candidateId)).map((candidate)=>[candidate.candidateId,candidate])).values()];
+  const points = selected.map((snapshot)=>({time:Date.parse(snapshot.calculatedAt),...Object.fromEntries(snapshot.results.map((result)=>[result.candidateId,result.percentage]))}));
+  const endLabels = latestSeriesLabels(points,candidates.map((candidate)=>candidate.candidateId));
   return <section className={"poll-history-modelPanel"} aria-label="Agregado do modelo: snapshots existentes">
     <span className="section-kicker">AGREGADO DO MODELO / 2º TURNO</span><h2>Snapshots existentes · {methodLabels[method]}</h2>
     <label>Modelo<select value={method} onChange={(event)=>setMethod(event.target.value as AggregateMethod)}>{Object.entries(methodLabels).map(([key,label])=><option key={key} value={key}>{label}</option>)}</select></label>
     <p>Camada separada das pesquisas individuais. Votos válidos; linhas unem somente snapshots do mesmo modelo e candidato, sem nova média ou tendência. O período usa a data de cálculo.</p>
     {state.error && <p role="status">Não foi possível atualizar os snapshots. {state.data ? "Últimos dados preservados." : state.error}</p>}
     {!selected.length ? <p>{state.loading ? "Carregando snapshots…" : "Sem snapshots para este modelo e período."}</p> : <>
-      <div className={"poll-history-chart"}><ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{width:600,height:320}}><ScatterChart margin={{top:16,right:20,bottom:20,left:0}}>
+      <div className={"poll-history-chart"}><ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{width:600,height:320}}><ScatterChart margin={{top:40,right:72,bottom:28,left:0}}>
         <CartesianGrid strokeDasharray="3 3"/><XAxis dataKey="time" type="number" domain={[(min:number)=>min-3600000,(max:number)=>max+3600000]} tickFormatter={shortDay}/><YAxis dataKey="percentage" type="number" domain={[0,100]} unit="%"/>
         <Tooltip content={({active,payload})=>{
           const point=payload?.[0]?.payload as {time:number;percentage:number;candidateName:string} | undefined;
           return active&&point ? <div className={"poll-history-tooltip"}><strong>Agregado do modelo · {methodLabels[method]}</strong><p>{date(new Date(point.time).toISOString(),true)}</p><p>{point.candidateName}: {modelPercent(point.percentage)}</p></div> : null;
         }}/>
-        {candidates.map((candidate,i)=><Scatter key={candidate.candidateId} name={`Agregado do modelo — ${candidate.candidateName}`} data={selected.flatMap((snapshot)=>snapshot.results.filter((result)=>result.candidateId===candidate.candidateId).map((result)=>({time:Date.parse(snapshot.calculatedAt),percentage:result.percentage,candidateName:result.candidateName})))}
-          fill={palette[i%palette.length]} line={{strokeDasharray:"5 4"}} lineType="joint" lineJointType="linear" shape="diamond" isAnimationActive={false}/>)}
+        {candidates.map((candidate,i)=>{
+          const series=selected.flatMap((snapshot)=>snapshot.results.filter((result)=>result.candidateId===candidate.candidateId).map((result)=>({time:Date.parse(snapshot.calculatedAt),percentage:result.percentage,candidateName:result.candidateName})));
+          const endpoint=endLabels[candidate.candidateId];
+          return <Scatter key={candidate.candidateId} name={`Agregado do modelo — ${candidate.candidateName}`} data={series}
+            fill={palette[i%palette.length]} line={{strokeDasharray:"5 4"}} lineType="joint" lineJointType="linear" shape="diamond" isAnimationActive={false}>
+            <LabelList dataKey="percentage" content={(label)=><ChartValueLabel label={label}
+              endpoint={endpoint ? {...endpoint,index:series.length-1} : undefined} color={palette[i%palette.length]}/>}/>
+          </Scatter>;
+        })}
       </ScatterChart></ResponsiveContainer></div>
       <div className="poll-history-candidateLegend" aria-label="Candidatos nos snapshots">{candidates.map((candidate,i)=><span key={candidate.candidateId}><i style={{background:palette[i%palette.length]}} aria-hidden="true"/>{candidate.candidateName}</span>)}</div>
       <p className={"poll-history-legend"}>Losangos e linha tracejada: agregado do modelo.</p>
@@ -136,6 +149,7 @@ export function PollHistoryTimeline() {
   const candidates=useApi<Candidate[]>("/api/candidates");
   const [filters,setFilters]=useState<HistoryFilters>({...emptyHistoryFilters});
   const [showModel,setShowModel]=useState(false);
+  const [showValues,setShowValues]=useState(false);
   const all=combineTimelinePolls(archive.data ?? [],current.data ?? [],candidates.data ?? []);
   const visible=filterTimelinePolls(all,filters);
   const catalog=historyCandidates(all);
@@ -166,10 +180,11 @@ export function PollHistoryTimeline() {
       <div className={"poll-history-filterSummary"}><p role="status">Exibindo {visible.length} de {all.length} pesquisas</p><Button variant="ghost" onClick={()=>setFilters({...emptyHistoryFilters})}>Limpar filtros</Button></div>
     </div>
     {filters.from && filters.to && filters.from>filters.to && <p role="alert">O início do período deve ser anterior ou igual ao fim.</p>}
+    <div className="poll-history-overlayControl"><label><input type="checkbox" checked={showValues} onChange={(event)=>setShowValues(event.target.checked)}/> Mostrar valores nos pontos</label></div>
     <div className={"poll-history-milestones"} aria-label="Datas dos turnos de 2026">{roundMilestones.map((milestone)=><span key={milestone.round}>{milestone.label}</span>)}</div>
     {historyPanels(visible,filters.round).map((panel,index)=><div key={panel.round}>
       {index>0 && <div className={"poll-history-roundDivider"} role="separator" aria-label="Separação entre as disputas do primeiro e segundo turnos"><strong>Nova disputa · 2º turno</strong><span>04/10/2026 — 1º turno → 25/10/2026 — 2º turno</span></div>}
-      <IndividualRound round={panel.round} polls={panel.polls} domain={domain} colors={colors} hidden={filters.hiddenCandidates}
+      <IndividualRound round={panel.round} polls={panel.polls} domain={domain} colors={colors} hidden={filters.hiddenCandidates} showValues={showValues}
         pending={panel.round===1 ? archive.loading : archive.loading||current.loading} unavailable={panel.round===1 ? !!archive.error && !archive.data : !!current.error && !current.data}/>
     </div>)}
     {filters.round!=="1" && <div className={"poll-history-overlayControl"}><label><input type="checkbox" checked={showModel&&canOverlay} disabled={!canOverlay} onChange={(event)=>setShowModel(event.target.checked)}/> Mostrar agregado do modelo em painel separado (snapshots existentes)</label>
