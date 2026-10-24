@@ -1,14 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { CartesianGrid, LabelList, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis } from "recharts";
-import { latestSeriesLabels, observationLabelOffset } from "@/lib/chart-labels";
+import { CartesianGrid, LabelList, ReferenceLine, ResponsiveContainer, Scatter, ScatterChart, Tooltip, XAxis, YAxis, usePlotArea, useXAxisScale, useYAxisScale } from "recharts";
+import { latestSeriesLabels } from "@/lib/chart-labels";
+import { expandedPercentageDomain, layoutHistoryLabels, roundTimelineDomain, type HistoryLabelPoint } from "@/lib/poll-history-chart";
 import { ChartValueLabel } from "@/components/chart-value-label";
 import { RefreshCw } from "lucide-react";
 import type { AggregateMethod, AggregateSnapshot, Candidate, Poll } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
 import { candidateIdentity, candidateLabel, combineTimelinePolls, emptyHistoryFilters, filterTimelinePolls,
-  historyCandidates, historyPanels, roundMilestones, roundsNotice, timelineDomain,
+  historyCandidates, historyPanels, roundMilestones, roundsNotice,
   type ArchivedPoll, type HistoricalCandidateResult, type HistoryFilters, type TimelinePoll } from "@/lib/poll-history";
 import { modelPercent, publicPercent } from "@/lib/presentation";
 import { date, number } from "@/components/poll-list";
@@ -19,7 +20,26 @@ const palette = ["#294b44", "#946f48", "#475569", "#795e84", "#6a752f", "#915854
 const methodLabels: Record<AggregateMethod, string> = { SIMPLE: "Média simples", RECENCY: "Recência", WEIGHTED: "Ponderada", CALIBRATED: "Calibrada" };
 const shortDay = (timestamp: number) => new Date(timestamp).toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit", timeZone: "America/Sao_Paulo" });
 const pollId = (poll: TimelinePoll) => `${poll.origin}:${poll.id}`;
-type Point = { time: number; percentage: number; poll: TimelinePoll; result: HistoricalCandidateResult };
+type Point = HistoryLabelPoint & { poll: TimelinePoll; result: HistoricalCandidateResult };
+
+function HistoryPlotLabels({ points, showAll, colors }: { points: Point[]; showAll: boolean; colors: Map<string,string> }) {
+  const area=usePlotArea(), xScale=useXAxisScale(), yScale=useYAxisScale();
+  if (!area || !xScale || !yScale || area.width<=0 || area.height<=0) return null;
+  const pixels=points.flatMap(point=>{
+    const x=xScale(point.time), y=yScale(point.percentage);
+    return x!=null && y!=null ? [{...point,x,y}] : [];
+  });
+  const fontSize=area.width<330 ? 10 : 11;
+  const labels=layoutHistoryLabels(pixels,{left:area.x+3,right:area.x+area.width+96,top:area.y+22,bottom:area.y+area.height-4},showAll,fontSize);
+  return <g aria-hidden="true" pointerEvents="none" className="poll-history-pointLabels">
+    {labels.map(label=><text key={label.id} x={label.x} y={label.y} dominantBaseline="middle"
+      className={label.final ? "poll-history-finalValue" : "poll-history-observationValue"}
+      fill={colors.get(label.candidateKey)}
+      fontSize={fontSize} fontWeight={label.final ? 650 : 500} stroke="white" strokeWidth={3} paintOrder="stroke">
+      {label.text}
+    </text>)}
+  </g>;
+}
 
 function PollDetails({ poll }: { poll: TimelinePoll }) {
   return <div className={"poll-history-pollDetails"}>
@@ -53,50 +73,63 @@ function ObservationTable({ polls, hidden }: { polls: TimelinePoll[]; hidden: st
   </details>;
 }
 
-function IndividualRound({ round, polls, domain, colors, hidden, pending, unavailable, showValues }: {
-  round: 1 | 2; polls: TimelinePoll[]; domain: [number, number]; colors: Map<string,string>; hidden: string[];
+function IndividualRound({ round, polls, colors, hidden, pending, unavailable, showValues }: {
+  round: 1 | 2; polls: TimelinePoll[]; colors: Map<string,string>; hidden: string[];
   pending: boolean; unavailable: boolean; showValues: boolean;
 }) {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [expanded, setExpanded] = useState(true);
   const selected = polls.find((poll) => pollId(poll) === selectedId);
   const candidates = historyCandidates(polls).filter(([key]) => !hidden.includes(key));
+  const domain=roundTimelineDomain(polls,round);
+  const points: Point[]=candidates.flatMap(([key,candidate],seriesIndex)=>polls.flatMap(poll=>poll.results
+    .filter(result=>candidateIdentity(result)===key).map(result=>({
+      id:`${pollId(poll)}:${key}`,candidateKey:key,name:candidateLabel(candidate),seriesIndex,
+      time:Date.parse(poll.publishedAt),percentage:result.originalPercentage,poll,result,
+    }))));
+  const yDomain: [number,number]=expanded ? expandedPercentageDomain(points.map(point=>point.percentage)) : [0,100];
+  const yTicks=expanded ? Array.from({length:(yDomain[1]-yDomain[0])/5+1},(_,i)=>yDomain[0]+i*5) : [0,25,50,75,100];
+  const milestone=roundMilestones.find(item=>item.round===round)!;
   return <section className={"poll-history-roundPanel"} aria-label={`Pesquisas individuais do ${round}º turno`} data-round={round}>
     <span className="section-kicker">PESQUISAS INDIVIDUAIS</span><h2>{round}º turno</h2>
-    <p className="chart-note">Cada ponto representa uma observação publicada. Não há média, linha de tendência ou conexão entre institutos. O eixo vertical vai de 0 a 100%.</p>
+    <p className="chart-note">Cada ponto representa uma observação publicada. Não há média, linha de tendência ou conexão entre institutos.</p>
+    <div className="poll-history-scale" role="group" aria-label={`Escala vertical do ${round}º turno`}>
+      <span>Escala:</span>{([[true,"Ampliada"],[false,"0–100%"]] as const).map(([value,label])=><button key={String(value)} type="button"
+        aria-pressed={expanded===value} onClick={()=>setExpanded(value)}>{label}</button>)}
+    </div>
+    <p className="poll-history-scaleNotice">{expanded ? "Escala ampliada para facilitar a leitura das diferenças; o eixo vertical não começa necessariamente em zero." : "Escala completa: eixo vertical de 0 a 100%."}</p>
     {!polls.length && <p className={"poll-history-empty"} role="status">{pending ? "Carregando pesquisas…" : unavailable ? "Não foi possível carregar esta fonte. Tente atualizar os dados." : round === 1 ? "Nenhuma observação do 1º turno disponível para estes filtros. O arquivo será preenchido apenas com fontes verificadas." : "Nenhuma observação do 2º turno corresponde aos filtros."}</p>}
-    <div className={"poll-history-chart"} aria-label={`Observações individuais do ${round}º turno; valores completos na tabela abaixo`}>
+    <div className="poll-history-candidateLegend poll-history-plotLegend" aria-label={`Legenda dos candidatos do ${round}º turno`}>{candidates.map(([key,candidate])=><span key={key}><i style={{background:colors.get(key)}} aria-hidden="true"/>{candidateLabel(candidate)}{candidate.ballotNumber!=null && <strong>· {candidate.ballotNumber}</strong>}</span>)}</div>
+    <div className="poll-history-chart poll-history-individualChart" aria-label={`Observações individuais do ${round}º turno; escala ${yDomain[0]} a ${yDomain[1]}%; valores completos na tabela abaixo`}>
       <ResponsiveContainer width="100%" height="100%" minWidth={0} initialDimension={{ width: 600, height: 320 }}>
-        <ScatterChart margin={{ top: 42, right: showValues ? 66 : 20, bottom: 20, left: 0 }}>
+        <ScatterChart margin={{ top: 42, right: 108, bottom: 20, left: 0 }}>
           <CartesianGrid stroke="#e2e8e3" strokeDasharray="3 3" />
           <XAxis dataKey="time" type="number" domain={domain} allowDataOverflow tickFormatter={shortDay} tick={{fontSize:11}} minTickGap={32} />
-          <YAxis dataKey="percentage" type="number" domain={[0,100]} unit="%" tick={{fontSize:11}} width={46} />
-          {roundMilestones.map((milestone) => <ReferenceLine key={milestone.round} x={Date.parse(milestone.date)} stroke="#809087" strokeDasharray="4 4" label={{value:`${milestone.round}º turno · ${shortDay(Date.parse(milestone.date))}`,position:"insideTopLeft",fontSize:10}} />)}
+          <YAxis dataKey="percentage" type="number" domain={yDomain} ticks={yTicks} allowDataOverflow unit="%" tick={{fontSize:11}} width={46} />
+          <ReferenceLine x={Date.parse(milestone.date)} stroke="#809087" strokeDasharray="4 4" label={{value:milestone.label,position:"top",offset:12,fontSize:10}} />
           <Tooltip cursor={{strokeDasharray:"3 3"}} content={({active,payload}) => {
             const point=payload?.[0]?.payload as Point | undefined;
             return active && point ? <div className={"poll-history-tooltip"}><PollDetails poll={point.poll} /></div> : null;
           }} />
-          {candidates.map(([key, candidate], seriesIndex) => {
-            const points: Point[] = polls.flatMap((poll) => poll.results.filter((result) => candidateIdentity(result) === key)
-              .map((result) => ({time:Date.parse(poll.publishedAt),percentage:result.originalPercentage,poll,result})));
-            return <Scatter key={key} name={candidateLabel(candidate)} data={points} fill={colors.get(key)} line={false} isAnimationActive={false}
+          {candidates.map(([key, candidate]) => {
+            return <Scatter key={key} name={candidateLabel(candidate)} data={points.filter(point=>point.candidateKey===key)} fill={colors.get(key)} line={false} isAnimationActive={false}
               shape={(props: unknown) => {
                 const {cx,cy,payload} = props as {cx:number;cy:number;payload:Point};
                 const description=`${candidateLabel(payload.result)}, ${publicPercent(payload.percentage)}, ${payload.poll.pollster.name}, ${date(payload.poll.publishedAt,true)}, base ${payload.poll.voteBasis}. Mostrar detalhes da pesquisa.`;
-                return <g><circle cx={cx} cy={cy} r={5} fill={payload.poll.voteBasis === "TOTAL" ? "#fff" : colors.get(key)} stroke={colors.get(key)} strokeWidth={2}
+                return <circle cx={cx} cy={cy} r={5} fill={payload.poll.voteBasis === "TOTAL" ? "#fff" : colors.get(key)} stroke={colors.get(key)} strokeWidth={2}
                   tabIndex={0} role="button" aria-label={description} className={"poll-history-point"}
                   onFocus={() => setSelectedId(pollId(payload.poll))} onMouseEnter={() => setSelectedId(pollId(payload.poll))}
                   onClick={() => setSelectedId(pollId(payload.poll))} onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); setSelectedId(pollId(payload.poll)); } }}>
                   <title>{description}</title>
-                </circle>{showValues && <text className="chart-observation-value" x={cx+7} y={cy+observationLabelOffset(payload.percentage,seriesIndex)}
-                  fill={colors.get(key)} fontSize={10} fontWeight={500} stroke="white" strokeWidth={3} paintOrder="stroke"
-                  aria-hidden="true" pointerEvents="none">{publicPercent(payload.percentage)}</text>}</g>;
+                </circle>;
               }} />;
           })}
+          <HistoryPlotLabels points={points} showAll={showValues} colors={colors} />
         </ScatterChart>
       </ResponsiveContainer>
     </div>
-    <div className="poll-history-candidateLegend" aria-label={`Legenda dos candidatos do ${round}º turno`}>{candidates.map(([key,candidate])=><span key={key}><i style={{background:colors.get(key)}} aria-hidden="true"/>{candidateLabel(candidate)}</span>)}</div>
     <p className={"poll-history-legend"}>● Votos válidos (VALID) · ○ Votos totais (TOTAL). Use Tab, Enter ou toque para detalhar um ponto abaixo.</p>
+    {showValues && <p className="chart-note">Somente os textos recebem deslocamentos para reduzir colisões; os pontos mantêm suas posições. Em áreas muito densas ainda pode haver sobreposição: consulte o tooltip ou a tabela, ou desligue os valores gerais.</p>}
     <div className={"poll-history-selection"} aria-live="polite" aria-atomic="true">
       {selected ? <><PollDetails poll={selected} /><a className="text-link" href={selected.sourceUrl} target="_blank" rel="noopener noreferrer">Consultar publicação ↗</a></> : <p>Selecione um ponto para consultar instituto, campo, publicação e resultados completos. Pontos coincidentes também podem ser consultados na tabela.</p>}
     </div>
@@ -155,7 +188,6 @@ export function PollHistoryTimeline() {
   const catalog=historyCandidates(all);
   const colors=new Map(catalog.map(([key],i)=>[key,palette[i%palette.length]]));
   const institutes=[...new Map(all.map((poll)=>[poll.pollster.id,poll.pollster])).values()].sort((a,b)=>a.name.localeCompare(b.name,"pt-BR"));
-  const domain=timelineDomain(visible);
   const refreshing=archive.refreshing||current.refreshing||candidates.refreshing;
   const canOverlay=filters.round!=="1" && !filters.pollsterId && filters.voteBasis!=="TOTAL";
   const visibleIds=all.filter((poll)=>poll.origin==="CURRENT").flatMap((poll)=>poll.results)
@@ -184,7 +216,7 @@ export function PollHistoryTimeline() {
     <div className={"poll-history-milestones"} aria-label="Datas dos turnos de 2026">{roundMilestones.map((milestone)=><span key={milestone.round}>{milestone.label}</span>)}</div>
     {historyPanels(visible,filters.round).map((panel,index)=><div key={panel.round}>
       {index>0 && <div className={"poll-history-roundDivider"} role="separator" aria-label="Separação entre as disputas do primeiro e segundo turnos"><strong>Nova disputa · 2º turno</strong><span>04/10/2026 — 1º turno → 25/10/2026 — 2º turno</span></div>}
-      <IndividualRound round={panel.round} polls={panel.polls} domain={domain} colors={colors} hidden={filters.hiddenCandidates} showValues={showValues}
+      <IndividualRound round={panel.round} polls={panel.polls} colors={colors} hidden={filters.hiddenCandidates} showValues={showValues}
         pending={panel.round===1 ? archive.loading : archive.loading||current.loading} unavailable={panel.round===1 ? !!archive.error && !archive.data : !!current.error && !current.data}/>
     </div>)}
     {filters.round!=="1" && <div className={"poll-history-overlayControl"}><label><input type="checkbox" checked={showModel&&canOverlay} disabled={!canOverlay} onChange={(event)=>setShowModel(event.target.checked)}/> Mostrar agregado do modelo em painel separado (snapshots existentes)</label>
