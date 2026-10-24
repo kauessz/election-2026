@@ -22,6 +22,45 @@ class TsePollRegistryParserTests {
         assertThat(row.registrationNumber()).isEqualTo("BR-01234/2026");assertThat(row.sampleSize()).isEqualTo(1500);
         assertThat(row.methodology()).isEqualTo("SINTÉTICO; teste \"citado\"\nsegunda linha");assertThat(row.metadata()).containsEntry("NR_PROTOCOLO_REGISTRO","BR012342026");}
     @Test void supportsUtf8Bom(){assertThat(parser.parse(zip("pesquisa_eleitoral_2026_BRASIL.csv","\uFEFF"+HEADER+ROW,StandardCharsets.UTF_8))).hasSize(1);}
+    @Test void palver01794PassesWithObservedRepresentativeText(){
+        String plan="O público-alvo do levantamento será composto por brasileiros a partir dos 16 anos. "
+            +"O voto no 2º turno da eleição presidencial de 2022 será calibrado por região, com base nos resultados oficiais do TSE, correspondendo no total nacional a Lula e Jair Bolsonaro.";
+        String methodology="A metodologia utilizada é survey quantitativo online por questionário estruturado com amostragem não-probabilística, "
+            +"com os dados submetidos a ajuste de pesos iterativo ancorado em dados oficiais do IBGE e do TSE para refletir o perfil da população brasileira.";
+        assertThat(TsePollRegistryParser.nationalScope(Map.of("NM_UE","BRASIL","DS_PLANO_AMOSTRAL",plan,"DS_METODOLOGIA_PESQUISA",methodology))).isTrue();
+        String row=ROW.replace("BR012342026","BR017942026").replace("Empresa sintética","PALVER CONSULTORIA E DESENVOLVIMENTO TECNOLOGICO LTDA.")
+            .replace("Datafolha","Palver").replace("2026-10-19","2026-10-22").replace("2026-10-21","2026-10-24")
+            .replace("2026-10-22 00:00:00;1500","2026-10-24 00:00:00;1500")
+            .replace("Universo: eleitorado brasileiro",plan).replace("A abrangencia da coleta e nacional.","#NULO#");
+        assertThat(parse(row)).extracting(TsePollRegistryParser.Entry::registrationNumber).containsExactly("BR-01794/2026");
+    }
+    @Test void explicitNationalExpressionsAreRecognizedIndependentlyWithBoundedExactMatching(){
+        for(String expression:List.of("O público-alvo do levantamento será composto por brasileiros a partir dos 16 anos",
+            "Público alvo: brasileiros", "perfil da população brasileira", "correspondendo no total nacional a", "uma amostra nacional",
+            "amostra representativa de todo o Brasil")){
+            assertThat(TsePollRegistryParser.nationalScope(Map.of("NM_UE","BRASIL","DS_PLANO_AMOSTRAL",expression))).as(expression).isTrue();
+        }
+        for(String expression:List.of("público-alvo estrangeiros","população brasileirax","total nacionalizado","amostra nacionalizada",
+            "representativa do Brasiliense","público-alvo "+"x".repeat(66)+" brasileiros", "representativa "+"x".repeat(66)+" Brasil"))
+            assertThat(TsePollRegistryParser.nationalScope(Map.of("NM_UE","BRASIL","DS_PLANO_AMOSTRAL",expression))).as(expression).isFalse();
+    }
+    @Test void seta08499RegionalVetoWinsOverEveryNewNationalExpression(){
+        String methodology="Pesquisa com metodologia quantitativa, com a realização de entrevistas pessoais domiciliares utilizando questionário estruturado junto a uma amostra representativa do eleitorado do estado do RN.";
+        for(String expression:List.of("público-alvo brasileiros","população brasileira","total nacional","amostra nacional","representativa do Brasil")){
+            assertThat(TsePollRegistryParser.nationalScope(Map.of("NM_UE","BRASIL","DS_METODOLOGIA_PESQUISA",methodology,"DS_PLANO_AMOSTRAL",expression))).isFalse();
+            String row=ROW.replace("BR012342026","BR084992026").replace("Datafolha","Seta")
+                .replace("Universo: eleitorado brasileiro",methodology).replace("A abrangencia da coleta e nacional.",expression);
+            assertThat(parse(row)).as(expression).isEmpty();
+            for(String region:List.of("Estado da Bahia","Distrito Federal"))
+                assertThat(TsePollRegistryParser.nationalScope(Map.of("NM_UE","BRASIL","DS_DADO_MUNICIPIO","A abrangência da coleta corresponde ao "+region,"DS_PLANO_AMOSTRAL",expression))).isFalse();
+        }
+    }
+    @Test void newNationalEvidenceNeverBypassesStructuredElectionOfficeOrUnitGates(){
+        String row=ROW.replace("Universo: eleitorado brasileiro","público-alvo brasileiros").replace("A abrangencia da coleta e nacional.","#NULO#");
+        assertThat(parse(row)).hasSize(1);
+        for(String excluded:List.of(row.replace("2026;BR;BR","2024;BR;BR"),row.replace("2026;BR;BR","2026;SP;BR"),
+            row.replace("2026;BR;BR","2026;BR;DF"),row.replace(";BRASIL;",";BAHIA;"),row.replace("Presidente","Governador")))assertThat(parse(excluded)).isEmpty();
+    }
     @Test void observedBahiaAndDfAreExcludedDespiteBrElectoralUnit() throws Exception {
         String csv=new String(getClass().getResourceAsStream("/discovery/tse-scope-observed.csv").readAllBytes(),StandardCharsets.UTF_8);
         var result=parser.inspect(zip("pesquisa_eleitoral_2026_BRASIL.csv",csv,StandardCharsets.UTF_8));

@@ -88,7 +88,7 @@ public class TsePollRegistryParser {
         return java.util.regex.Pattern.compile("(?:abrangencia|universo|eleitorado|eleitores|publico.alvo|residentes|aptos a votar|pesquisa (?:sera |foi |e )?realizada).{0,100}?(?:estado d[oa] |distrito federal|municipio de |abrangencia estadual|abrangencia municipal)").matcher(text).find();
     }
     private static boolean nationalEvidence(String text){
-        return java.util.regex.Pattern.compile("(?:abrangencia.{0,65}?(?:nacional|(?:ao |o |e |do )brasil)|territorio (?:do brasil|nacional)|eleitorado (?:brasileiro|d[oe] brasil|do pais)|eleitores brasileiros|eleitor(?:es|as).{0,65}?d[oe] brasil|area fisica.{0,60}?(?:o |e )brasil|27 unidades da federacao|(?:cinco|5 \\(cinco\\)) regioes do brasil|pesquisa (?:sera |e )?realizada no brasil)").matcher(text).find();
+        return java.util.regex.Pattern.compile("(?:abrangencia.{0,65}?(?:nacional|(?:ao |o |e |do )brasil)|territorio (?:do brasil|nacional)|eleitorado (?:brasileiro|d[oe] brasil|do pais)|eleitores brasileiros|eleitor(?:es|as).{0,65}?d[oe] brasil|area fisica.{0,60}?(?:o |e )brasil|27 unidades da federacao|(?:cinco|5 \\(cinco\\)) regioes do brasil|pesquisa (?:sera |e )?realizada no brasil|\\bpublico[- ]alvo\\b.{0,65}?\\bbrasileiros\\b|\\bpopulacao brasileira\\b|\\btotal nacional\\b|\\bamostra nacional\\b|\\brepresentativa\\b.{0,65}?\\bbrasil\\b)").matcher(text).find();
     }
     private LocalDate date(String value){try{return LocalDate.parse(value.substring(0,10));}catch(Exception e){throw new IllegalArgumentException("Data inválida no CSV oficial.");}}
     private boolean missing(String value){return value==null||value.isBlank()||value.startsWith("#");}
