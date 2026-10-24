@@ -17,6 +17,9 @@ import {
 } from "recharts";
 import { Aggregate, AggregateMethod, AggregateSnapshot } from "@/lib/api";
 import { useApi } from "@/lib/use-api";
+import { modelPercent as percent, publicNumber } from "@/lib/presentation";
+import { RefreshControls } from "@/components/refresh-controls";
+import type { ApiState } from "@/lib/api-refresh";
 import { date, ErrorState, number } from "@/components/poll-list";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -44,9 +47,6 @@ const descriptions: Record<AggregateMethod, string> = {
   CALIBRATED: "Recência, precisão e desempenho histórico.",
 };
 const seriesColors = ["#294b44", "#9aa7a2", "#647077", "#b9b6b0"];
-const modelNumber = (value: number) =>
-  value.toLocaleString("pt-BR", { maximumFractionDigits: 4 });
-const percent = (value: number) => `${modelNumber(value)}%`;
 
 function Composition({ aggregate }: { aggregate: Aggregate }) {
   return (
@@ -221,8 +221,11 @@ function Comparison({ aggregates }: { aggregates: Aggregate[] }) {
 }
 
 function Models() {
-  const { data, loading, error, retry } =
-    useApi<Aggregate[]>("/api/aggregates");
+  const state = useApi<Aggregate[]>("/api/aggregates", { refreshMs: 60000 });
+  return <><RefreshControls {...state} hasData={state.data !== null} /><ModelsContent {...state} /></>;
+}
+
+function ModelsContent({ data, loading, error, retry }: ApiState<Aggregate[]> & { retry: () => void }) {
   const [selected, setSelected] = useState<AggregateMethod | null>(null);
   if (loading)
     return (
@@ -241,7 +244,7 @@ function Models() {
         ))}
       </div>
     );
-  if (error) return <ErrorState message={error} retry={retry} />;
+  if (error && !data) return <ErrorState message={error} retry={retry} />;
   if (!data?.some((a) => a.pollCount > 0))
     return (
       <div className="data-state">
@@ -287,7 +290,7 @@ function Models() {
                   <div key={r.candidateId}>
                     <span>{r.candidateName}</span>
                     <strong>
-                      {modelNumber(r.percentage)}
+                      {publicNumber(r.percentage)}
                       <small>%</small>
                     </strong>
                   </div>
@@ -296,7 +299,7 @@ function Models() {
               <p className="aggregate-spread">
                 {a.spread?.leaderCandidateName ? (
                   <>
-                    <strong>{modelNumber(a.spread.points)} p.p.</strong> de
+                    <strong>{publicNumber(a.spread.points)} p.p.</strong> de
                     diferença · {a.spread.leaderCandidateName}
                   </>
                 ) : (
@@ -381,7 +384,7 @@ function AggregateHistory() {
       <div className="section-heading">
         <div>
           <span className="section-kicker">02 / HISTÓRICO DOS MODELOS</span>
-          <h2>Evolução das pesquisas</h2>
+          <h2>Evolução dos agregados</h2>
           <p>
             Agregados registrados em snapshots explícitos, em ordem de cálculo.
           </p>

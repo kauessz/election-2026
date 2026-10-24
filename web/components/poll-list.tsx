@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import Link from "next/link";
 import { ArrowUpRight, FileSearch, AlertCircle } from "lucide-react";
 import { Poll } from "@/lib/api";
@@ -7,6 +8,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Input } from "@/components/ui/input";
+import { RefreshControls } from "@/components/refresh-controls";
+import { emptyPollFilters, filterPolls, PollFilters } from "@/lib/poll-filters";
 
 export const number = (value: number) =>
   value.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
@@ -42,16 +46,51 @@ export function ErrorState({
 }
 export function PollList({
   latest = false,
+  showFilters = false,
   onEdit,
   onDelete,
 }: {
   latest?: boolean;
+  showFilters?: boolean;
   onEdit?: (poll: Poll) => void;
   onDelete?: (poll: Poll) => void;
 }) {
-  const { data, loading, error, retry } = useApi<Poll[]>(
+  const state = useApi<Poll[]>(
     latest ? "/api/polls/latest" : "/api/polls",
+    { refreshMs: latest || showFilters ? 60000 : undefined },
   );
+  const { data } = state;
+  const [filters, setFilters] = useState<PollFilters>({ ...emptyPollFilters });
+  const pollsters = [...new Map((data ?? []).map((poll) => [poll.pollster.id, poll.pollster])).values()]
+    .sort((a, b) => a.name.localeCompare(b.name, "pt-BR"));
+  // lastUpdatedAt changes after each refresh, keeping rolling publication windows current.
+  const visible = showFilters ? filterPolls(data ?? [], filters, Date.parse(state.lastUpdatedAt ?? "1970-01-01")) : data;
+  return <>
+    {(latest || showFilters) && <RefreshControls {...state} hasData={data !== null} label="Atualizar pesquisas" />}
+    {showFilters && <div className="poll-filters" role="search" aria-label="Filtrar pesquisas">
+      <label className="poll-search">Buscar instituto ou registro TSE
+        <Input type="search" placeholder="Nome, slug ou registro TSE" value={filters.search} onChange={(e) => setFilters({ ...filters, search: e.target.value })} />
+      </label>
+      <label>Instituto<select value={filters.pollsterId} onChange={(e) => setFilters({ ...filters, pollsterId: e.target.value })}>
+        <option value="">Todos os institutos</option>{pollsters.map((pollster) => <option value={pollster.id} key={pollster.id}>{pollster.name}</option>)}
+      </select></label>
+      <label>Base<select value={filters.voteBasis} onChange={(e) => setFilters({ ...filters, voteBasis: e.target.value as PollFilters["voteBasis"] })}>
+        <option value="">Todas</option><option value="VALID">Votos válidos</option><option value="TOTAL">Votos totais</option>
+      </select></label>
+      <label>Publicação<select value={filters.days} onChange={(e) => setFilters({ ...filters, days: Number(e.target.value) as PollFilters["days"] })}>
+        <option value={0}>Todas</option><option value={1}>Últimas 24h</option><option value={3}>Últimos 3 dias</option><option value={7}>Últimos 7 dias</option>
+      </select></label>
+      <label className="poll-latest-toggle"><input type="checkbox" checked={filters.latestOnly} onChange={(e) => setFilters({ ...filters, latestOnly: e.target.checked })} />Somente a mais recente de cada instituto</label>
+      <div className="poll-filter-summary"><p role="status">Exibindo {visible?.length ?? 0} de {data?.length ?? 0} pesquisas</p><Button variant="ghost" onClick={() => setFilters({ ...emptyPollFilters })}>Limpar filtros</Button></div>
+    </div>}
+    {showFilters && data?.length && !visible?.length ? <div className="data-state"><FileSearch size={28} /><h3>Nenhuma pesquisa corresponde aos filtros</h3><p>Amplie o período ou limpe os filtros para ver outros levantamentos.</p><Button variant="outline" onClick={() => setFilters({ ...emptyPollFilters })}>Limpar filtros</Button></div> : <PollCards data={visible ?? null} loading={state.loading} error={state.error} retry={state.retry} latest={latest} onEdit={onEdit} onDelete={onDelete} />}
+  </>;
+}
+
+function PollCards({ data, loading, error, retry, latest, onEdit, onDelete }: {
+  data: Poll[] | null; loading: boolean; error: string | null; retry: () => void; latest: boolean;
+  onEdit?: (poll: Poll) => void; onDelete?: (poll: Poll) => void;
+}) {
   if (loading)
     return (
       <div
@@ -70,7 +109,7 @@ export function PollList({
         ))}
       </div>
     );
-  if (error) return <ErrorState message={error} retry={retry} />;
+  if (error && !data) return <ErrorState message={error} retry={retry} />;
   if (!data?.length)
     return (
       <div className="data-state">

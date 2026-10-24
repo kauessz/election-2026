@@ -218,6 +218,10 @@ Configuração validada `election.projection` em `application.yaml`, com overrid
 
 Importação administrativa em lote com dry run, qualidade, auditoria e congelamento imutável dos quatro modelos. Use `/admin/importacao` e `/admin/freeze`. Nenhuma pesquisa real ou freeze é criado automaticamente. Formatos e operação: [docs/data-import.md](docs/data-import.md) e [docs/pre-election-freeze.md](docs/pre-election-freeze.md). Exemplos fictícios em `data/`; fontes reais privadas podem ficar em `data/private/`. Fórmulas estatísticas preservadas.
 
+## Histórico das pesquisas — Fase 7A.1
+
+Histórico público de pesquisas presidenciais de 2026 em `/pesquisas/historico`: arquivo separado, import idempotente com dry-run e observações individuais por turno. Modelo, normalização conservadora, endpoints e isolamento dos quatro agregados: [docs/poll-history.md](docs/poll-history.md). Nenhum dado histórico real é carregado automaticamente.
+
 ## Produção — Fase 6
 
 Configuração Azure Container Apps (Brazil South, Consumption) + Neon PostgreSQL + Vercel, workflow GHCR, segurança, smoke tests e carga explícita em [docs/deployment.md](docs/deployment.md). Template em [infra/azure/main.json](infra/azure/main.json). Backup, restore, recuperação TSE e operação com uma réplica em [docs/production-runbook.md](docs/production-runbook.md). Nenhum dado local é migrado automaticamente. Cloud Run permanece somente como alternativa histórica.

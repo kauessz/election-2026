@@ -1,4 +1,5 @@
 import { PollList } from "@/components/poll-list";
+import Link from "next/link";
 export const metadata = { title: "Pesquisas" };
 export default function PollsPage() {
   return (
@@ -15,9 +16,9 @@ export default function PollsPage() {
       </div>
       <div className="section-heading">
         <h2>Histórico de pesquisas</h2>
-        <span className="subtle-label">Publicação mais recente primeiro</span>
+        <Link href="/pesquisas/historico" className="text-link">Evolução das pesquisas →</Link>
       </div>
-      <PollList />
+      <PollList showFilters />
     </>
   );
 }

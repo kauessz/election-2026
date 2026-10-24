@@ -38,19 +38,19 @@ class ProductionApiTests {
             .andExpect(status().isUnauthorized());
     }
     @Test void protectsNestedAndSemicolonAdminPaths() throws Exception {
-        for(var path:List.of("/api/admin/polls", "/api/admin/aggregates/snapshot", "/api/admin/pollster-performances/import"))
+        for(var path:List.of("/api/admin/polls", "/api/admin/aggregates/snapshot", "/api/admin/pollster-performances/import", "/api/admin/poll-history/import"))
             mvc.perform(post(path).contentType("application/json").content("{}")).andExpect(status().isUnauthorized());
         mvc.perform(get("/api/admin/data-quality;extra")).andExpect(status().isUnauthorized());
     }
     @Test void allPublicReadEndpointsRemainPublic() throws Exception {
-        for(var path:List.of("/api/candidates", "/api/pollsters", "/api/polls", "/api/polls/latest", "/api/aggregates", "/api/aggregates/audit", "/api/election/source-status", "/api/election/president", "/api/election/president/projection"))
+        for(var path:List.of("/api/candidates", "/api/pollsters", "/api/polls", "/api/polls/latest", "/api/poll-history", "/api/aggregates", "/api/aggregates/audit", "/api/election/source-status", "/api/election/president", "/api/election/president/projection"))
             mvc.perform(get(path)).andExpect(status().isOk());
         mvc.perform(get("/api/pre-election-freeze")).andExpect(status().isNoContent());
     }
     @Test void healthIsAnonymousAndDoesNotExposeDatabaseDetails() throws Exception {
         mvc.perform(get("/actuator/health")).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("UP"))
             .andExpect(jsonPath("$.components").doesNotExist()).andExpect(jsonPath("$.details").doesNotExist());
-        assertThat(jdbc.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success", Integer.class)).isEqualTo(12);
+        assertThat(jdbc.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success", Integer.class)).isEqualTo(13);
     }
     @Test void corsAllowsExactCsvOriginsAndAdminPreflightWithoutSecret() throws Exception {
         for (var origin:List.of("https://frontend.example.org", "https://second.example.org"))
