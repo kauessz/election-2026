@@ -1,0 +1,185 @@
+{
+  "_description": "Backfill incremental Datafolha do 1º turno de 2026. Mesclar ao arquivo canônico; não substitui os 11 registros já carregados.",
+  "polls": [
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "datafolha",
+      "registrationNumber": "BR-07489/2026",
+      "fieldStart": "2026-05-20",
+      "fieldEnd": "2026-05-21",
+      "publishedAt": "2026-05-26T12:37:00-03:00",
+      "sampleSize": 2004,
+      "marginOfError": 2.0,
+      "methodology": "Entrevistas presenciais; 139 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://datafolha.folha.uol.com.br/eleicoes/2026/05/lula-pt-amplia-de-3-para-9-pontos-distancia-sobre-flavio-bolsonaro-pl-no-1o-turno.shtml",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Backfill histórico verificado; série principal Lula/Flávio, sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 40.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 31.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "datafolha",
+      "registrationNumber": "BR-09956/2026",
+      "fieldStart": "2026-06-17",
+      "fieldEnd": "2026-06-18",
+      "publishedAt": "2026-06-22T18:44:00-03:00",
+      "sampleSize": 2004,
+      "marginOfError": 2.0,
+      "methodology": "Entrevistas presenciais; 139 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://datafolha.folha.uol.com.br/eleicoes/2026/06/lula-pt-mantem-vantagem-no-1o-turno-e-2o-turno.shtml",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Backfill histórico verificado; série principal Lula/Flávio, sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 41.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 31.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "datafolha",
+      "registrationNumber": "BR-01166/2026",
+      "fieldStart": "2026-07-22",
+      "fieldEnd": "2026-07-23",
+      "publishedAt": "2026-07-27T14:25:00-03:00",
+      "sampleSize": 2004,
+      "marginOfError": 2.0,
+      "methodology": "Entrevistas presenciais; 139 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://datafolha.folha.uol.com.br/eleicoes/2026/07/em-cenario-estavel-lula-pt-lidera-no-1o-turno-e-2o-turno.shtml",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Backfill histórico verificado; série principal Lula/Flávio, sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 40.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 32.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "datafolha",
+      "registrationNumber": "BR-04496/2026",
+      "fieldStart": "2026-08-18",
+      "fieldEnd": "2026-08-19",
+      "publishedAt": "2026-08-24T17:20:00-03:00",
+      "sampleSize": 2058,
+      "marginOfError": 2.0,
+      "methodology": "Entrevistas presenciais; 128 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://datafolha.folha.uol.com.br/eleicoes/2026/08/lula-lidera-no-1o-turno-e-tem-vantagem-de-quatro-pontos-sobre-flavio-bolsonaro-no-2o-turno.shtml",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Backfill histórico verificado; série principal Lula/Flávio, sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 39.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 33.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "datafolha",
+      "registrationNumber": "BR-03669/2026",
+      "fieldStart": "2026-09-01",
+      "fieldEnd": "2026-09-02",
+      "publishedAt": "2026-09-08T15:33:00-03:00",
+      "sampleSize": 2002,
+      "marginOfError": 2.0,
+      "methodology": "Entrevistas presenciais; 125 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://datafolha.folha.uol.com.br/eleicoes/2026/09/lula-mantem-vantagem-no-1o-turno-e-no-2o-turno-flavio-bolsonaro-empata-com-petista.shtml",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Backfill histórico verificado; série principal Lula/Flávio, sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 38.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 33.0
+        }
+      ]
+    }
+  ]
+}
