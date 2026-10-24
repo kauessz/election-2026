@@ -1,4 +1,401 @@
 {
-  "_description": "Arquivo preparado para pesquisas presidenciais verificadas do 1º turno de 2026. Nenhum resultado foi inventado ou carregado. Schema e exigências de completude em docs/poll-history.md.",
-  "polls": []
+  "_description": "Primeira carga histórica verificada do 1º turno de 2026. Série inicial conservadora de Lula e Flávio; sem normalização e sem declarar conjunto completo. Backfill posterior pode enriquecer candidatos e meses anteriores.",
+  "polls": [
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "datafolha",
+      "registrationNumber": "BR-01833/2026",
+      "fieldStart": "2026-09-08",
+      "fieldEnd": "2026-09-10",
+      "publishedAt": "2026-09-14T11:28:00-03:00",
+      "sampleSize": 2002,
+      "marginOfError": 2.0,
+      "methodology": "Entrevistas presenciais em 125 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://datafolha.folha.uol.com.br/eleicoes/2026/09/no-1o-turno-lula-tem-39-contra-35-de-flavio-e-no-2o-turno-persiste-empate-tecnico-entre-eles.shtml",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Carga histórica inicial conservadora: série principal Lula/Flávio; sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 39.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 35.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "datafolha",
+      "registrationNumber": "BR-04029/2026",
+      "fieldStart": "2026-09-15",
+      "fieldEnd": "2026-09-17",
+      "publishedAt": "2026-09-21T13:26:00-03:00",
+      "sampleSize": 2001,
+      "marginOfError": 2.0,
+      "methodology": "Entrevistas presenciais em 125 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://datafolha.folha.uol.com.br/eleicoes/2026/09/lula-pt-e-flavio-bolsonaro-pl-empatam-no-1o-e-2o-turnos.shtml",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Carga histórica inicial conservadora: série principal Lula/Flávio; sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 39.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 36.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "datafolha",
+      "registrationNumber": "BR-00304/2026",
+      "fieldStart": "2026-09-22",
+      "fieldEnd": "2026-09-23",
+      "publishedAt": "2026-09-28T11:05:00-03:00",
+      "sampleSize": 2002,
+      "marginOfError": 2.0,
+      "methodology": "Entrevistas presenciais em 125 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://datafolha.folha.uol.com.br/eleicoes/2026/09/no-1o-turno-lula-pt-tem-40-e-flavio-bolsonaro-pl-aparece-com-36.shtml",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Carga histórica inicial conservadora: série principal Lula/Flávio; sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 40.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 36.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "quaest",
+      "registrationNumber": "BR-06520/2026",
+      "fieldStart": "2026-09-24",
+      "fieldEnd": "2026-09-27",
+      "publishedAt": "2026-09-28T10:23:00-03:00",
+      "sampleSize": 2004,
+      "marginOfError": 2.0,
+      "methodology": "Pesquisa nacional; nível de confiança de 95%.",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/quaest-lula-tem-39-das-intencoes-de-voto-no-1o-turno-flavio-34/",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Carga histórica inicial conservadora: série principal Lula/Flávio; sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 39.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 34.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "atlasintel",
+      "registrationNumber": "BR-01452/2026",
+      "fieldStart": "2026-09-04",
+      "fieldEnd": "2026-09-09",
+      "publishedAt": "2026-09-10T14:35:00-03:00",
+      "sampleSize": 5000,
+      "marginOfError": 1.0,
+      "methodology": "Atlas RDR (recrutamento digital aleatório); nível de confiança de 95%.",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/atlasintel-bloomberg-lula-tem-43-no-1o-turno-flavio-374/",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Carga histórica inicial conservadora: série principal Lula/Flávio; sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 43.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 37.4
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "atlasintel",
+      "registrationNumber": "BR-06221/2026",
+      "fieldStart": "2026-09-11",
+      "fieldEnd": "2026-09-16",
+      "publishedAt": "2026-09-17T07:01:00-03:00",
+      "sampleSize": 5018,
+      "marginOfError": 1.0,
+      "methodology": "Recrutamento digital; nível de confiança de 95%.",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/lula-tem-441-no-1o-turno-flavio-417-diz-atlas/",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Carga histórica inicial conservadora: série principal Lula/Flávio; sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 44.1
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 41.7
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "atlasintel",
+      "registrationNumber": "BR-00999/2026",
+      "fieldStart": "2026-09-27",
+      "fieldEnd": "2026-10-02",
+      "publishedAt": "2026-10-03T22:00:00-03:00",
+      "sampleSize": 4945,
+      "marginOfError": 1.0,
+      "methodology": "Atlas RDR (recrutamento digital aleatório); nível de confiança de 95%.",
+      "sourceUrl": "https://www.cnnbrasil.com.br/eleicoes/atlas-lula-tem-47-dos-votos-validos-no-1o-turno-flavio-441/",
+      "voteBasis": "VALID",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Fonte publicou estes percentuais em votos válidos. Carga inicial conserva apenas a série principal Lula/Flávio.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 47.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 44.1
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "poderdata",
+      "registrationNumber": "BR-04914/2026",
+      "fieldStart": "2026-09-06",
+      "fieldEnd": "2026-09-09",
+      "publishedAt": "2026-09-10T07:30:00-03:00",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "methodology": "Entrevistas por telefone via URA; 623 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://www.poder360.com.br/poderdata/poderdata-aya-lula-tem-38-contra-36-de-flavio-no-1o-turno/",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Carga histórica inicial conservadora: série principal Lula/Flávio; sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 38.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 36.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "poderdata",
+      "registrationNumber": "BR-00360/2026",
+      "fieldStart": "2026-09-13",
+      "fieldEnd": "2026-09-16",
+      "publishedAt": "2026-09-17T07:30:00-03:00",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "methodology": "Entrevistas por telefone via URA; 623 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://www.poder360.com.br/poderdata/poderdata-aya-lula-tem-37-contra-36-de-flavio-no-1o-turno/",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "Carga histórica inicial conservadora: série principal Lula/Flávio; sem normalização e sem declarar conjunto completo.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 37.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 36.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "poderdata",
+      "registrationNumber": "BR-01739/2026",
+      "fieldStart": "2026-09-20",
+      "fieldEnd": "2026-09-23",
+      "publishedAt": "2026-09-24T07:30:00-03:00",
+      "sampleSize": 3000,
+      "marginOfError": 1.8,
+      "methodology": "Entrevistas por telefone via URA; 723 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://www.poder360.com.br/poderdata/em-votos-validos-lula-tem-43-contra-42-de-flavio-no-1o-turno/",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "A fonte informa 41% Lula e 39% Flávio em votos totais; o título usa votos válidos.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 41.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 39.0
+        }
+      ]
+    },
+    {
+      "electionKey": "BR-PRESIDENT-2026",
+      "round": 1,
+      "pollsterSlug": "poderdata",
+      "registrationNumber": "BR-03519/2026",
+      "fieldStart": "2026-09-30",
+      "fieldEnd": "2026-10-02",
+      "publishedAt": "2026-10-03T07:30:00-03:00",
+      "sampleSize": 4000,
+      "marginOfError": 1.5,
+      "methodology": "Entrevistas por telefone via URA; 786 municípios; nível de confiança de 95%.",
+      "sourceUrl": "https://www.poder360.com.br/poderdata/na-vespera-do-1o-turno-lula-tem-45-e-flavio-43-dos-votos-validos/",
+      "voteBasis": "TOTAL",
+      "normalization": "NONE",
+      "completeCandidateSet": false,
+      "expectedCandidateKeys": [],
+      "notes": "A fonte informa 42% Lula e 41% Flávio em votos totais; o título usa votos válidos.",
+      "candidateResults": [
+        {
+          "candidateKey": "lula",
+          "candidateName": "Luiz Inácio Lula da Silva",
+          "displayName": "Lula",
+          "party": "PT",
+          "ballotNumber": 13,
+          "originalPercentage": 42.0
+        },
+        {
+          "candidateKey": "flavio-bolsonaro",
+          "candidateName": "Flávio Nantes Bolsonaro",
+          "displayName": "Flávio Bolsonaro",
+          "party": "PL",
+          "ballotNumber": 22,
+          "originalPercentage": 41.0
+        }
+      ]
+    }
+  ]
 }
