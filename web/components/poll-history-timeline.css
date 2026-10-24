@@ -65,3 +65,29 @@
   .poll-history-modes button { padding:.6rem .75rem; }
 }
 @media(max-width:380px) { .poll-history-filters { grid-template-columns:minmax(0,1fr); } }
+@media(max-width:640px) {
+  .poll-history-individualChart { height:370px; }
+  .poll-history-plotLegend { width:100%; display:grid; grid-template-columns:minmax(0,1fr); gap:.8rem; font-size:.85rem; }
+  .poll-history-plotLegend i { flex-shrink:0; width:.8rem; height:.8rem; }
+  .poll-history-plotLegend .poll-history-square { border-radius:0; }
+  .poll-history-plotLegend span { display:flex; gap:.5rem; }
+  .poll-history-scale button { min-height:44px; padding:.65rem .85rem; }
+  .poll-history-point { touch-action:manipulation; }
+  .poll-history-mobileHint { font-size:.8rem; line-height:1.6; margin-block:.75rem; color:#58685e; }
+  .poll-history-mobileReference { font-size:.75rem; margin-block:.6rem; }
+  .poll-history-selection { padding:.8rem; }
+  .poll-history-selection .poll-history-pollDetails { display:flex; flex-direction:column; gap:.2rem; }
+  .poll-history-selection .poll-history-pollDetails ul { order:1; margin:.5rem 0 .8rem; }
+  .poll-history-selection .poll-history-pollDetails > p:not(:first-of-type) { order:2; }
+  .poll-history-selection .poll-history-pollDetails li { align-items:center; gap:.5rem; font-size:.85rem; }
+  .poll-history-selection .poll-history-pollDetails li strong { font-size:1.1rem; }
+  .poll-history-selection .poll-history-pollDetails li span { min-width:0; overflow-wrap:anywhere; }
+  .poll-history-selection .poll-history-pollDetails > strong { overflow-wrap:anywhere; }
+  .poll-history-selection .text-link { display:inline-block; margin-top:.6rem; }
+  .poll-history-overlayControl label { align-items:flex-start; line-height:1.6; }
+  .poll-history-overlayControl input { flex-shrink:0; margin-top:.2rem; }
+}
+@media(max-width:480px) {
+  .poll-history-filters { grid-template-columns:minmax(0,1fr); }
+  .poll-history-filters select { min-height:44px; }
+}

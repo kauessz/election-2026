@@ -2,6 +2,22 @@ import { publicPercent } from "./presentation";
 import { roundMilestones } from "./poll-history";
 
 const DAY = 86_400_000;
+export const historyViewport = (width: number) => width<=420 ? "narrow" : width<=640 ? "mobile" : "desktop";
+export const compactHistoryPercent = (value: number) => `${value.toLocaleString("pt-BR",{minimumFractionDigits:1,maximumFractionDigits:1})}%`;
+export function nearestHistoryPoint(points: readonly {id:string;x:number;y:number}[], x:number,y:number) {
+  return points.reduce<{id:string;distance:number}|null>((nearest,point)=>{
+    const distance=(point.x-x)**2+(point.y-y)**2;
+    return !nearest || distance<nearest.distance ? {id:point.id,distance} : nearest;
+  },null)?.id ?? null;
+}
+
+/** Mobile keeps the endpoints of the relevant observation period, not the padded domain. */
+export function mobileHistoryTicks(times: readonly number[]): number[] {
+  const sorted=times.filter(Number.isFinite).slice().sort((a,b)=>a-b);
+  if (!sorted.length) return [];
+  const first=sorted[0], last=sorted[sorted.length-1];
+  return first===last || last-first<DAY ? [first] : [first,last];
+}
 
 /** Axis bounds only; observations and the other round never supply these bounds. */
 export function roundTimelineDomain(polls: readonly { round: number; publishedAt: string }[], round: 1 | 2): [number, number] {
@@ -48,9 +64,10 @@ const overlap = (a: Box, b: Box) => Math.max(0, Math.min(a.x+a.width,b.x+b.width
 const clamp = (value: number, min: number, max: number) => Math.max(min,Math.min(max,value));
 
 /** Collision search moves text boxes only. Latest labels have priority; no label is dropped. */
-export function layoutHistoryLabels(points: readonly PixelHistoryPoint[], bounds: LabelBounds, showAll: boolean, fontSize = 11): PlacedHistoryLabel[] {
+export function layoutHistoryLabels(points: readonly PixelHistoryPoint[], bounds: LabelBounds, showAll: boolean, fontSize = 11,
+  options: { mobile?: boolean; selectedIds?: readonly string[] } = {}): PlacedHistoryLabel[] {
   const finals = new Set(latestCandidatePoints(points).map(point => point.id));
-  const ordered = points.filter(point => showAll || finals.has(point.id)).slice().sort((a,b) =>
+  const ordered = points.filter(point => finals.has(point.id) || (showAll && (!options.mobile || options.selectedIds?.includes(point.id)))).slice().sort((a,b) =>
     Number(finals.has(b.id))-Number(finals.has(a.id)) || a.y-b.y || a.x-b.x || a.id.localeCompare(b.id));
   const placed: PlacedHistoryLabel[] = [];
   const pointBoxes = points.map(point => ({ x:point.x-6, y:point.y, width:12, height:12 }));
@@ -58,7 +75,8 @@ export function layoutHistoryLabels(points: readonly PixelHistoryPoint[], bounds
     const final = finals.has(point.id);
     const firstName = point.name.trim().split(/\s+/)[0];
     const shortName = firstName.length > 12 ? `${firstName.slice(0,11)}…` : firstName;
-    const text = !showAll && final ? `${shortName} ${publicPercent(point.percentage)}` : publicPercent(point.percentage);
+    const percentage=options.mobile ? compactHistoryPercent(point.percentage) : publicPercent(point.percentage);
+    const text = final && (!showAll || options.mobile) ? `${shortName} ${percentage}` : percentage;
     // Conservative glyph width, including stroke and a gap between neighboring labels.
     const width = Math.min(bounds.right-bounds.left, text.length*fontSize*0.68+6), height = fontSize+7;
     const direction = point.seriesIndex%2 === 0 ? -1 : 1;
@@ -66,7 +84,7 @@ export function layoutHistoryLabels(points: readonly PixelHistoryPoint[], bounds
     for (let step=0; step<=Math.ceil((bounds.bottom-bounds.top)/height); step++) {
       for (const sign of step === 0 ? [direction] : [direction,-direction]) {
         const y=clamp(point.y+sign*(12+step*height),bounds.top+height/2,bounds.bottom-height/2);
-        for (const x of [point.x+8,point.x-width-8]) candidates.push({x:clamp(x,bounds.left,bounds.right-width),y,width,height});
+        for (const x of options.mobile ? [point.x-width-8,point.x+8] : [point.x+8,point.x-width-8]) candidates.push({x:clamp(x,bounds.left,bounds.right-width),y,width,height});
       }
     }
     let best=candidates[0], minimum=Infinity;

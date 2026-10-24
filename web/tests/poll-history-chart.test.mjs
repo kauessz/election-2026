@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { typescriptLoader } from "./load-typescript.mjs";
 const load=typescriptLoader();
 const { roundTimelineDomain, expandedPercentageDomain, latestCandidatePoints, layoutHistoryLabels }=load("lib/poll-history-chart.ts");
+const { historyViewport,compactHistoryPercent,mobileHistoryTicks,nearestHistoryPoint }=load("lib/poll-history-chart.ts");
 const DAY=86400000;
 
 test("each X domain uses only its round, with its own milestone and temporal padding",()=>{
@@ -96,4 +97,43 @@ test("crowded fallback never silently omits a latest label or an observation lab
   assert.equal(labels.length,30);
   assert.ok(labels.some(l=>l.crowded));
   assert.ok(labels.every(l=>l.final));
+});
+
+test("mobile breakpoints include 640 and narrow 420 without changing desktop",()=>{
+  assert.equal(historyViewport(641),"desktop");assert.equal(historyViewport(640),"mobile");
+  assert.equal(historyViewport(421),"mobile");assert.equal(historyViewport(420),"narrow");
+  for(const width of [390,360,320])assert.equal(historyViewport(width),"narrow");
+});
+test("compact mobile values round for display only",()=>{
+  assert.equal(compactHistoryPercent(50.5),"50,5%");assert.equal(compactHistoryPercent(49.49),"49,5%");
+  assert.equal(compactHistoryPercent(50),"50,0%");assert.equal(compactHistoryPercent(100),"100,0%");
+});
+test("mobile ticks preserve first and last observation dates with no dense intervening ticks",()=>{
+  const times=[3*DAY,DAY,2*DAY,NaN];
+  assert.deepEqual(Array.from(mobileHistoryTicks(times)),[DAY,3*DAY]);
+  assert.deepEqual(Array.from(mobileHistoryTicks([DAY,DAY+1000])),[DAY]);
+  assert.equal(mobileHistoryTicks([]).length,0);
+});
+test("mobile labels prioritize endpoints and selected survey instead of labeling the cloud",()=>{
+  const points=[point("old-a","a",1,45),point("old-b","b",1,44,80,110,1),point("new-a","a",2,50.5),point("new-b","b",2,49.5,80,110,1)];
+  const labels=layoutHistoryLabels(points,bounds,true,11,{mobile:true,selectedIds:["old-a","old-b"]});
+  assert.equal(labels.length,4);
+  assert.ok(labels.some(l=>l.text==="Lula 50,5%"));
+  assert.ok(labels.some(l=>l.text==="Flávio 49,5%"));
+  assert.equal(layoutHistoryLabels(points,bounds,true,11,{mobile:true}).length,2);
+  assert.equal(layoutHistoryLabels(points,bounds,false,11,{mobile:true,selectedIds:["old-a"]}).length,2);
+});
+test("mobile final labels fit inside actual plot bounds without a right gutter",()=>{
+  const mobileBounds={left:38,right:205,top:42,bottom:310};
+  const points=[point("a","a",1,50.5,195,140),point("b","b",1,49.5,195,150,1)];
+  const labels=layoutHistoryLabels(points,mobileBounds,false,11,{mobile:true});
+  assert.equal(labels.length,2);assert.ok(!intersects(labels[0],labels[1]));
+  assert.ok(labels.every(l=>l.x>=mobileBounds.left && l.x+l.width<=mobileBounds.right));
+});
+test("overlapping hit areas resolve to the closest real point without changing coordinates",()=>{
+  const targets=[{id:"near",x:10,y:10},{id:"topmost",x:20,y:11}];
+  assert.equal(nearestHistoryPoint(targets,11,10),"near");
+  assert.equal(nearestHistoryPoint(targets,21,11),"topmost");
+  assert.equal(nearestHistoryPoint([],0,0),null);
+  assert.deepEqual(targets,[{id:"near",x:10,y:10},{id:"topmost",x:20,y:11}]);
 });
