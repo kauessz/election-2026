@@ -16,6 +16,8 @@ export function createApiRefresh<T>(options: {
   errorMessage: (error: unknown) => string;
   refreshMs?: number;
   now?: () => number;
+  isVisible?: () => boolean;
+  retainErrorWhileRefreshing?: boolean;
 }) {
   let state = initialApiState<T>();
   let pending = false;
@@ -25,12 +27,12 @@ export function createApiRefresh<T>(options: {
   const emit = (next: ApiState<T>) => { state = next; options.notify(next); };
 
   const refresh = () => {
-    if (disposed || pending) return;
+    if (disposed || pending || options.isVisible?.() === false) return;
     clearTimeout(timer);
     pending = true;
     controller = new AbortController();
     const signal = controller.signal;
-    emit({ ...state, loading: state.lastUpdatedAt === null, refreshing: state.lastUpdatedAt !== null, error: null });
+    emit({ ...state, loading: state.lastUpdatedAt === null, refreshing: state.lastUpdatedAt !== null, error: options.retainErrorWhileRefreshing ? state.error : null });
     void Promise.resolve().then(() => {
       if (signal.aborted) return;
       return options.load(signal);
@@ -43,13 +45,14 @@ export function createApiRefresh<T>(options: {
       if (!disposed && !signal.aborted) emit({ ...state, loading: false, refreshing: false, error: options.errorMessage(error) });
     }).finally(() => {
       pending = false;
-      if (!disposed && options.refreshMs && Number.isFinite(options.refreshMs) && options.refreshMs > 0)
+      if (!disposed && options.isVisible?.() !== false && options.refreshMs && Number.isFinite(options.refreshMs) && options.refreshMs > 0)
         timer = setTimeout(refresh, options.refreshMs);
     });
   };
 
   return {
     refresh,
+    pause: () => { clearTimeout(timer); },
     dispose: () => { disposed = true; clearTimeout(timer); controller?.abort(); },
   };
 }

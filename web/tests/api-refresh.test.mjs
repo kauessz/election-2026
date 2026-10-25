@@ -58,3 +58,31 @@ test("initial failure permits retry without stale loading state", async () => {
   session.refresh(); await flush(); assert.equal(updates.at(-1).loading, true);
   requests[1].resolve([]); await flush(); assert.equal(updates.at(-1).error, null); session.dispose();
 });
+
+test("hidden live sessions do not load until visibility resumes", async () => {
+  let visible=false,calls=0;
+  const {createApiRefresh}=typescriptLoader()("lib/api-refresh.ts");
+  const session=createApiRefresh({isVisible:()=>visible,load:async()=>++calls,notify:()=>{},errorMessage:String});
+  session.refresh();await flush();assert.equal(calls,0);
+  visible=true;session.refresh();await flush();assert.equal(calls,1);session.dispose();
+});
+
+test("hiding during a pending request pauses its next timer; returning cannot overlap it", async () => {
+  let visible=true,resolve;const timers=new Map();let id=0,calls=0;
+  const {createApiRefresh}=typescriptLoader({setTimeout:(fn,ms)=>{timers.set(++id,{fn,ms});return id;},clearTimeout:key=>timers.delete(key)})("lib/api-refresh.ts");
+  const session=createApiRefresh({refreshMs:15000,isVisible:()=>visible,load:()=>{calls++;return new Promise(r=>resolve=r);},notify:()=>{},errorMessage:String});
+  session.refresh();await flush();visible=false;session.pause();session.refresh();await flush();assert.equal(calls,1);
+  resolve(1);await flush();assert.equal(timers.size,0);
+  visible=true;session.refresh();session.refresh();await flush();assert.equal(calls,2);
+  resolve(2);await flush();assert.equal([...timers.values()][0].ms,15000);
+  session.pause();assert.equal(timers.size,0);session.dispose();
+});
+
+test("live errors stay visible during a retry until a successful response arrives", async () => {
+  const updates=[],requests=[];const {createApiRefresh}=typescriptLoader()("lib/api-refresh.ts");
+  const session=createApiRefresh({retainErrorWhileRefreshing:true,load:()=>new Promise((resolve,reject)=>requests.push({resolve,reject})),notify:s=>updates.push(s),errorMessage:e=>e.message});
+  session.refresh();await flush();requests[0].resolve({votes:123});await flush();
+  session.refresh();await flush();requests[1].reject(new Error("offline"));await flush();
+  session.refresh();await flush();assert.equal(updates.at(-1).error,"offline");assert.equal(updates.at(-1).data.votes,123);
+  requests[2].resolve({votes:124});await flush();assert.equal(updates.at(-1).error,null);assert.equal(updates.at(-1).data.votes,124);session.dispose();
+});
