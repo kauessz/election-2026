@@ -32,9 +32,17 @@ test("public frozen composition shows all models, sample counts, freeze date, in
 test("closed technical disclosure preserves IDs, complete SHA and original technical timestamps",()=>{
  const html=render();const technical=html.slice(html.indexOf('<details class="freeze-technical">'));
  assert.match(technical,/^<details class="freeze-technical"><summary>Detalhes técnicos<\/summary>/);
+ assert.match(technical,/<div class="freeze-technical-content">/);
+ for(const label of ["Freeze","Versão / commit","Fontes","Timestamps","IDs técnicos"])assert.ok(technical.includes(`<section aria-label="${label}"><h4>${label}</h4>`),label);
  for(const value of [freeze.id,freeze.gitCommit,...freeze.pollIds,...freeze.pollsterPerformanceIds,"candidate-internal-uuid","institute-internal-uuid",freeze.frozenAt,freeze.aggregateResults[0].calculatedAt,freeze.composition.polls[0].publishedAt,freeze.notes])assert.ok(technical.includes(value),value);
  assert.ok(!technical.includes("<details open"));
  assert.deepEqual(freeze.pollIds,["source-internal-uuid"]);
+});
+test("complete expandable audit preserves the original freeze object without dropping metadata",()=>{
+ const html=render();const encoded=html.match(/<pre>([\s\S]*?)<\/pre>/)[1];
+ const entities={"&quot;":'"',"&amp;":"&","&lt;":"<","&gt;":">","&#x27;":"'"};
+ const original=JSON.parse(encoded.replace(/&quot;|&amp;|&lt;|&gt;|&#x27;/g,entity=>entities[entity]));
+ assert.deepEqual(original,freeze);
 });
 test("missing freeze still provides the finished-election explanation without creating data",()=>{
  assert.equal(render(null),"");
