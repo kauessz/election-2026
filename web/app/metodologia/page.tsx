@@ -83,7 +83,7 @@ const sections = [
   {
     title: "Agregador não é previsão",
     paragraphs: [
-      "Os quatro modelos resumem pesquisas cadastradas; não calculam probabilidade de vitória. Nenhum deles constitui previsão oficial. Apuração e dados oficiais do TSE são uma categoria separada, ainda não integrada.",
+      "Os quatro modelos resumem pesquisas cadastradas; não calculam probabilidade de vitória. Nenhum deles constitui previsão oficial. A apuração oficial do TSE já está integrada e permanece separada das pesquisas e da projeção territorial.",
       "Há incertezas de cobertura, método, seleção e dependência entre pesquisas. A amostra total é uma soma descritiva dos tamanhos informados, não o tamanho de uma amostra única independente. Pesquisas sem amostra ficam sinalizadas. Não há correção por efeito de casa, janela máxima de idade ou intervalo de confiança do agregado.",
       "A reprodução por data usa os dados, candidatos ativos, histórico e configurações atuais. Ela não reconstrói automaticamente o que era conhecido na época; para preservar uma versão exata, use snapshots. Uma alteração do conjunto de candidatos ativos pode excluir pesquisas anteriores.",
     ],
@@ -99,13 +99,13 @@ export default function MethodologyPage() {
           Metodologia<span className="heading-dot">.</span>
         </h1>
         <p>
-          Quatro formas de resumir as pesquisas. Cada peso, fórmula e limitação
-          à vista.
+          Pesquisas, apuração oficial e projeção territorial: fontes, pesos,
+          fórmulas e limitações à vista.
         </p>
       </div>
       <div className="method-layout">
         <aside>
-          <Badge variant="outline">Agregador · Fase 2</Badge>
+          <Badge variant="outline">Pesquisas · TSE · Projeção</Badge>
           <p>
             Regras descritas para a configuração padrão. Cada resposta inclui os
             parâmetros efetivamente usados e a composição de seus institutos.
@@ -139,6 +139,8 @@ export default function MethodologyPage() {
             <p>Antes da totalização, os percentuais principais aparecem como traço. Se a fonte não puder ser atualizada, mantemos o último dado válido e sinalizamos desatualização. O histórico mostra somente arquivos oficiais recebidos; não é uma projeção de resultado.</p>
             <p><a className="text-link" href="https://www.tse.jus.br/eleicoes/informacoes-tecnicas-sobre-a-divulgacao-de-resultados" target="_blank" rel="noopener noreferrer">Documentação técnica oficial do TSE</a></p>
           </section>
+          <section id="contexto-apuracao"><h2>Fase da eleição e atualização</h2><p>A fase UNKNOWN, NOT_STARTED, COUNTING ou FINISHED é derivada da evidência oficial persistida. Uma falha de atualização não apaga a contagem já observada. FINISHED exige a sinalização oficial de totalização final nacional; 100% das seções ou HIGH_COVERAGE não substituem esse sinal.</p><p>Durante a contagem, a home prioriza o resultado oficial e mantém a projeção em bloco separado. Após a finalização, prioriza o resultado oficial e a comparação com o modelo pré-eleitoral congelado. Cada bloco conserva seus próprios horários.</p></section>
+          <section id="rastreabilidade"><h2>Versões e histórico de projeções</h2><p>Novos snapshots publicados pelo serviço guardam versão do modelo, IDs dos snapshots oficiais, geração, parâmetros e valores do baseline fornecidos ao cálculo. publishedAt registra a disponibilização no histórico público, não prova visualização por um usuário.</p><p>Registros LIVE são publicações do serviço. REPLAY identifica reprocessamento posterior e fica fora da consulta padrão e do gráfico ao vivo. LEGACY_UNKNOWN preserva snapshots antigos sem inventar horário ou comprovação de publicação. O gráfico permite selecionar a versão do modelo, sem conectar versões diferentes.</p><p>O STATE_SHRINKAGE_V1 continua com a mesma matemática. Não há intervalo de incerteza, probabilidade de vitória ou classificação de resultado praticamente definido nesta versão. Esses recursos exigem validação futura; a cobertura é apenas descritiva.</p></section>
           <section id="projecao-apuracao">
             <span className="section-kicker">MODELO PRÓPRIO / STATE_SHRINKAGE_V1</span>
             <h2>Projeção durante a apuração</h2>

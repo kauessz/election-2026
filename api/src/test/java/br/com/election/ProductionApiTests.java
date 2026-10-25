@@ -50,7 +50,7 @@ class ProductionApiTests {
     @Test void healthIsAnonymousAndDoesNotExposeDatabaseDetails() throws Exception {
         mvc.perform(get("/actuator/health")).andExpect(status().isOk()).andExpect(jsonPath("$.status").value("UP"))
             .andExpect(jsonPath("$.components").doesNotExist()).andExpect(jsonPath("$.details").doesNotExist());
-        assertThat(jdbc.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success", Integer.class)).isEqualTo(14);
+        assertThat(jdbc.queryForObject("SELECT count(*) FROM flyway_schema_history WHERE success", Integer.class)).isEqualTo(15);
     }
     @Test void corsAllowsExactCsvOriginsAndAdminPreflightWithoutSecret() throws Exception {
         for (var origin:List.of("https://frontend.example.org", "https://second.example.org"))

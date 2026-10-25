@@ -13,9 +13,11 @@ public class ElectionAnalyticsController {
  @GetMapping("/api/election/president/projection") public ProjectionResponse projection(){return projection.current();}
  @GetMapping("/api/election/president/trend") public TrendResponse trend(){var at=clock.instant();return trend.calculate(input.trendAt(at),at);}
  @GetMapping("/api/election/president/remaining") public RemainingResponse remaining(){var at=clock.instant();return remaining.calculate(input.latestAt(at),at);}
- @GetMapping("/api/election/president/projection/history") public List<ProjectionResponse> history(
+ @GetMapping("/api/election/president/projection/history/{snapshotId}/inputs") public ProjectionSnapshotStore.Inputs inputs(@PathVariable UUID snapshotId){return snapshots.inputs(snapshotId);}
+ @GetMapping("/api/election/president/projection/history") public List<tools.jackson.databind.JsonNode> history(
   @RequestParam(required=false) @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME) Instant from,
-  @RequestParam(required=false) @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME) Instant to,@RequestParam(defaultValue="500") int limit){
-  if(!p.enabled())return List.of();return snapshots.history(from==null?Instant.parse("2026-01-01T00:00:00Z"):from,to==null?clock.instant():to,limit);
+  @RequestParam(required=false) @DateTimeFormat(iso=DateTimeFormat.ISO.DATE_TIME) Instant to,@RequestParam(defaultValue="500") int limit,
+  @RequestParam(required=false) String modelVersion,@RequestParam(required=false) ProjectionSnapshotStore.Origin origin){
+  if(!p.enabled())return List.of();return snapshots.historyView(from==null?Instant.parse("2026-01-01T00:00:00Z"):from,to==null?clock.instant():to,limit,modelVersion,origin);
  }
 }

@@ -24,6 +24,7 @@ Sincronização **somente explícita**, nunca pelo scheduler:
 ```powershell
 Invoke-RestMethod -Method Post `
   -Uri http://localhost:8081/api/admin/election-baselines/first-round/sync `
+  -Headers @{"X-Admin-Key"=$env:ADMIN_API_KEY} `
   -TimeoutSec 240
 ```
 
@@ -31,7 +32,7 @@ Consulta apenas Brasil e as 27 UFs conhecidas: **28 escopos**, sem municípios. 
 
 Cada arquivo precisa ter eleição 6257, turno 1, fase oficial, abrangência esperada, `tf=s`, eleitorado e votos válidos positivos e ambos os números eleitorais 13 e 22. Rejeitamos geração futura ou anterior à já armazenada e contagens incompatíveis com o domínio do modelo. Um arquivo inválido não substitui o anterior nem impede o processamento dos demais. Resultado do POST: `successCount`, `failureCount`, `successfulScopes`, `errors[{scope,error}]`. HTTP 200 com erros parciais exige verificar o resumo, não apenas o status HTTP.
 
-GET `/api/admin/election-baselines/first-round` permite auditar os registros sem rede externa. Após a carga, a projeção lê exclusivamente o PostgreSQL. Não é necessário repetir sync durante a apuração. Autenticação administrativa continua fora do escopo, como nas fases anteriores.
+GET `/api/admin/election-baselines/first-round` permite auditar os registros sem rede externa. Após a carga, a projeção lê exclusivamente o PostgreSQL. Não é necessário repetir sync durante a apuração. Endpoints administrativos são protegidos por X-Admin-Key, obrigatório no profile production.
 
 ## Baseline por UF
 
@@ -201,3 +202,16 @@ O replay é uma ferramenta Java pura, sem HTTP nem escrita no banco. Pode ser us
 Em 23/10/2026, a sincronização real respondeu **28 sucessos, zero falhas**. O segundo turno ainda estava em pré-apuração: nenhuma projeção foi publicada. A interface exibe cards separados, espera pelo gate, ritmo indisponível e ranking de eleitorado. Cenários parciais/finais e replay são testados com fixtures artificiais identificadas, sem inserir votos sintéticos no banco local real.
 
 Precisam de avaliação empírica/humana antes de uso editorial: prior 5%, gate 5%/10 UFs/4 regiões/3 estados-chave, fallback sem baseline em 80%, incorporação somente observada do exterior sem modelar seus votos restantes, descontinuidade explícita na convergência e sensibilidade à ordem de totalização. Não houve backtest com uma série histórica completa real do segundo turno; não alegamos calibração ou precisão preditiva. O modelo não conhece quais seções específicas restam dentro de cada UF e pode sofrer viés territorial intrastadual, mudanças de comparecimento e transferência de votos entre turnos.
+
+
+## Preparação segura para a apuração de 25/10/2026 — V15
+
+O algoritmo STATE_SHRINKAGE_V1, seu prior, gates, arredondamento e convergência não foram alterados. Não há probabilidade, intervalo ou decisão automática de vencedor. As publicações não alteram resultados oficiais, freeze ou agregados.
+
+A migration aditiva V15 acrescenta origin, published_at e input_manifest aos snapshots, mantendo a unicidade por versão/vetor oficial. Registros anteriores recebem somente LEGACY_UNKNOWN, com publicação e manifesto ausentes. Não há retropreenchimento de horários ou reconstrução inventada dos insumos.
+
+Novos snapshots do scheduler usam LIVE e preservam IDs dos snapshots oficiais (incluindo ZZ quando disponível), geração/captura, parâmetros e valores/fontes/horários dos baselines fornecidos ao mesmo cálculo. O manifesto é gravado junto ao snapshot, sem novas consultas ao TSE e sem tabela de revisões. Os valores derivados necessários do baseline ficam copiados mesmo após um upsert posterior; isso não constitui um arquivo completo de todas as revisões históricas. publishedAt significa disponibilização no histórico público persistido, não acesso efetivo por um visitante. O GET de projeção continua calculado sob demanda, sem escrita e sem transformar sua resposta efêmera em publicação histórica.
+
+O histórico mantém a lista JSON e os campos existentes, acrescentando publication {snapshotId, origin, publishedAt, inputManifestAvailable}. O manifesto completo é consultado sob demanda em GET /api/election/president/projection/history/{snapshotId}/inputs, evitando repetir todos os baselines em cada atualização do gráfico. Consulta todas as versões, permite modelVersion opcional e origin opcional (LIVE, REPLAY, LEGACY_UNKNOWN). Por padrão exclui REPLAY. Replays não recebem publishedAt; não há endpoint de criação de replay nesta entrega. O replay Java continua puro e sem persistência. O gráfico seleciona uma única versão por vez e identifica registros legados sem comprovação de publicação.
+
+Mantida a deduplicação original: mudança apenas de parâmetros ou baseline sem nova geração oficial não cria outro snapshot. O primeiro snapshot preserva seu próprio manifesto; revisões futuras de identidade de execução pertencem a outra entrega. Gates de atualidade por UF e viés intrastadual continuam limitações, sem mudança estatística na eleição de hoje.

@@ -5,6 +5,7 @@ import { PollList } from "@/components/poll-list";
 import { OfficialSummary } from "@/components/official-dashboard";
 import { AggregateDashboard } from "@/components/aggregate-dashboard";
 
+import { ElectionHome } from "@/components/election-home";
 import { PreElectionFreezeSummary } from "@/components/pre-election-freeze";
 
 export default function Home() {
@@ -32,10 +33,7 @@ export default function Home() {
           Uma visão clara dos dados que ajudam a entender a eleição.
         </p>
       </section>
-      <PreElectionFreezeSummary />
-      <p className="hero-caption">Agregados live abaixo: podem incorporar novas pesquisas e não substituem a comparação congelada.</p>
-      <AggregateDashboard />
-      <section className="section">
+      <ElectionHome freeze={<PreElectionFreezeSummary/>} aggregates={<AggregateDashboard/>} officialSummary={<OfficialSummary/>} polls={<section className="section">
         <div className="section-heading">
           <div>
             <span className="section-kicker">03 / DADOS PUBLICADOS</span>
@@ -50,8 +48,7 @@ export default function Home() {
           </Link>
         </div>
         <PollList latest />
-      </section>
-      <OfficialSummary />
+      </section>}/>
     </>
   );
 }

@@ -49,7 +49,7 @@ npm run dev
 
 Variáveis opcionais da API: `DATABASE_URL` (JDBC), `DATABASE_USERNAME`, `DATABASE_PASSWORD`, `PORT`. Para o frontend, copie `web/.env.example` para `web/.env.local`; configure `NEXT_PUBLIC_API_URL=http://localhost:8081` para desenvolvimento e o domínio HTTPS da API para Vercel. Reinicie o Next.js após alterar as variáveis.
 
-Flyway aplica V1–V14 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
+Flyway aplica V1–V15 automaticamente. Hibernate apenas valida o schema (`ddl-auto=validate`); `open-in-view=false`. CORS permite explicitamente `http://localhost:3000`.
 
 ## Uso
 
@@ -137,6 +137,7 @@ Migrations em `api/src/main/resources/db/migration`:
 12. `V12__pre_election_readiness.sql` — auditoria e freeze imutável.
 13. `V13__historical_polls.sql` — arquivo histórico isolado.
 14. `V14__poll_discoveries.sql` — inbox semiautomática e eventos de auditoria, sem seed de pesquisas.
+15. `V15__projection_publication_provenance.sql` — origem da publicação e manifesto aditivo dos snapshots.
 
 UUIDs nativos, timestamps com fuso, percentuais `NUMERIC(7,4)`, FKs e constraints explícitas. Há unicidade de instituto por slug, resultado por pesquisa/candidato e desempenho por instituto/eleição/turno. Índices cobrem publicação, seleção por instituto e referências de candidatos. A seleção de latest usa `DISTINCT ON` no PostgreSQL, sem carregar o histórico em memória.
 
@@ -183,7 +184,7 @@ polling:
     historical-round: 1
 ```
 
-Somente o histórico da eleição/turno configurados é usado. Sem dados, fator 1. Não há edição manual de `historicalScore`; o backend o deriva do erro. A tabela começa vazia porque não existem erros reais com fontes no repositório. O admin permite registrar `sourceUrl` e `sourceDescription`.
+Somente o histórico da eleição/turno configurados é usado. Sem dados, fator 1. Não há edição manual de `historicalScore`; o backend o deriva do erro. O seed deixa a tabela vazia; históricos reais com fontes são importados explicitamente e auditados em docs/pollster-performance-real-2026-first-round.md. O admin permite registrar `sourceUrl` e `sourceDescription`.
 
 Os endpoints de cálculo e snapshot aceitam `?referenceDate=YYYY-MM-DD`; o padrão é a data atual em Brasília. Pesquisas publicadas após o fim da data de referência não entram. Isso usa os cadastros/configurações atuais, não reconstrói todo o estado conhecido no passado. O midpoint é calculado em dias nominais de 24 horas e a idade usa 00:00 da referência.
 
@@ -198,7 +199,7 @@ Não há scraping editorial genérico nem previsão probabilística de vencedor.
 
 ## Fase 3 — Apuração oficial TSE
 
-Integração presidencial do 2º turno (eleição 6258, cargo 0001), separada do motor de pesquisas. `/apuracao` apresenta Brasil, UFs, busca municipal e páginas `/apuracao/{uf}/{codigoTse}`. Antes da contagem, exibe espera e percentuais `—`. Histórico somente oficial, sem projeção.
+Integração presidencial do 2º turno (eleição 6258, cargo 0001), separada do motor de pesquisas. `/apuracao` apresenta Brasil, UFs, busca municipal e páginas `/apuracao/{uf}/{codigoTse}`. Antes da contagem, exibe espera e percentuais `—`. O histórico oficial permite sobreposição opcional e identificada da projeção territorial, com seleção de versão.
 
 A migration **V10** adiciona snapshots oficiais JSONB e catálogo persistente de municípios. O cliente RestClient usa timeouts, User-Agent, ETag/Last-Modified, 304 sem snapshot, backoff e limite global padrão de 2 req/s. Nacional a cada 5s; uma UF por segundo (ciclo ~27s + latência); municípios sob demanda/cache de 30s. Último resultado válido sobrevive a falhas e reinícios. EA14/EA15 e coleta por zona permanecem como extensões documentadas.
 
@@ -245,3 +246,10 @@ Apenas a aprovação chama o `BatchImportService` e o `AggregateSnapshotService`
 Endpoints protegidos: `POST /api/admin/poll-discoveries/sync`, `GET /api/admin/poll-discoveries?status=&date=&pollster=`, `GET /api/admin/poll-discoveries/{id}`, `PUT .../{id}/results`, `POST .../{id}/dry-run`, `POST .../{id}/import` e `POST .../{id}/ignore`.
 
 Operação, contrato CSV confirmado, payloads e limites: [docs/poll-discovery.md](docs/poll-discovery.md). Azure Container Apps + Neon PostgreSQL + Vercel continuam sendo os targets atuais. Mantenha uma réplica enquanto houver scheduler; nenhum dado, freeze ou deploy é criado pela instalação da inbox.
+
+
+## Preparação para a apuração — 25/10/2026
+
+`GET /api/election/president/context` informa UNKNOWN, NOT_STARTED, COUNTING ou FINISHED a partir de snapshots persistidos, separando fase de stale/disponibilidade. A home mantém sua apresentação pré-eleitoral até a contagem; durante COUNTING prioriza oficial e projeção separada; em FINISHED prioriza oficial e comparação com o freeze. Pesquisas permanecem acessíveis em área recolhível. CALIBRATED e STATE_SHRINKAGE_V1 não mudam.
+
+Histórico de projeção consulta versões diferentes, permite filtro modelVersion/origin e acrescenta metadados publication. LIVE identifica novas publicações persistidas; LEGACY_UNKNOWN não ganha horário inventado; REPLAY fica fora da consulta padrão e não representa publicação ao vivo. Detalhes, limites e operação: [docs/election-day-readiness.md](docs/election-day-readiness.md).

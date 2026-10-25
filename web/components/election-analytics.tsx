@@ -11,7 +11,7 @@ const n = (value: number | null | undefined) => value == null ? "—" : number.f
 const pct = (value: number | null | undefined) => value == null ? "—" : `${n(value * 100)}%`;
 const time = (value: string | null | undefined) => value ? new Date(value).toLocaleString("pt-BR", { timeZone: "America/Sao_Paulo" }) + " (Brasília)" : "—";
 const coverage = { LOW: "Baixa", MEDIUM: "Média", HIGH: "Alta", FINAL: "Final oficial" };
-function ProjectionCard({ official }: { official: OfficialResponse | null }) {
+export function ProjectionCard({ official }: { official: OfficialResponse | null }) {
  const { data, error, loading } = useOfficialPolling<Projection>("/api/election/president/projection");
  const available = data?.enabled && data.publishable && !error;
  return <section className="official-section analytics-projection" aria-label="Projeção do modelo">
@@ -29,6 +29,7 @@ function ProjectionCard({ official }: { official: OfficialResponse | null }) {
   {data && <p className="analytics-scope">Exterior: {data.overseas.incorporated ? "votos oficiais observados incorporados" : "nenhum voto incorporado separadamente"}. {data.overseas.note}</p>}
   {data && <details className="analytics-warnings"><summary>Limitações e cobertura ({data.warnings.length} avisos)</summary><ul>{data.warnings.map((w,i)=><li key={i}>{w}</li>)}</ul>{data.missingBaselineStates.length>0&&<p>Sem baseline: {data.missingBaselineStates.join(", ")}.</p>}</details>}
   <p className="analytics-limitation">O modelo não sabe quais seções ainda vão entrar dentro de cada UF e pode sofrer viés pela ordem de totalização. Não indica vencedor ou probabilidade eleitoral.</p>
+  {data&&<p className="official-footnote">Modelo: {data.model} · Cálculo: {time(data.calculatedAt)} · Geração oficial usada: {time(data.officialGeneratedAt)}. Cobertura não é probabilidade de vitória.</p>}
   <Link href="/metodologia#projecao-apuracao" className="text-link">Como calculamos <ArrowRight size={14}/></Link>
  </section>;
 }

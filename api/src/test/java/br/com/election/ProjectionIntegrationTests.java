@@ -15,6 +15,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.*;
 import java.util.*;
 import java.util.concurrent.atomic.*;
+import static org.mockito.Mockito.*;
 import static org.assertj.core.api.Assertions.*;
 import static br.com.election.projection.ProjectionFixtures.*;
 import static br.com.election.tse.TseTestSupport.fixture;
@@ -49,6 +50,78 @@ class ProjectionIntegrationTests {
   assertThat(input.trendAt(TIME)).hasSize(1);
  }
  @Test void baselineFutureCaptureIsNotUsedByReplayRead(){var b=baseline(BrazilState.AC,1000);baseline.upsert(b);assertThat(baseline.at(b.capturedAt().minusSeconds(1))).isEmpty();}
+ @Test void contextTransitionsFromPersistedEvidenceAndSurvivesOutageRegressionAndRestart(){
+  var source=mock(OfficialResultsService.class);var unavailable=new OfficialResultResponse("TSE",true,OfficialDataStatus.UNAVAILABLE,null,false,OfficialElectionResult.Scope.national(),null);
+  when(source.getPresidentNationalResult()).thenReturn(unavailable);var now=new AtomicReference<>(TIME);var clock=mock(Clock.class);when(clock.instant()).thenAnswer(inv->now.get());
+  var context=new ElectionContextService(jdbc,properties,source,clock);
+  assertThat(context.current().phase()).isEqualTo(ElectionContextService.Phase.UNKNOWN);
+  official.save(result(OfficialElectionResult.Scope.national(),2,27000,0,0,0,TIME,false),TIME,null);now.set(TIME.plusSeconds(5));
+  assertThat(context.current().phase()).isEqualTo(ElectionContextService.Phase.NOT_STARTED);
+  official.save(result(OfficialElectionResult.Scope.state(BrazilState.AC),2,1000,100,40,20,TIME.plusSeconds(6),false),TIME.plusSeconds(6),null);now.set(TIME.plusSeconds(10));
+  assertThat(context.current().phase()).isEqualTo(ElectionContextService.Phase.COUNTING);
+  when(source.getPresidentNationalResult()).thenReturn(new OfficialResultResponse("TSE",true,OfficialDataStatus.STALE,TIME,false,OfficialElectionResult.Scope.national(),null));
+  official.save(result(OfficialElectionResult.Scope.national(),2,27000,0,0,0,TIME.plusSeconds(11),false),TIME.plusSeconds(11),null);now.set(TIME.plusSeconds(15));
+  assertThat(context.current().phase()).isEqualTo(ElectionContextService.Phase.COUNTING);assertThat(context.current().stale()).isTrue();
+  official.save(result(OfficialElectionResult.Scope.national(),2,27000,27000,10000,9000,TIME.plusSeconds(16),true),TIME.plusSeconds(16),null);now.set(TIME.plusSeconds(20));
+  assertThat(context.current().phase()).isEqualTo(ElectionContextService.Phase.FINISHED);
+  when(source.getPresidentNationalResult()).thenReturn(unavailable);
+  assertThat(new ElectionContextService(jdbc,properties,source,clock).current().phase()).isEqualTo(ElectionContextService.Phase.FINISHED);
+ }
+ @Test void contextIgnoresFirstRoundFutureEvidenceAndStateFinalization(){
+  var source=mock(OfficialResultsService.class);when(source.getPresidentNationalResult()).thenReturn(new OfficialResultResponse("TSE",true,OfficialDataStatus.UNAVAILABLE,null,false,OfficialElectionResult.Scope.national(),null));
+  official.save(result(OfficialElectionResult.Scope.national(),1,27000,27000,10000,9000,TIME.minusSeconds(10),true),TIME.minusSeconds(10),null);
+  official.save(result(OfficialElectionResult.Scope.national(),2,27000,27000,10000,9000,TIME.plusSeconds(10),true),TIME.plusSeconds(10),null);
+  var context=new ElectionContextService(jdbc,properties,source,Clock.fixed(TIME,ZoneOffset.UTC));assertThat(context.current().phase()).isEqualTo(ElectionContextService.Phase.UNKNOWN);
+  official.save(result(OfficialElectionResult.Scope.state(BrazilState.AC),2,1000,1000,400,300,TIME,true),TIME,null);
+  assertThat(new ElectionContextService(jdbc,properties,source,Clock.fixed(TIME,ZoneOffset.UTC)).current().phase()).isEqualTo(ElectionContextService.Phase.COUNTING);
+ }
+ @Test void contextEndpointIsAnonymousAndDoesNotCallTseOrWriteSnapshots() throws Exception {
+  long requests=externalClient.metrics().requests();int before=jdbc.queryForObject("SELECT count(*) FROM election_result_snapshots",Integer.class);
+  mvc.perform(get("/api/election/president/context")).andExpect(status().isOk()).andExpect(jsonPath("$.source").value("TSE")).andExpect(jsonPath("$.phase").value("UNKNOWN")).andExpect(jsonPath("$.evaluatedAt").exists()).andExpect(jsonPath("$.sourceStatus").exists());
+  assertThat(externalClient.metrics().requests()).isEqualTo(requests);assertThat(jdbc.queryForObject("SELECT count(*) FROM election_result_snapshots",Integer.class)).isEqualTo(before);
+ }
+ @Test void liveManifestReferencesExactInputsAndDoesNotChangeProjectionMath(){
+  for(var b:baselines())baseline.upsert(b);for(var r:frame(200,27))official.save(r.result(),r.capturedAt(),null);
+  var rows=input.latestAt(TIME);var engine=new ProjectionEngine(ProjectionFixtures.properties());var expected=engine.calculate(rows,baseline.at(TIME),TIME);
+  var source=mock(OfficialResultsService.class);when(source.getPresidentNationalResult()).thenReturn(new OfficialResultResponse("TSE",true,OfficialDataStatus.FRESH,TIME,false,OfficialElectionResult.Scope.national(),rows.stream().map(AnalyticsInputStore.Recorded::result).filter(r->r.scope().type()==ElectionScopeType.NATIONAL).findFirst().orElseThrow()));
+  var service=new ProjectionService(input,baseline,engine,projections,source,Clock.fixed(TIME,ZoneOffset.UTC));assertThat(service.current()).isEqualTo(expected);service.recordLatest();service.recordLatest();
+  var history=projections.historyView(TIME.minusSeconds(1),TIME.plusSeconds(10),100,null,null);assertThat(history).hasSize(1);
+  var publication=history.getFirst().get("publication");assertThat(publication.get("origin").asText()).isEqualTo("LIVE");assertThat(publication.get("publishedAt").asText()).isEqualTo(TIME.toString());
+  assertThat(publication.get("inputManifestAvailable").asBoolean()).isTrue();
+  var manifest=projections.inputs(UUID.fromString(publication.get("snapshotId").asText())).inputManifest();
+  assertThat(manifest.officialInputs()).extracting(ProjectionInputManifest.OfficialInput::snapshotId).containsExactlyElementsOf(ProjectionReplay.latestAt(rows,TIME).stream().map(AnalyticsInputStore.Recorded::id).toList());
+  assertThat(manifest.baselinesSupplied()).hasSize(27);assertThat(manifest.configuration()).isEqualTo(expected.configuration());
+  assertThat(projections.history(TIME.minusSeconds(1),TIME.plusSeconds(10),100)).containsExactly(expected);
+  var original=(tools.jackson.databind.node.ObjectNode)history.getFirst().deepCopy();original.remove("publication");
+  assertThat(original).isEqualTo(json.valueToTree(expected));
+ }
+ @Test void v15UpgradePreservesLegacyPayloadAndNeverBackfillsLivePublication(){
+  String schema="legacy_projection_upgrade_test";
+  try{
+   org.flywaydb.core.Flyway.configure().dataSource(jdbc.getDataSource()).schemas(schema).defaultSchema(schema).target("14").load().migrate();
+   var r=new ProjectionEngine(ProjectionFixtures.properties()).calculate(frame(200,27),baselines(),TIME);String payload=json.writeValueAsString(r);
+   jdbc.update("INSERT INTO "+schema+".projection_snapshots VALUES(?,?,?,?,?,?,CAST(? AS jsonb))",UUID.randomUUID(),r.model(),java.sql.Timestamp.from(TIME),java.sql.Timestamp.from(TIME),r.nationalElectorateProgress(),r.officialGenerationKey(),payload);
+   org.flywaydb.core.Flyway.configure().dataSource(jdbc.getDataSource()).schemas(schema).defaultSchema(schema).load().migrate();
+   assertThat(jdbc.queryForObject("SELECT projection::text FROM "+schema+".projection_snapshots",String.class)).satisfies(value->assertThat(json.readTree(value)).isEqualTo(json.readTree(payload)));
+   assertThat(jdbc.queryForObject("SELECT origin FROM "+schema+".projection_snapshots",String.class)).isEqualTo("LEGACY_UNKNOWN");
+   assertThat(jdbc.queryForObject("SELECT published_at IS NULL AND input_manifest IS NULL FROM "+schema+".projection_snapshots",Boolean.class)).isTrue();
+  }finally{jdbc.execute("DROP SCHEMA IF EXISTS "+schema+" CASCADE");}
+ }
+ @Test void historyPreservesVersionsLabelsLegacyAndSeparatesReplay() throws Exception {
+  var r=new ProjectionEngine(ProjectionFixtures.properties()).calculate(frame(200,27),baselines(),TIME);projections.save(r);
+  var old=(tools.jackson.databind.node.ObjectNode)json.valueToTree(r);old.put("model","OLDER_V0");
+  jdbc.update("INSERT INTO projection_snapshots SELECT ?,?,calculated_at,official_generated_at,national_electorate_progress,official_generation_key,CAST(? AS jsonb),'LEGACY_UNKNOWN',NULL,NULL FROM projection_snapshots LIMIT 1",UUID.randomUUID(),"OLDER_V0",json.writeValueAsString(old));
+  jdbc.update("INSERT INTO projection_snapshots SELECT ?,model_version,calculated_at,official_generated_at,national_electorate_progress,substring(official_generation_key,1,63)||'r',projection,'REPLAY',NULL,NULL FROM projection_snapshots WHERE model_version=? LIMIT 1",UUID.randomUUID(),r.model());
+  assertThat(projections.history(TIME.minusSeconds(1),TIME.plusSeconds(1),100)).extracting(ProjectionResponse::model).containsExactlyInAnyOrder(r.model(),"OLDER_V0");
+  var legacy=projections.historyView(TIME.minusSeconds(1),TIME.plusSeconds(1),100,"OLDER_V0",null);assertThat(legacy).hasSize(1);assertThat(legacy.getFirst().get("publication").get("publishedAt").isNull()).isTrue();
+  assertThatThrownBy(()->jdbc.update("UPDATE projection_snapshots SET published_at=now() WHERE origin='REPLAY'")).isInstanceOf(org.springframework.dao.DataIntegrityViolationException.class);
+  assertThat(projections.historyView(TIME.minusSeconds(1),TIME.plusSeconds(1),100,null,ProjectionSnapshotStore.Origin.REPLAY)).hasSize(1);
+  mvc.perform(get("/api/election/president/projection/history").param("from",TIME.minusSeconds(1).toString()).param("to",TIME.plusSeconds(1).toString()).param("modelVersion","OLDER_V0"))
+   .andExpect(status().isOk()).andExpect(jsonPath("$[0].kind").value("PROJECTION")).andExpect(jsonPath("$[0].model").value("OLDER_V0")).andExpect(jsonPath("$[0].publication.origin").value("LEGACY_UNKNOWN")).andExpect(jsonPath("$[0].results.length()").value(2));
+  mvc.perform(get("/api/election/president/projection/history/"+legacy.getFirst().get("publication").get("snapshotId").asText()+"/inputs"))
+   .andExpect(status().isOk()).andExpect(jsonPath("$.modelVersion").value("OLDER_V0")).andExpect(jsonPath("$.origin").value("LEGACY_UNKNOWN"));
+  mvc.perform(get("/api/election/president/projection/history/"+UUID.randomUUID()+"/inputs")).andExpect(status().isNotFound());
+ }
  @Test void analyticalGetsNeverSyncOrCallTseAndDoNotPublishBeforeThreshold() throws Exception {
   long before=externalClient.metrics().requests();
   mvc.perform(get("/api/election/president/projection")).andExpect(status().isOk()).andExpect(jsonPath("$.kind").value("PROJECTION")).andExpect(jsonPath("$.publishable").value(false)).andExpect(jsonPath("$.results").isEmpty());

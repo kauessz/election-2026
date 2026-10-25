@@ -7,6 +7,7 @@ export type StateProjection = {
  candidates: { candidateNumber: string; name: string; baselineShare: number | null; observedShare: number | null; projectedShare: number | null; projectedCandidateVotes: number }[]; warnings: string[];
 };
 export type Projection = {
+ publication?: {snapshotId:string;origin:"LIVE"|"REPLAY"|"LEGACY_UNKNOWN";publishedAt:string|null;inputManifestAvailable:boolean};
  kind: "PROJECTION"; model: string; enabled: boolean; status: "NOT_STARTED" | "INSUFFICIENT_DATA" | "ACTIVE" | "HIGH_COVERAGE" | "FINAL";
  publishable: boolean; calculatedAt: string; officialGeneratedAt: string | null; nationalElectorateProgress: number | null;
  statesWithData: number; statesTotal: number; coverageComplete: boolean; projectionIncomplete: boolean; coverage: "LOW" | "MEDIUM" | "HIGH" | "FINAL";

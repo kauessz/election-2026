@@ -1,5 +1,7 @@
 # Runbook: Azure Container Apps + Neon + Vercel
 
+Para a release de 25/10/2026, seguir o [gate final e sequência operacional](production-release-gate-2026-10-25.md), que registra a decisão de manter o DEFAULT da V15, as evidências atuais, os bloqueios e a barreira contra coletores simultâneos. O checklist usa GET `/api/election/president`.
+
 Target operacional: Azure Container Apps; Cloud Run é somente alternativa histórica. Nenhum procedimento operacional abaixo foi executado nesta preparação. Não criar freeze, importar banco remoto, excluir snapshots ou alterar dados automaticamente.
 
 ## Antes da janela crítica
@@ -79,3 +81,6 @@ Mudança **manual**, após encerrar a necessidade do scheduler contínuo: no Por
 ## Inbox de pesquisas
 
 O scheduler de descoberta consulta somente o registro PesqEle às 08h/12h/16h de Brasília, com `POLL_DISCOVERY_ENABLED=true`; desligar com false. Não importa percentuais automaticamente. Operação, confirmação de autorização/cenário, revisão, hash e rollback transacional em [poll-discovery.md](poll-discovery.md). A carga real continua exigindo aprovação administrativa. Mantenha max replicas=1.
+# Preparação da apuração de 25/10/2026
+
+Contexto público, comportamento da home, migration aditiva V15 e smoke somente leitura: [election-day-readiness.md](election-day-readiness.md). Preservar uma réplica e evitar rollout na janela crítica. O manifesto não altera STATE_SHRINKAGE_V1 nem autoriza chamada de vencedor.
